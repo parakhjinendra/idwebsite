@@ -7,8 +7,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        editorial: ['Newsreader', 'Georgia', 'serif'],
         sans: ['Inter', 'sans-serif'],
+        display: ['Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        vermilion: '#FF3B1D',
+        concrete: '#EAEAE7',
       },
     },
   },

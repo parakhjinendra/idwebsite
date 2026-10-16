@@ -1,33 +1,97 @@
-import React, { useState, useEffect, useRef, Component } from 'react';
+import React, { useState, useEffect, useRef, Component, createContext, useContext } from 'react';
 import { 
   BrowserRouter as Router, 
   Routes, 
   Route, 
   Link, 
   useParams, 
-  useNavigate 
+  useNavigate,
+  useLocation
 } from 'react-router-dom';
 import { 
   ArrowUpRight, 
   ArrowLeft, 
-  Lock, 
-  ImageIcon, 
   ArrowUp, 
   Menu, 
   X, 
-  Sparkles, 
-  Layers, 
-  EyeOff, 
-  Quote, 
-  Compass,
-  Lightbulb,
-  Workflow,
-  Camera,
-  BatteryCharging,
-  Maximize2
+  Download, 
+  ExternalLink,
+  Sliders,
+  ImageIcon,
+  Maximize2,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  Sparkles,
+  Layers,
+  Eye,
+  CheckCircle2,
+  Phone,
+  Mail,
+  ChevronRight,
+  ChevronLeft,
+  Filter,
+  Globe
 } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import portfolioImages from './portfolioImages.json';
 
-/* --- ZERO-LATENCY IDEO PRECISION CURSOR --- */
+/* --- CUSTOM SOCIAL ICONS --- */
+function LinkedinIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.53 1.53 0 0 0 1.53-1.53A1.53 1.53 0 0 0 6.46 5.7a1.53 1.53 0 0 0-1.53 1.53c0 .85.68 1.53 1.53 1.53m1.4 9.74v-8.37H5.06v8.37h2.8z"/>
+    </svg>
+  );
+}
+
+function BehanceIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.726 3-3.266 0-5.5-2.29-5.5-5.5 0-3.09 2.197-5.5 5.5-5.5 3.407 0 5.253 2.508 5.034 5.867h-7.791c.071 1.528 1.328 2.633 2.757 2.633 1.314 0 2.215-.658 2.551-1.5h2.175zm-7.464-4h5.275c-.104-1.353-1.144-2.133-2.6-2.133-1.503 0-2.529.83-2.675 2.133zm-11.262 7h-5v-14h5.586c3.084 0 5.014 1.547 5.014 4.09 0 1.621-.869 2.871-2.246 3.453 1.838.563 2.646 2.059 2.646 3.867 0 2.844-2.197 4.59-6 4.59zm-2.5-8.25h2.6c1.613 0 2.6-.713 2.6-1.975 0-1.229-.987-1.925-2.6-1.925h-2.6v3.9zm0 6.25h2.85c1.801 0 2.9-.844 2.9-2.281 0-1.408-1.099-2.269-2.9-2.269h-2.85v4.55z"/>
+    </svg>
+  );
+}
+
+/* --- LIGHTBOX CONTEXT --- */
+const LightboxContext = createContext({
+  openLightbox: (imgData, galleryList = []) => {},
+  closeLightbox: () => {}
+});
+
+export function useLightbox() {
+  return useContext(LightboxContext);
+}
+
+/* --- RESOLVE IMAGE PATH FROM MAPPING --- */
+export function resolveImg(idOrPath) {
+  if (!idOrPath) return '';
+  const raw = String(idOrPath).trim();
+  if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('data:')) {
+    return raw;
+  }
+  
+  // 1. Direct match in portfolioImages
+  if (portfolioImages[raw]) return portfolioImages[raw];
+  
+  // 2. Match without extension
+  const withoutExt = raw.replace(/\.[^/.]+$/, "");
+  if (portfolioImages[withoutExt]) return portfolioImages[withoutExt];
+  
+  // 3. Match filename only
+  const filename = raw.split(/[/\\]/).pop();
+  if (portfolioImages[filename]) return portfolioImages[filename];
+  const fileWithoutExt = filename.replace(/\.[^/.]+$/, "");
+  if (portfolioImages[fileWithoutExt]) return portfolioImages[fileWithoutExt];
+  
+  // 4. Normalization for web paths
+  if (raw.startsWith('/portfolio')) return raw.replace(/\\/g, '/');
+  if (raw.startsWith('public/portfolio')) return '/' + raw.slice(7).replace(/\\/g, '/');
+  
+  return raw;
+}
+
+/* --- ZERO-LATENCY MINIMAL PRECISION CURSOR --- */
 function CustomCursor() {
   const dotRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -84,9 +148,26 @@ function CustomCursor() {
         isVisible ? 'opacity-100' : 'opacity-0'
       } ${
         isHovered
-          ? 'w-7 h-7 -ml-3.5 -mt-3.5 bg-neutral-900/10 border border-neutral-900'
-          : 'w-2 h-2 -ml-1 -mt-1 bg-neutral-900 border-none'
+          ? 'w-8 h-8 -ml-4 -mt-4 bg-[#FF3B1D]/15 border border-[#FF3B1D]'
+          : 'w-2 h-2 -ml-1 -mt-1 bg-[#FF3B1D]'
       }`}
+    />
+  );
+}
+
+/* --- SCROLL PROGRESS BAR --- */
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[3px] bg-[#FF3B1D] origin-left z-[100]"
+      style={{ scaleX }}
     />
   );
 }
@@ -106,17 +187,20 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: '60px 24px', fontFamily: 'serif', maxWidth: '640px', margin: '40px auto' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: '400', marginBottom: '12px' }}>Something went wrong.</h2>
-          <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6', marginBottom: '24px' }}>
-            {this.state.error?.toString()}
-          </p>
-          <button 
-            onClick={() => window.location.href = '/'}
-            style={{ padding: '10px 24px', background: '#111', color: '#fff', borderRadius: '40px', border: 'none', cursor: 'pointer', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
-          >
-            Return to Studio Home
-          </button>
+        <div className="min-h-screen bg-[#EAEAE7] flex items-center justify-center p-6 font-mono text-xs">
+          <div className="bg-white p-8 max-w-lg shadow-sm rounded-sm">
+            <span className="bg-[#FF3B1D] text-white px-2 py-0.5 uppercase font-bold text-[10px]">
+              Notice
+            </span>
+            <h2 className="text-xl font-bold font-display uppercase tracking-tight mt-3 mb-2">Something went wrong</h2>
+            <p className="text-neutral-600 mb-6 font-mono">{this.state.error?.toString()}</p>
+            <button 
+              onClick={() => window.location.href = '/'}
+              className="bg-black text-white px-5 py-2.5 uppercase font-bold tracking-wider hover:bg-[#FF3B1D] transition-colors"
+            >
+              Return to Home
+            </button>
+          </div>
         </div>
       );
     }
@@ -146,474 +230,914 @@ function ScrollToTopButton() {
     <button
       onClick={scrollToTop}
       aria-label="Scroll to top"
-      className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-neutral-900 text-white shadow-xl hover:bg-neutral-800 border border-neutral-700 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+      className="fixed bottom-8 right-8 z-50 p-3.5 rounded-full bg-black text-white hover:bg-[#FF3B1D] transition-all flex items-center justify-center cursor-pointer shadow-lg"
     >
       <ArrowUp className="w-4 h-4" />
     </button>
   );
 }
 
-/* --- RECURSIVE ASSET REGISTRY --- */
-const assetFiles = import.meta.glob('./assets/**/*.{png,webp}', { eager: true });
+/* --- FULLSCREEN IMAGE LIGHTBOX MODAL WITH GALLERY NAVIGATION --- */
+function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
+  const [zoom, setZoom] = useState(1);
 
-function getAssetUrl(id) {
-  if (!id) return null;
-  const searchId = String(id).trim().toLowerCase();
-  const matchKey = Object.keys(assetFiles).find(key => {
-    const filename = key.split('/').pop().replace(/\.(png|webp)$/i, '').trim().toLowerCase();
-    return filename === searchId;
-  });
-  return matchKey ? assetFiles[matchKey].default : null;
+  const currentIndex = gallery && gallery.length > 0 && activeItem
+    ? gallery.findIndex(item => 
+        (item.src && activeItem.src && item.src === activeItem.src) ||
+        (item.id && activeItem.id && item.id === activeItem.id)
+      )
+    : -1;
+
+  const hasPrev = gallery && gallery.length > 1 && currentIndex > 0;
+  const hasNext = gallery && gallery.length > 1 && currentIndex >= 0 && currentIndex < gallery.length - 1;
+
+  const goToPrev = () => {
+    if (hasPrev && onNavigate) {
+      setZoom(1);
+      onNavigate(gallery[currentIndex - 1]);
+    }
+  };
+
+  const goToNext = () => {
+    if (hasNext && onNavigate) {
+      setZoom(1);
+      onNavigate(gallery[currentIndex + 1]);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') goToPrev();
+      if (e.key === 'ArrowRight') goToNext();
+      if (e.key === '+' || e.key === '=') setZoom(z => Math.min(z + 0.25, 2.5));
+      if (e.key === '-') setZoom(z => Math.max(z - 0.25, 0.75));
+      if (e.key === '0') setZoom(1);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose, currentIndex, gallery, hasPrev, hasNext]);
+
+  if (!activeItem) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100000] bg-black/94 backdrop-blur-md flex flex-col justify-between p-4 md:p-8 select-none"
+        onClick={onClose}
+      >
+        {/* Lightbox Top Bar */}
+        <div 
+          className="flex items-center justify-between font-mono text-xs text-white/80 z-20 pb-3 border-b border-white/10"
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="flex items-center gap-3">
+            <span className="w-2.5 h-2.5 bg-[#FF3B1D] rounded-full" />
+            <span className="font-bold text-white tracking-widest uppercase">
+              {currentIndex >= 0 ? `PLATE 0${currentIndex + 1} / 0${gallery.length}` : (activeItem.id ? `FIG. ${activeItem.id}` : 'PORTFOLIO PLATE')}
+            </span>
+            <span className="text-white/40 hidden sm:inline">|</span>
+            <span className="text-white/80 text-[11px] truncate max-w-[280px] sm:max-w-md hidden sm:inline">
+              {activeItem.title || activeItem.caption || activeItem.altText || 'Full Resolution Visual Document'}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <button
+              onClick={() => setZoom(z => Math.max(z - 0.25, 0.75))}
+              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+              title="Zoom Out (-)"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <span className="text-[11px] font-mono text-white/60 min-w-[38px] text-center">
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              onClick={() => setZoom(z => Math.min(z + 0.25, 2.5))}
+              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+              title="Zoom In (+)"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setZoom(1)}
+              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors hidden sm:inline-flex"
+              title="Reset Zoom (0)"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full bg-white/15 hover:bg-[#FF3B1D] text-white transition-colors ml-1 sm:ml-2"
+              title="Close (Esc)"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Center Canvas: 100% Unclipped Uncropped Image with Prev/Next Controls */}
+        <div 
+          className="relative flex-1 flex items-center justify-center overflow-auto p-2 sm:p-6 my-2"
+          onClick={onClose}
+        >
+          {/* Previous Plate Button */}
+          {hasPrev && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goToPrev(); }}
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-md transition-all shadow-xl group cursor-pointer"
+              aria-label="Previous plate"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+          )}
+
+          {/* Next Plate Button */}
+          {hasNext && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goToNext(); }}
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-md transition-all shadow-xl group cursor-pointer"
+              aria-label="Next plate"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+          )}
+
+          <motion.img
+            key={activeItem.src}
+            src={activeItem.src}
+            alt={activeItem.altText || activeItem.caption || "Expanded visual"}
+            initial={{ scale: 0.96, opacity: 0 }}
+            animate={{ scale: zoom, opacity: 1 }}
+            exit={{ scale: 0.96, opacity: 0 }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            onClick={e => e.stopPropagation()}
+            className="max-h-[82vh] max-w-[92vw] w-auto h-auto object-contain select-none drop-shadow-2xl rounded-sm transition-transform duration-200"
+          />
+        </div>
+
+        {/* Bottom Caption Bar */}
+        <div 
+          className="flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left font-mono text-[11px] text-white/70 pt-3 border-t border-white/10 z-20"
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="space-y-0.5 max-w-2xl">
+            {activeItem.title && (
+              <span className="font-bold text-white uppercase text-xs block font-display tracking-tight">
+                {activeItem.title}
+              </span>
+            )}
+            <p className="font-sans text-xs text-white/80 font-light">
+              {activeItem.caption || activeItem.altText || "Jinendra Parakh Product Design Documentation 2025"}
+            </p>
+          </div>
+          <div className="flex items-center gap-4 text-[10px] text-white/50 uppercase tracking-widest shrink-0">
+            <span className="hidden md:inline">← / → to Navigate • +/- to Zoom</span>
+            <span className="hidden md:inline">•</span>
+            <a 
+              href={activeItem.src} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="hover:text-[#FF3B1D] underline flex items-center gap-1"
+            >
+              <span>Raw Image</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
 }
 
-function ProjectImage({ id, altText, className = "", fitMode = "object-cover", withLoader = false }) {
-  const src = getAssetUrl(id);
+/* --- ZERO-CROPPING PROJECT IMAGE COMPONENT --- */
+function ProjectImage({ 
+  id, 
+  altText, 
+  caption = "",
+  className = "", 
+  imgClassName = "",
+  fitMode = "object-contain", 
+  withLoader = true,
+  onClick = null,
+  allowExpand = true,
+  gallery = []
+}) {
+  const src = resolveImg(id);
   const [isLoaded, setIsLoaded] = useState(false);
+  const { openLightbox } = useLightbox();
+
+  const handleClick = (e) => {
+    if (onClick) {
+      onClick(e);
+      return;
+    }
+    if (allowExpand && src) {
+      openLightbox({ src, altText, caption: caption || altText, id }, gallery);
+    }
+  };
 
   if (!src) {
     return (
-      <div className={`bg-neutral-100/70 flex flex-col items-center justify-center text-center p-8 w-full h-full min-h-[180px] border border-neutral-200 ${className}`}>
-        <ImageIcon className="w-6 h-6 text-neutral-300 mb-2 stroke-1" />
-        <span className="font-mono text-[11px] text-neutral-400 font-semibold uppercase tracking-wider">
-          {id ? `Fig. ${id}` : "Visual Study"}
+      <div className={`bg-[#DFDFDB]/60 flex flex-col items-center justify-center text-center p-6 w-full h-full min-h-[180px] font-mono rounded-sm ${className}`}>
+        <ImageIcon className="w-6 h-6 text-neutral-400 mb-2 stroke-1" />
+        <span className="text-[10px] text-neutral-500 font-bold tracking-wider uppercase">
+          {id ? `Fig. ${id}` : "Visual Plate"}
         </span>
       </div>
     );
   }
 
   return (
-    <div className={`relative w-full h-full overflow-hidden ${className}`}>
+    <div 
+      onClick={handleClick}
+      className={`relative flex items-center justify-center ${allowExpand ? 'cursor-zoom-in group/img' : ''} ${className}`}
+    >
       {withLoader && !isLoaded && (
-        <div className="absolute inset-0 bg-neutral-200/40 animate-pulse flex items-center justify-center">
-          <div className="w-5 h-5 rounded-full border-2 border-neutral-300 border-t-neutral-800 animate-spin" />
+        <div className="absolute inset-0 bg-[#DFDFDC] animate-pulse flex items-center justify-center rounded-sm">
+          <div className="w-5 h-5 border-2 border-neutral-300 border-t-[#FF3B1D] rounded-full animate-spin" />
         </div>
       )}
       <img 
         src={src} 
-        alt={altText} 
+        alt={altText || caption || "Product Design Visual"} 
+        loading="lazy"
         decoding="async" 
         onLoad={() => setIsLoaded(true)}
-        className={`${fitMode} w-full h-full transition-all duration-700 ease-out ${
-          withLoader ? (isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xs scale-102') : 'opacity-100'
-        }`} 
+        className={`${fitMode} max-w-full max-h-full w-auto h-auto transition-all duration-500 ease-out ${
+          withLoader ? (isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-99') : 'opacity-100'
+        } ${imgClassName}`} 
       />
+      {allowExpand && isLoaded && (
+        <div className="absolute top-3 right-3 p-1.5 rounded-full bg-black/60 text-white/90 backdrop-blur-sm opacity-0 group-hover/img:opacity-100 transition-opacity pointer-events-none">
+          <Maximize2 className="w-3.5 h-3.5" />
+        </div>
+      )}
     </div>
   );
 }
 
-/* --- JINENDRA PARAKH PORTFOLIO DATA REPOSITORY --- */
+/* --- COMPLETE AUTHENTIC JINENDRA PARAKH PORTFOLIO DATA (4 PROJECTS) --- */
 const JINENDRA_PROJECTS = [
-  /* 01. FUEL POWERBANK */
+  /* =========================================================================
+     01. FUEL POWERBANK
+     ========================================================================= */
   {
     slug: "fuel",
     number: "01",
+    indexCode: "01 // FUEL",
     title: "Fuel",
     subtitle: "Power Bank × Retro-Engineering",
-    tagline: "Effortlessly marrying soft, flowing lines with sharp, edged contrasts to create an expressive tech accessory.",
-    timeline: "1 Week",
-    type: "Individual Concept Project",
+    tagline: "Fuel is a wireless power bank inspired from retro engineering style. It effortlessly marries soft, flowing lines with sharp, edged contrasts, making a bold statement.",
+    duration: "1 Week",
+    projectType: "Individual Project",
     category: "Consumer Tech",
-    badge: "RETRO-ENGINEERING / CMF",
-    thumbId: "26",
-    heroId: "27",
+    badge: "Retro-Engineering / CMF",
+    thumbId: "p4_2",
+    heroId: "p11_4",
     metaHeader: {
       timeline: "1 Week Sprint",
-      client: "Individual Concept Study",
+      type: "Individual Project",
       focus: "Form Semantics, Retro-Engineering, Color & Material Contrast"
     },
-    deckBlocks: [
+    heroMetrics: [
+      { label: "Sprint Duration", val: "1 Week" },
+      { label: "Design Character", val: "Retro-Engineering" },
+      { label: "Switch Mechanism", val: "Audible Click Slider" },
+      { label: "Attachment", val: "Magnetic Wireless Panel" }
+    ],
+    problem: "Power banks often lack aesthetic appeal, clashing with the refined designs of modern smartphones. Bland bricks and disconnected design, monolithic design, clunky design.",
+    brief: "Design wireless power banks that seamlessly integrate with smartphones, enhancing both functionality and aesthetics.",
+    inspirationTitle: "Teenage Engineering",
+    inspirationSubtitle: "Play Everywhere Philosophy",
+    inspirationDesc: "Teenage Engineering (TE) is a Swedish company known for its innovative and playful approach to product design. TE's design philosophy of \"Play everywhere,\" reflects their belief that technology should be fun and easy to use.",
+    inspirationImg: "p6_2",
+    
+    // Interactive Callouts from Page 8 of PDF
+    features: [
       {
-        type: "quote_and_insights",
-        tag: "THE PROBLEM & INQUIRY",
-        quote: "Power banks often lack aesthetic appeal, clashing with the refined designs of modern smartphones. Most options on the market are clunky, monolithic bricks and disconnected from the user's personal style.",
-        quoteAuthor: "Project Problem Statement",
-        insights: [
-          { label: "Bland Bricks", text: "Monolithic designs lack character and fail to complement flagship devices." },
-          { label: "Tactile Reassurance", text: "Power switches need audible, mechanical feedback for confidence." },
-          { label: "Conversation Starter", text: "Bold accents and utility straps transform a battery into personal gear." },
-          { label: "Magnetic Flow", text: "Seamless alignment with phone backplates for convenient cordless charging." }
-        ]
+        title: "Charge Indicator",
+        desc: "Digital segment LED numerical percentage indicator gives immediate precise capacity reading.",
+        tag: "DIGITAL DISPLAY",
+        imageId: "p8_4"
       },
       {
-        type: "brand_manifesto",
-        tag: "DESIGN INSPIRATION",
-        title: "Inspired by Teenage Engineering: Play Everywhere",
-        desc: "Drawing inspiration from Teenage Engineering's Swedish philosophy that technology should be fun, honest, and tactile. Fuel rejects boring minimalism in favor of exposed mechanical accents, playful graphic typography, and calibrated contrast.",
-        imageId: "61",
-        caption: "Inspiration study: technical knurling, mechanical switches, and utilitarian accent blocking",
-        aspectClass: "aspect-[4/3] md:aspect-[16/10]",
-        fitMode: "object-cover"
+        title: "Power Switch",
+        desc: "The tactile feedback, combined with the audible click when sliding the switch enhances the overall user experience.",
+        tag: "TACTILE HAPTICS",
+        imageId: "p8_6"
       },
       {
-        type: "text_top_image_bottom",
-        tag: "FORM IDEATION",
-        title: "From Rough Blocking to Expressive Silhouette",
-        desc: "Iterated dozens of thumbnail concepts investigating morphing glass pockets, angled corner chamfers, and strap lanyard hooks to create a distinct hand silhouette.",
-        imageId: "62",
-        caption: "Ideation sheets exploring mechanical switches, exposed form ribs, and corner strap geometry",
-        aspectClass: "aspect-[16/7]",
-        fitMode: "object-contain bg-white"
+        title: "Magnetic Panel",
+        desc: "Effortless attachment to your phone for a hassle-free and convenient experience.",
+        tag: "MAGSAFE COMPATIBLE",
+        imageId: "p8_8"
       },
       {
-        type: "thin_horizontal_strip",
-        tag: "ANATOMY OF INTERACTION",
-        title: "Tactile Power Switch, Numeric Display & Carry Strap",
-        desc: "Key touchpoints: 1. Sliding mechanical switch with an audible click. 2. Recessed numeric LED charge indicator (0-100%). 3. Integrated nylon corner strap for agile portability. 4. Flush magnetic alignment coil.",
-        imageId: "64",
-        caption: "Interaction map detailing tactile feedback switch, magnetic phone mating, and strap hook",
-        aspectClass: "aspect-[21/8] md:aspect-[24/8]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "PRECISION ARCHITECTURE",
-        title: "Technical Elevation Dimensions & Profile Draft",
-        desc: "Calibrated 8.5mm thinness with 51.8mm magnetic pad positioning to clear modern camera bumps without obstruction.",
-        imageId: "65",
-        caption: "Orthographic technical drawing: R15 corner blends, 50.8mm internal coil, and strap anchor draft",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "75",
-        caption: "A symphony of contrasts: aluminum brilliance accented by vibrant orange details",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "76",
-        caption: "Front, side, and rear orthographic views highlighting graphic placement and magnetic pad",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "77",
-        caption: "Perspective still showing soft-touch phone interface pad and durable anodized chassis",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
+        title: "Woven Strap & Corner Hook",
+        desc: "The strap on the power bank brings a practical and stylish touch, enabling quick pocket removal and carabiner clipping. A bold style statement that adds flair.",
+        tag: "PORTABILITY & CMF",
+        imageId: "p8_10"
       }
     ],
+
     specs: {
-      philosophy: "Retro-Engineering & Playful Utility",
-      material: "Matte Bead-Blasted Aluminum, High-Density Polycarbonate, Woven Nylon Strap",
-      interface: "Audible Click Slide Switch, Hidden Dot-Matrix Numeric LED",
-      methodology: "Rapid Sketching, Rhinoceros 3D, KeyShot 3D, Adobe Illustrator"
-    }
+      "Project Type": "Individual Academic Exploration",
+      "Timeline": "1 Week Design Sprint",
+      "Dimensions": "79.94mm × 51.8mm × 8.5mm (Corner Radii R15 / Fillets R5.5)",
+      "Materials": "Bead-Blasted Anodized Aluminum + Flame Orange Polycarbonate",
+      "Tactile Switch": "Mechanical Linear Slider with Spring-Loaded Audible Detent",
+      "Wireless Interface": "Magnetic Inductive Charging Backplate + 100% LED Display",
+      "Corner Anchors": "Dual Cast Metal Lanyard Carabiner Loop & Woven Nylon Ribbon"
+    },
+
+    // All Plates from PDF Pages 4 to 12
+    gallery: [
+      { 
+        id: "p4_2", 
+        title: "Fuel Hero Overview",
+        caption: "Hero render of Fuel wireless power bank showcasing the interplay between bead-blasted aluminum and vibrant orange woven strap.",
+        category: "Hero Render"
+      },
+      { 
+        id: "p5_2", 
+        title: "Problem Space: Monolithic Bland Bricks",
+        caption: "Market analysis documenting conventional powerbanks: bulky, clunky forms and bland monolithic bricks that clash with modern smartphones.",
+        category: "Problem Definition"
+      },
+      { 
+        id: "p6_2", 
+        title: "Design Inspiration: Teenage Engineering TX-6",
+        caption: "Teenage Engineering philosophy: playful, honest, tactile hardware with bold color accents and precision knurled controls.",
+        category: "Inspiration Board"
+      },
+      { 
+        id: "p7_2", 
+        title: "Form Ideation & Concept Sketches",
+        caption: "Exploratory form sketches studying thumb grip ergonomics, exposed structural sub-frames, corner loops, and morphod glass panels.",
+        category: "Hand Ideation"
+      },
+      { 
+        id: "p8_2", 
+        title: "Functional Anatomy & Callouts",
+        caption: "Interactive callouts: digital charge indicator, audible click power switch, magnetic wireless pad, woven strap, and corner loop.",
+        category: "Product Architecture"
+      },
+      { 
+        id: "p9_2", 
+        title: "Dimensioned Technical CAD Drawing",
+        caption: "Complete orthographic blueprint: 79.94mm length, 51.8mm width, 8.5mm profile, detail sections A(2:1), B(2:1), C(2:1). Title Block: Jinendra Parakh 02-11-2023.",
+        category: "Technical Drawing"
+      },
+      { 
+        id: "p10_2", 
+        title: "Orthographic Solution Renders",
+        caption: "Three-view elevation study: Front face with recessed diagonal gesture, ultra-slim 8.5mm profile with slider switch, and rear magnetic inductive ring.",
+        category: "CMF Elevation"
+      },
+      { 
+        id: "p11_2", 
+        title: "Internal Exploded Architecture",
+        caption: "Exploded engineering CAD model: wireless induction coil, lithium polymer battery core, tactile slider switch detent, and unibody chassis.",
+        category: "Exploded Assembly"
+      },
+      { 
+        id: "p11_4", 
+        title: "A Symphony of Contrasts",
+        caption: "\"A symphony of contrasts: The interplay of hard edges and soft blends. A dialogue of colour contrasts: Aluminum brilliance accented by vibrant orange.\"",
+        category: "CMF Philosophy"
+      },
+      { 
+        id: "p12_2", 
+        title: "Corner Strap Anchor Detail",
+        caption: "High-resolution macro render of the cast vermilion corner loop and precision machined lanyard slot.",
+        category: "Macro Detail"
+      },
+      { 
+        id: "p12_4", 
+        title: "Tactile Power Switch Detent",
+        caption: "Recessed linear power switch with tactile orange detent rib, calibrated to produce a crisp acoustic click upon actuation.",
+        category: "Macro Detail"
+      },
+      { 
+        id: "p12_6", 
+        title: "Magnetic Phone Docking Pad",
+        caption: "Integrated circular MagSafe-compatible magnetic backplate with subtle crosshair alignment guide.",
+        category: "Macro Detail"
+      }
+    ]
   },
 
-  /* 02. VANTAGE WEBCAM */
+  /* =========================================================================
+     02. VANTAGE WEBCAM
+     ========================================================================= */
   {
     slug: "vantage",
     number: "02",
+    indexCode: "02 // VANTAGE",
     title: "Vantage",
-    subtitle: "Adaptive Modular Streaming & Video Ecosystem",
-    tagline: "Transforming presentations, teaching, and streaming through unconstrained 360° freedom of movement and dual mounts.",
-    timeline: "3 Weeks",
-    type: "Individual Project (A&T Video Networks Context)",
-    category: "Workplace & Streaming",
-    badge: "MODULAR HARDWARE / BEHAVIORAL UX",
-    thumbId: "4",
-    heroId: "8",
+    subtitle: "Adaptive 360° Modular Streaming & Video Webcam",
+    tagline: "Vantage is a versatile webcam that transforms video calls, presentations, and streaming into immersive, engaging experiences. With unmatched flexibility and precision, it enhances how you connect, communicate, and create.",
+    duration: "3 Weeks",
+    projectType: "Individual Project",
+    category: "Hardware & IoT",
+    badge: "Modular Kinematics / Workspace",
+    thumbId: "p13_2",
+    heroId: "p19_2",
     metaHeader: {
-      timeline: "3 Weeks Intensive",
-      client: "Hardware Exploration with Industry Context",
-      focus: "Workplace Ethnography, 360° Kinematic Freedom, Pogo-Pin Detachability"
+      timeline: "3 Weeks Studio",
+      type: "Individual Project",
+      focus: "Kinematics, Modular Mounting, Workspace Ethnography, DFM"
     },
-    deckBlocks: [
-      {
-        type: "quote_and_insights",
-        tag: "IDENTIFIED USER PAIN POINTS",
-        quote: "Fixed camera angles force users to awkwardly move physical documents or contort themselves into the frame. Cable clutter and bulky desk mounts turn work from home into visual chaos.",
-        quoteAuthor: "Remote Worker & Educator Interviews",
-        insights: [
-          { label: "Awkward Angles", text: "Laptops looking up noses reduce viewer engagement and cause discomfort." },
-          { label: "Multi-Device Dilemma", text: "Users buy separate cameras for document sharing, conference calls, and streaming." },
-          { label: "Physical Clutter", text: "Tangled cables and heavy tripods occupy valuable tabletop space." },
-          { label: "Modularity Need", text: "A single camera head should fluidly move between monitor mount and desk arm." }
-        ]
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "MARKET CONTEXT",
-        title: "The Rapidly Evolving Video Landscape",
-        desc: "With the global webcam market expanding rapidly driven by hybrid work, remote learning, and creator streaming, users demand tools that adapt to their environment—not the other way around.",
-        imageId: "48",
-        caption: "Market research identifying remote work, hybrid collaboration, and creator growth drivers",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "text_left_image_right",
-        tag: "SYSTEM MAP",
-        title: "Brainstorming Solutions Across Pain Points",
-        desc: "Mapped out opportunities across four pillars: modularity, fluid camera articulation, decluttered magnetic cables, and seamless software presets.",
-        imageId: "32",
-        caption: "Pain point solution matrix connecting Lego-inspired building blocks to magnetic mounting",
-        aspectClass: "aspect-[4/3]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "thin_horizontal_strip",
-        tag: "FORM IDEATION",
-        title: "Inspiration Board & Ideation Sketches",
-        desc: "Balanced minimal architectural lighting silhouettes with friendly consumer electronics affordances, exploring sliding counterweights and magnetic ball joints.",
-        imageId: "34",
-        caption: "Ideation sheets exploring sliding rails, articulated arm linkages, and magnetic clip pods",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "360° FREEDOM",
-        title: "Full Rotational Range & Integrated Desk Lighting",
-        desc: "Features 360° pan, vertical arm slide, horizontal extension, and an integrated diffuse fill light activated by a single tap.",
-        imageId: "36",
-        caption: "Kinematic range diagram showing vertical slide, 360° rotation, and horizontal offset",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-contain bg-neutral-900"
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "ONE CAMERA, ENDLESS POSSIBILITIES",
-        title: "From Desktop Stand to Monitor Clip in Seconds",
-        desc: "With a quick press, twist, and pull, Vantage detaches from its desk stand via magnetic pogo pins and snaps into an ultra-compact monitor mount with a physical privacy shutter.",
-        imageId: "38",
-        caption: "Step-by-step modular conversion from desk overhead drafting view to monitor conference mode",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "35",
-        caption: "Monitor mount configuration with soft-touch scratch-free silicone padding",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "37",
-        caption: "Physical privacy shutter: slide closed for absolute peace of mind",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "41",
-        caption: "Vantage in an active creative studio environment supporting hands-on physical sketching reviews",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      }
+    heroMetrics: [
+      { label: "Studio Duration", val: "3 Weeks" },
+      { label: "Kinematic Freedom", val: "360° 3-Axis Pan & Tilt" },
+      { label: "Height Adjustment", val: "300mm Vertical Slide" },
+      { label: "Transformation", val: "Desk Stand → Monitor Mount" }
     ],
+    problem: "COVID-19 pandemic reshaped how we work, learn, and connect. Webcams lack modularity and portability, with bulky setups that take up too much space. Fixed camera angles force users to awkwardly move and fit into the frame, creating bland one-dimensional experiences, cluttered cables, and multi-device dilemmas.",
+    brief: "The way we work, learn, and create is changing fast. Design an adaptive webcam that fits seamlessly into modern life with a flexible arm, integrated lighting, and dual quick-release mounts—moving the camera instead of the subject.",
+    inspirationTitle: "Honest, Minimal, Adaptive, Intuitive & Modular",
+    inspirationSubtitle: "Kinematic Harmony",
+    inspirationDesc: "Drawing inspiration from balanced architectural task lighting, tactile camera dials, DJI Osmo gimbal articulation, and the quick-dock modularity of the Nintendo Switch.",
+    inspirationImg: "p17_8",
+
+    // Market Research Data from Page 14
+    marketResearch: {
+      headline: "$18.85 Billion Projected Global Webcam Market by 2029",
+      cagr: "14.3% CAGR (2024 to 2029)",
+      drivers: [
+        { label: "Remote Work", text: "The rise of remote and hybrid work models is reshaping the modern desktop workplace." },
+        { label: "Video Conferencing", text: "Exponentially growing corporate demand for professional high-quality video conferencing solutions." },
+        { label: "Streaming Platforms", text: "Creators on Twitch and YouTube demanding multi-angle camera agility." },
+        { label: "Online Education", text: "Virtual classrooms and educators requiring overhead whiteboard and desktop document framing." }
+      ]
+    },
+
+    // Identified Problems from Page 15
+    identifiedProblems: [
+      { title: "Fixed Camera Angles", desc: "Users are forced to awkwardly move their bodies and adjust chairs just to fit their content into the frame.", imageId: "p15_2" },
+      { title: "Bland, One-Dimensional Experience", desc: "Limited camera reach makes video calls, presentations, and streams feel flat, detached, and unengaging.", imageId: "p15_4" },
+      { title: "Cluttered Workspaces", desc: "Bulky standalone mounts and tangled cables create visual and physical chaos on the desktop.", imageId: "p15_6" },
+      { title: "The Multi-Device Dilemma", desc: "Users are forced to buy and manage multiple distinct devices for streaming, conferencing, and content creation.", imageId: "p15_8" },
+      { title: "Lack of Modularity", desc: "Bulky rigid webcam clamps take up too much space and cannot travel easily.", imageId: "p15_10" },
+      { title: "Unflattering Bad Angles", desc: "\"I don't even wanna look at that!\" — Low upward angles reduce engagement and frustrate viewers.", imageId: "p15_2" }
+    ],
+
+    // How to Use in 4 Steps from Page 21
+    userSteps: [
+      { step: "01", title: "Connect", desc: "Plug into your device to connect via high-speed USB-C!" },
+      { step: "02", title: "Adjust", desc: "Move, pan, and tilt the articulated boom arm to find your ideal position." },
+      { step: "03", title: "Set", desc: "Set the webcam into your desired height and angle effortlessly." },
+      { step: "04", title: "Frame", desc: "Tilt the cylindrical camera module to achieve perfect optical framing." }
+    ],
+
     specs: {
-      philosophy: "Adaptive Flexibility & Behavioral Empathy",
-      material: "Satin Anodized Aluminum Upright, Soft-Touch Grippy Polymer, Diffuse Silicone Light",
-      interface: "Capacitive Light Key, Mechanical Privacy Slider, Pogo-Pin Magnetic Latch",
-      methodology: "Ethnography, Workspace Journey, Rhinoceros 3D, KeyShot 3D, Prototyping"
-    }
+      "Project Timeline": "3 Weeks Intensive Studio",
+      "Dimensions": "Stand Height: 400mm | Vertical Slot: 300mm | Boom Arm: 323mm | Camera Head: 70mm | Base: 15mm",
+      "Articulation": "360° Horizontal Pan + 360° Axial Rotation + 300mm Vertical Travel",
+      "Mounting Mechanism": "Dual-Mode: Counterweighted Base Stand + Quick-Release Monitor Clamp",
+      "Coupling System": "Twist-and-Pull Magnetic Pogo Pin Electrical & Data Interface",
+      "Camera Features": "Integrated Capacitive Ring Fill Light, Sliding Physical Privacy Shutter, AI Auto-Framing",
+      "Materials": "Dark Anodized Aluminum Extrusions, Silicone Grips, Soft-Touch Non-Marring Rubber"
+    },
+
+    gallery: [
+      { 
+        id: "p13_2", 
+        title: "Vantage Hero Profile",
+        caption: "Cylindrical Vantage camera head docked in upright desktop stand, showing the clean anodized aluminum finish and integrated camera pill.",
+        category: "Hero Render"
+      },
+      { 
+        id: "p14_2", 
+        title: "Global Market Research & Growth Drivers",
+        caption: "Market research analysis: Global webcam market reaching $18.85B by 2029 (CAGR 14.3%), driven by remote work, streaming, and online education.",
+        category: "Market Analysis"
+      },
+      { 
+        id: "p15_2", 
+        title: "Identified User Pain Points",
+        caption: "Ethnographic workspace study documenting fixed camera angles, messy cables, multi-device fatigue, and unengaging webcam perspectives.",
+        category: "Problem Definition"
+      },
+      { 
+        id: "p16_2", 
+        title: "Pain Points & Solution Tree",
+        caption: "Architectural mapping matrix connecting modularity, moving the camera instead of the subject, hidden cables, and Lego-inspired building blocks.",
+        category: "Systems Thinking"
+      },
+      { 
+        id: "p17_8", 
+        title: "Inspiration Board: Minimal & Adaptive",
+        caption: "Form inspiration: architectural counterbalanced desk lamps, tactile rotary dials, gimbal cameras, and the modular docking of Nintendo Switch.",
+        category: "Inspiration Board"
+      },
+      { 
+        id: "p18_2", 
+        title: "Ideation Sketches & Final Concept",
+        caption: "Comprehensive hand sketching exploring articulated sliding booms, counterweighted bases, ball joints, and the highlighted Final Concept.",
+        category: "Concept Ideation"
+      },
+      { 
+        id: "p19_2", 
+        title: "Introducing Vantage Stand System",
+        caption: "\"In a world where connection is everything, clarity and perspective are the keys to unlocking truly immersive experiences. Introducing Vantage.\"",
+        category: "Hero System"
+      },
+      { 
+        id: "p20_4", 
+        title: "360° Freedom of Movement & Kinematics",
+        caption: "Kinematic engineering diagrams showing horizontal sliding travel, vertical track travel, 360° pan, 360° rotation, and one-tap ring light switch.",
+        category: "Kinematic Diagrams"
+      },
+      { 
+        id: "p21_8", 
+        title: "Dimensions & 4-Step Setup Guide",
+        caption: "Technical dimensions (400mm stand, 323mm boom, 70mm camera) with illustrated 4-step user guide: 01 Connect, 02 Adjust, 03 Set, 04 Frame.",
+        category: "Ergonomics & Specs"
+      },
+      { 
+        id: "p22_2", 
+        title: "Pivoting Mount 360° & Culinary Lifestyle",
+        caption: "Full 360° pivoting freedom in real-world lifestyle context: Vantage capturing an overhead kitchen culinary presentation with crisp clarity.",
+        category: "Lifestyle Context"
+      },
+      { 
+        id: "p23_2", 
+        title: "Casual Creative Workspace Context",
+        caption: "Vantage adapted for informal floor study and creative session, providing personal framing alongside laptop workspace.",
+        category: "Lifestyle Context"
+      },
+      { 
+        id: "p24_4", 
+        title: "Modular Quick Release Transformation",
+        caption: "\"With a simple press, twist, and pull, Vantage transforms from a stand-mounted camera to a compact monitor-mounted webcam via secure pogo pins.\"",
+        category: "Modular Engineering"
+      },
+      { 
+        id: "p25_2", 
+        title: "Monitor Mount Detailing & Snap Cap",
+        caption: "Monitor mount features: One-press snap / two-press record button, protective snap cap, and non-marring soft-touch silicone padding.",
+        category: "Hardware Detailing"
+      },
+      { 
+        id: "p26_4", 
+        title: "Mechanical Privacy Shutter & 360 Pan-Tilt",
+        caption: "Slide the physical privacy shutter closed for instant peace of mind. Integrated motors automatically pan and tilt to keep the presenter in frame.",
+        category: "Privacy & Motion"
+      },
+      { 
+        id: "p27_2", 
+        title: "Macro Lock Button & Camera Array",
+        caption: "Macro close-up of tactile quick-release lock button and multi-microphone optical sensor housing.",
+        category: "Macro Detail"
+      },
+      { 
+        id: "p28_2", 
+        title: "Dynamic Auto-Framing Scenarios",
+        caption: "AI auto-framing tracking a seated presenter, a standing whiteboard presentation, and an overhead tabletop sketching session.",
+        category: "Use Scenarios"
+      },
+      { 
+        id: "p29_2", 
+        title: "Student Desktop Hybrid Session",
+        caption: "Top-down reading and screen-sharing setup showing Vantage mounted directly on laptop monitor bezel.",
+        category: "Lifestyle Context"
+      },
+      { 
+        id: "p30_2", 
+        title: "Executive Studio Display Configuration",
+        caption: "Monitor-mounted Vantage providing crystal clear video on a primary desktop workspace display.",
+        category: "Lifestyle Context"
+      }
+    ]
   },
 
-  /* 03. FRIDAY HEELS */
+  /* =========================================================================
+     03. FRIDAY HEELS
+     ========================================================================= */
   {
     slug: "friday",
     number: "03",
+    indexCode: "03 // FRIDAY",
     title: "Friday Heels",
-    subtitle: "Friday × Louis Vuitton",
-    tagline: "Redefining the essence of masculine elegance through a high-heeled boot designed exclusively for men.",
-    timeline: "6 Weeks",
-    type: "Collaborative Team Project (Strate School of Design)",
-    category: "Footwear & Luxury",
-    badge: "LUXURY CMF / 3D PRINTED STRUCTURE",
-    thumbId: "21",
-    heroId: "22",
+    subtitle: "Friday Heels × Louis Vuitton Men's Footwear",
+    tagline: "Elevate your presence with the Friday shoe, a high heeled boot designed exclusively for men. Step into a world where style knows no bounds where our heels redefine the very essence of masculine elegance, setting you apart as the epitome of fashion-forward masculinity.",
+    duration: "6 Weeks",
+    projectType: "Team Project",
+    collaborators: "Jinendra Parakh, Pradyumn Soni, Dhruv Joshi, Shounak Ghosh",
+    category: "Luxury Footwear",
+    badge: "Additive Manufacturing / Luxury CMF",
+    thumbId: "p31_2",
+    heroId: "p42_2",
     metaHeader: {
       timeline: "6 Weeks Studio",
-      client: "Luxury Footwear Brand Translation",
-      focus: "Historical Reinterpretation, Boa Dial Lacing, 1:1 CNC Prototyping (Credits: Pradyumn, Dhruv, Shounak)"
+      type: "Team Project",
+      collaborators: "Jinendra Parakh, Pradyumn Soni, Dhruv Joshi, Shounak Ghosh",
+      focus: "Footwear Anatomy, Additive Manufacturing, Dial Lacing Mechanism, 1:1 Scale Prototyping"
     },
-    deckBlocks: [
-      {
-        type: "brand_manifesto",
-        tag: "THE CONCEPT & STORY",
-        title: "Bringing Them Back for Royalty",
-        desc: "Historically, high heels were invented for and worn by royal men and kings to assert authority and stature before becoming feminine centuries later. Friday reclaims heels as an unapologetic statement of masculine confidence, blending traditional leather craftsmanship with avant-garde mechanical hardware.",
-        imageId: "42",
-        caption: "Historical moodboard contrasting French royal attire with contemporary architectural footwear",
-        aspectClass: "aspect-[4/3] md:aspect-[16/10]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "BRAND ESSENCE",
-        title: "The Spirit of Friday: Liberation & Opulence",
-        desc: "Friday marks the dynamic shift from work to celebratory freedom. We translated this energy through bold faceted soles, lustrous full-grain leather, and polished chrome hardware accents.",
-        imageId: "43",
-        caption: "Brand matrix pairing Swiss horology watch detailing with luxury fashion silhouettes",
-        aspectClass: "aspect-[16/8]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "thin_horizontal_strip",
-        tag: "FORM ITERATION",
-        title: "Authoritative, Dynamic & Chunky Soles",
-        desc: "Explored silhouettes across three aesthetic lenses: Sleek Minimal, Architectural Dynamic, and Chunky Authoritative. Selected an angled heel with an integrated 3D printed protective shield.",
-        imageId: "44",
-        caption: "Ideation sketches exploring BOA dial lacing, collar cuts, and decoupled sole geometry",
-        aspectClass: "aspect-[21/8] md:aspect-[24/8]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "THE WEARABLE RITUAL",
-        title: "Pop-Out Monogram Dial Lacing Mechanism",
-        desc: "1. Gently press the Louis Vuitton monogram medallion. 2. The dial pops out mechanically. 3. Turn precision dial to loosen cable lace tension. 4. Step in, press dial flush, and rotate to micro-adjust snugness.",
-        imageId: "45",
-        caption: "Step-into-the-story: the mechanical dial ritual transforming donning shoes into a ceremonial event",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "thin_horizontal_strip",
-        tag: "PHYSICAL PROTOTYPE",
-        title: "1:1 Scale Prototyping: UK 11 Build",
-        desc: "Crafted physical prototypes using CNC high-density tooling foam, vacuum forming, and 3D printing in the Strate workshop to evaluate balance, heel pitch, and walk comfort.",
-        imageId: "46",
-        caption: "Workshop photos: 3D printing heel shields, CNC milling foam uppers, and hand assembling the UK 11 shoe",
-        aspectClass: "aspect-[21/8] md:aspect-[24/8]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "50",
-        caption: "Final studio render: high block heel and architectural 3D shield elevating masculine poise",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "51",
-        caption: "Monogram cable lacing dial detail crafted with polished chrome and matte contrast",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "pure_render_spread",
-        imageId: "52",
-        caption: "Sole arch branding: Louis Vuitton × Friday collaboration mark debossed into matte rubber tread",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      }
+    heroMetrics: [
+      { label: "Studio Duration", val: "6 Weeks" },
+      { label: "Prototype Scale", val: "1:1 Working Scale (UK 11)" },
+      { label: "Lacing Technology", val: "Monogram Rotary Dial Cable" },
+      { label: "Exoskeleton", val: "3D Printed Lattice Heel Shield" }
     ],
+    problem: "Heels were originally worn by the men of royalty and the Kings to imply status and power, before transitioning into women's footwear over centuries. Today, masculine formal footwear has become rigid, repetitive, and devoid of daring stature.",
+    brief: "Design a high heeled boot for men that seamlessly weaves together traditional masculinity and contemporary boldness, and stands as a symbol of progressive, confident fashion.",
+    inspirationTitle: "FRIDAY as a Brand",
+    inspirationSubtitle: "Dynamic Luxury & Historic Reclamation",
+    inspirationDesc: "Friday as a day is dynamic - the work ends and now it's time to celebrate the Weekend, full of excitement and pleasure. We as a brand want to translate this feeling through our products. We blend traditional craftsmanship with modern techniques and use metals to create striking highlights. The outcome? A truly show-stopping presence that not only elevates you but also transforms your outfit into a statement of unparalleled sophistication.",
+    inspirationImg: "p36_2",
+
+    // Historical Timeline from Page 33
+    historicalTimeline: [
+      { epoch: "Centuries Ago", text: "Originally worn by the men of royalty and the Kings to assert supreme status and towering stature." },
+      { epoch: "Aristocratic Era", text: "Later Men wore them to imply upper-class status. Heels became a direct indication of royal privilege." },
+      { epoch: "Fashion Evolution", text: "Centuries later, heels became a widespread fashion trend and were worn equally by both men and women." },
+      { epoch: "Modern Era", text: "Until recently, heels were worn almost exclusively by women, leaving a void for bold men's footwear." },
+      { epoch: "2017 — Present", text: "Sales and searches for men's heels have surged since 2017. Brands like Celine, Christian Louboutin, and Balenciaga have entered the market." }
+    ],
+
+    // The Wearable Guide (6 Steps from Page 39)
+    wearableGuide: [
+      { step: "01", title: "Initiate Elegance", desc: "Gently press the Louis Vuitton monogram button." },
+      { step: "02", title: "A Prelude to Opulence!", desc: "Behold, the Monogram pops out to unveil itself." },
+      { step: "03", title: "Engage the Ritual", desc: "Rotate with precision to loosen up the internal cable boot lacing." },
+      { step: "04", title: "Confer Regality", desc: "Place your foot within the sculpted calfskin boot with graceful assurance." },
+      { step: "05", title: "Harmonize Comfort", desc: "Artfully adjust tension by turning the rotary dial, elevating every step." },
+      { step: "06", title: "Culminate the Ceremony", desc: "Press, lock, and embark on your stately journey." }
+    ],
+
+    // 1:1 Scale Makerspace Physical Fabrication at Strate (from Page 41)
+    makerspaceBuild: [
+      { id: "p41_2", title: "CNC Foam Sole Routing", caption: "High-density polyurethane foam sole milling on 3-axis industrial CNC router." },
+      { id: "p41_4", title: "SLA 3D Printed Heel Shield", caption: "Additive manufacturing of structural lattice heel shield and rear monogram chassis." },
+      { id: "p41_6", title: "Upper Patterning & Lasting", caption: "Full-grain calfskin leather lasting over custom UK 11 shoe tree." },
+      { id: "p41_8", title: "Rotary Cable Spool Detailing", caption: "Integrating the pop-out brass Louis Vuitton monogram release and tensioning cables." },
+      { id: "p41_12", title: "Sole & Heel Assembly", caption: "Bonding and curing the CNC milled sole with the 3D printed heel shield." },
+      { id: "p41_14", title: "Final 1:1 Wearable Boot (UK 11)", caption: "Completed physical wearable prototype tested for weight, comfort, and dynamic balance." }
+    ],
+
     specs: {
-      philosophy: "Progressive Luxury & Gender-Fluid Poise",
-      material: "Full-Grain Italian Calfskin, 3D Printed Polyamide Heel Shield, Chrome Hardware",
-      interface: "Concealed Pop-Out Mechanical Cable Dial Lacing",
-      methodology: "Historical Ethnography, 1:1 CNC Workshop Prototyping, Rhino 3D, KeyShot 3D"
-    }
+      "Project Team": "Jinendra Parakh, Pradyumn Soni, Dhruv Joshi, Shounak Ghosh",
+      "Prototype Size": "UK 11 (1:1 Working Wearable Physical Model)",
+      "Upper Construction": "Full-Grain Calfskin Leather with Integrated Elastic Gussets",
+      "Lacing Hardware": "Internal Rotary Cable Spool with Pop-Out Turned Brass Monogram Release",
+      "Heel Architecture": "3D Printed Lattice Shield with Architectural Structural Ribs",
+      "Outsole": "CNC Milled Polyurethane Sole with Debossed Louis Vuitton × Friday Tread",
+      "Internal Comfort": "Orthotic Molded Footbed, Gel Cushioning Cups, Dynamic Arch Support"
+    },
+
+    gallery: [
+      { 
+        id: "p31_2", 
+        title: "Friday Heels on Pedestal",
+        caption: "Hero studio render of Friday high-heeled boot on exhibition plinth with Louis Vuitton × Friday collaboration branding.",
+        category: "Hero Render"
+      },
+      { 
+        id: "p32_4", 
+        title: "Brand DNA & Material Sensibility",
+        caption: "Friday moodboard: luxury dynamic weekend celebration, classic coachbuilt sports cars, Rolex Cellini Dual Time horology, and rich aromatics.",
+        category: "Moodboard"
+      },
+      { 
+        id: "p33_2", 
+        title: "The Story: Re-Telling the History of Heels",
+        caption: "Historical timeline: from King Louis XIV royal heels to 17th-century aristocratic prestige, to modern high-fashion runway reclamation.",
+        category: "Historical Research"
+      },
+      { 
+        id: "p35_2", 
+        title: "Concept Feature Exploration Matrix",
+        caption: "Design matrix exploring Authoritative, Dynamic, and Hulk silhouettes with dial lacing, gel cups, 3D midsoles, front peels, and snug collar cuts.",
+        category: "Concept Matrix"
+      },
+      { 
+        id: "p36_2", 
+        title: "Silhouette Ideation & Gothic Architecture",
+        caption: "Hand sketches exploring angular heel cuts, origami heel wraps, pocket watch mechanics, and tailored gothic architectural references.",
+        category: "Concept Ideation"
+      },
+      { 
+        id: "p37_2", 
+        title: "3-D Printed Heel Shield",
+        caption: "\"3-D printed Shield: The elegant protector of a king. Heel so high it raises the bar with you.\"",
+        category: "CMF & Structure"
+      },
+      { 
+        id: "p38_2", 
+        title: "Monogram Release Dial & Outsole Bridging",
+        caption: "\"The dazzling Louis Vuitton monogram — has everyone's eyes on you.\" Detailed view of pop-out rotary button and bridged heel branding.",
+        category: "Hardware Detailing"
+      },
+      { 
+        id: "p39_2", 
+        title: "Step into the Story: The Wearable Guide",
+        caption: "The 6-step ritual: 01 Initiate Elegance, 02 Prelude to Opulence, 03 Engage the Ritual, 04 Confer Regality, 05 Harmonize Comfort, 06 Culminate the Ceremony.",
+        category: "User Experience Guide"
+      },
+      { 
+        id: "p40_2", 
+        title: "Orthographic Technical Projections",
+        caption: "Dimensioned orthographic views: plan view collar opening, lateral heel profile, and rear monogram spine elevation.",
+        category: "Technical Drawing"
+      },
+      { 
+        id: "p40_4", 
+        title: "Exploded Engineering CAD Assembly",
+        caption: "Exploded view showing calfskin upper, inner lining, orthotic insole, sole chassis, 3D printed heel shield, and internal rotary lacing spool.",
+        category: "Exploded Assembly"
+      },
+      { 
+        id: "p41_2", 
+        title: "1:1 Prototype Fabrication (UK 11 Scale)",
+        caption: "Physical prototype build at Strate makerspace: 3D printing heel components, CNC foam sole milling, vacuum forming, and physical lasting.",
+        category: "Makerspace Prototype"
+      },
+      { 
+        id: "p42_2", 
+        title: "Editorial Campaign Render",
+        caption: "\"Bringing them back for the royalty. In collaboration with FRIDAY. Sold exclusively on louisvuitton.com. @ Pradyumn Soni, Louis Vuitton.\"",
+        category: "Editorial Campaign"
+      }
+    ]
   },
 
-  /* 04. MISCELLANEOUS LABS */
+  /* =========================================================================
+     04. MISCELLANEOUS & VISUAL LAB
+     ========================================================================= */
   {
     slug: "miscellaneous",
     number: "04",
-    title: "Miscellaneous Labs",
-    subtitle: "Sketches, Detours & Generative Experiments",
-    tagline: "A collection of sketches, sneaker deconstructions, Vizcom AI trials, and tangible workshop models.",
-    timeline: "Ongoing",
-    type: "Personal Explorations",
-    category: "Visual Lab",
-    badge: "FORM EXPERIMENTS / GENERATIVE",
-    thumbId: "3",
-    heroId: "7",
+    indexCode: "04 // MISC",
+    title: "Miscellaneous",
+    subtitle: "Visual Lab, Ideation Sketches & Workshop Prototypes",
+    tagline: "A collection of sketches, prototypes, and creative detours. Each piece is a standalone exploration, showing different stages of thinking and making beyond my main projects.",
+    duration: "Continuous",
+    projectType: "Individual Project",
+    category: "Ideation & Making",
+    badge: "WORKSHOP / GENERATIVE AI / SKETCHES",
+    thumbId: "p1_2",
+    heroId: "p1_2",
     metaHeader: {
-      timeline: "Ongoing Creative Practice",
-      client: "Self-Initiated Studies",
-      focus: "Form Detours, Sneaker Teardowns, Vizcom AI Prototyping, Glass Optics"
+      timeline: "Continuous Explorations (2023 — 2025)",
+      type: "Individual Project",
+      focus: "Horological Hand Sketching, Vizcom AI Prompting, Footwear Anatomical Teardown, Makerspace Prototyping"
     },
-    deckBlocks: [
-      {
-        type: "text_top_image_bottom",
-        tag: "SCULPTURAL OPTICS",
-        title: "Dual-Chamber Hourglass Study",
-        desc: "Explored optical glass refraction and metallic cage geometry to create a kinetic meditation artifact for contemplative desks.",
-        imageId: "11",
-        caption: "Blender Cycles caustics exploring hand-blown spherical glass vessels suspended in wire cages",
-        aspectClass: "aspect-[16/9]",
-        fitMode: "object-cover"
-      },
-      {
-        type: "text_top_image_bottom",
-        tag: "ANATOMY OF FOOTWEAR",
-        title: "Sneaker Deconstruction & Stitching Analysis",
-        desc: "Detailed technical hand sketches deconstructing the Nike Air Force 1: heel counters, single vs. double stitches, toe spring ergonomics, and PU leather layering.",
-        imageId: "13",
-        caption: "Exploded footwear anatomy breaking down foxing, toe counter stiffness, and outsole bonding",
-        aspectClass: "aspect-[16/10]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "thin_horizontal_strip",
-        tag: "GENERATIVE AI EXPEDITION",
-        title: "Vizcom Spatial AI Chronograph Trials",
-        desc: "Tested AI sketch rendering engines to translate hand-drawn analog watch chronographs into futuristic cosmic and cyber-architecture environments.",
-        imageId: "15",
-        caption: "Vizcom trials: prompting textural materiality and dramatic rim lighting from raw ballpoint sketches",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-contain bg-white"
-      },
-      {
-        type: "thin_horizontal_strip",
-        tag: "WORKSHOP ARTIFACTS",
-        title: "Physical Foam, Clay & 3D Printed Rigs",
-        desc: "A behind-the-scenes archive of foam sanding, high heel shoe lasts, webcam arm prototypes, and tactile radio knobs.",
-        imageId: "16",
-        caption: "Workshop documentation showing hands-on model making across foam, wood, and resin",
-        aspectClass: "aspect-[16/9] md:aspect-[21/9]",
-        fitMode: "object-cover"
-      }
+    heroMetrics: [
+      { label: "Visual Disciplines", val: "Sketches, AI, CMF, Prototyping" },
+      { label: "Makerspace Facility", val: "Strate School of Design" },
+      { label: "AI Generative Engine", val: "Vizcom Trials" },
+      { label: "Footwear Teardown", val: "Nike Air Force 1 Anatomy" }
     ],
+    problem: "Design thinking cannot live in isolation on a digital screen. True physical fluency requires constant exploratory detours—hands-on marker ideation, taking existing products apart to examine their internal anatomy, and stress-testing new AI rendering tools.",
+    brief: "Curate a dedicated laboratory of independent explorations spanning chronograph watch sketching, footwear anatomical deconstructions, blown-glass acoustic vessels, Vizcom AI prompt trials, and physical workshop prototyping.",
+    inspirationTitle: "Thinking Through the Hands",
+    inspirationSubtitle: "From Raw Clay to Generative AI",
+    inspirationDesc: "Every piece here is a standalone inquiry. Whether exploring the tension between delicate blown glass and copper wire, dissecting the stitching tolerances of a Nike sneaker, or transforming hand sketches into cosmic cyberpunk realities with Vizcom.",
+    inspirationImg: "p46_2",
+
     specs: {
-      philosophy: "Unconstrained Curiosity & Rapid Learning",
-      material: "High-Density Foam, Hand-Blown Glass, Procreate Digital Inking",
-      interface: "Analog Sketching, Vizcom AI, KeyShot 3D, Physical Hand Craft",
-      methodology: "Teardowns, Generative Rendering, Material Testing"
-    }
+      "Disciplines": "Horological Sketching, Footwear Anatomy, AI Generative Pipelines, Workshop Fabrication",
+      "Sketching Mediums": "Fineliner, Copic Markers, Digital Procreate on iPad Pro",
+      "AI Pipeline": "Vizcom Prompt Manipulation & Material Specularity Tuning",
+      "Footwear Analysis": "Deconstruction of Nike Air Force 1 Upper, Midsole, and Air Sole Unit",
+      "Workshop Machinery": "CNC 3-Axis Foam Router, Vacuum Former, Polyurethane Casting, 3D Printers"
+    },
+
+    gallery: [
+      { 
+        id: "p1_2", 
+        title: "Portfolio Cover: Chronograph Watch Perspective Sketch",
+        caption: "Original hand-drawn chronograph perspective sketch: precision crown, pushers, and subdials exploring technical luxury horology.",
+        category: "Horology Sketch"
+      },
+      { 
+        id: "p44_2", 
+        title: "Acoustic Glass Hourglass Study",
+        caption: "Exploration of blown glass dual spheres supported by an intertwined copper wire harness, examining acoustic resonance and liquid containment.",
+        category: "Glass Vessel"
+      },
+      { 
+        id: "p45_2", 
+        title: "Glass Vessel Core Detailing",
+        caption: "Macro view of internal central diffuser and curved copper wire cradle interface.",
+        category: "Glass Vessel"
+      },
+      { 
+        id: "p46_2", 
+        title: "Industrial Design Sketches",
+        caption: "Rapid ideation sketches exploring technical utilitarian backpacks, iconic mid-century lounge chairs, athletic sneakers, and origami faceted seating.",
+        category: "Hand Sketches"
+      },
+      { 
+        id: "p47_2", 
+        title: "Analysis of a Sneaker: Lateral & Heel Anatomy",
+        caption: "Detailed anatomical teardown: shoe tongue, tongue holder, PU rubber outsole, toe counter, foxing, toe spring, and heel counter structure.",
+        category: "Footwear Teardown"
+      },
+      { 
+        id: "p48_2", 
+        title: "Deconstructed Sneaker Layers & Materials",
+        caption: "Layered deconstruction of footwear construction: PU leather upper, soft padding, polyester tongue lining, insole, midsole, and outsole.",
+        category: "Footwear Teardown"
+      },
+      { 
+        id: "p49_2", 
+        title: "Nike Air Force 1 Deep Dive",
+        caption: "Deep dive analysis of Nike AF1: sewed branding, hole pattern 1 to 6, double stitching, AF1 metal lace medallion, breathing holes, and embossed rubber air sole.",
+        category: "Footwear Teardown"
+      },
+      { 
+        id: "p50_2", 
+        title: "Vizcom AI Trials: Generative Transformations",
+        caption: "\"I brought one of my sketches to Vizcom and experimented with various prompts, played around with reference images and how they impact the final image. Also explored different features to get the hang of using Vizcom.\"",
+        category: "Vizcom AI Trials"
+      },
+      { 
+        id: "p51_8", 
+        title: "Physical Models and Workshop Prototypes",
+        caption: "Hands-on makerspace fabrication gallery: high-gloss styling clay heels, wood lathe turning, CNC foam milling, radio foam mockups, and UK 11 shoe prototype.",
+        category: "Makerspace Mockups"
+      },
+      { 
+        id: "p52_2", 
+        title: "Spandigit Social Digital Marketing Internship",
+        caption: "Workspace photos and team collaboration during digital marketing internship (June - July 2023), gaining hands-on audience targeting and user research skills.",
+        category: "Internship & Research"
+      }
+    ]
   }
 ];
 
-/* --- NAVIGATION (IDEO EDITORIAL NAVBAR) --- */
+/* --- NAVIGATION BAR (CLEAN, BORDERLESS, REFINED SWISS/BRUTALIST) --- */
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#faf9f6]/90 backdrop-blur-md border-b border-neutral-200/60">
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-[#EAEAE7]/95 backdrop-blur-md transition-all border-b border-neutral-300/60">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+        
+        {/* Clean Logo */}
         <Link 
           to="/" 
           onClick={closeMenu}
-          className="text-lg md:text-xl font-editorial tracking-tight text-neutral-900 hover:opacity-70 transition-opacity"
+          className="flex items-center gap-3 group"
         >
-          <span className="font-semibold">Jinendra</span>
-          <span className="italic font-light text-neutral-500 ml-2">/ Product Design</span>
+          <span className="w-2.5 h-2.5 bg-[#FF3B1D] block rounded-full" />
+          <div className="flex flex-col">
+            <span className="text-lg md:text-xl font-bold font-display tracking-tight text-black uppercase leading-none">
+              Jinendra Parakh
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-medium mt-1">
+              Product Design Portfolio 2025
+            </span>
+          </div>
         </Link>
         
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10">
-          <div className="flex items-center gap-8 text-[12px] font-medium tracking-[0.14em] uppercase text-neutral-500">
-            <Link to="/" className="hover:text-neutral-900 transition-colors">Projects</Link>
-            <Link to="/commercial" className="hover:text-neutral-900 transition-colors">Client Work</Link>
-            <Link to="/playground" className="hover:text-neutral-900 transition-colors">Visual Lab</Link>
-            <Link to="/about" className="hover:text-neutral-900 transition-colors">About</Link>
-          </div>
-
-          <a 
-            href="mailto:parakhjinendra@gmail.com" 
-            className="text-[12px] font-medium tracking-[0.08em] uppercase bg-neutral-900 text-white px-5 py-2.5 rounded-full hover:bg-neutral-800 active:scale-95 transition-all"
+        {/* Desktop Links (No Boxy Outlines) */}
+        <div className="hidden md:flex items-center gap-8 font-mono text-xs font-medium uppercase tracking-wider text-neutral-600">
+          <Link 
+            to="/" 
+            className={`transition-colors hover:text-black ${location.pathname === '/' ? 'text-[#FF3B1D] font-bold' : ''}`}
           >
-            Let's Connect
+            01. Works
+          </Link>
+          <Link 
+            to="/playground" 
+            className={`transition-colors hover:text-black ${location.pathname === '/playground' ? 'text-[#FF3B1D] font-bold' : ''}`}
+          >
+            02. Visual Lab
+          </Link>
+          <Link 
+            to="/about" 
+            className={`transition-colors hover:text-black ${location.pathname === '/about' ? 'text-[#FF3B1D] font-bold' : ''}`}
+          >
+            03. Profile
+          </Link>
+          <Link 
+            to="/experience" 
+            className={`transition-colors hover:text-black ${location.pathname === '/experience' ? 'text-[#FF3B1D] font-bold' : ''}`}
+          >
+            04. Experience
+          </Link>
+          
+          <a 
+            href="/Jinendra_Parakh_Resume.pdf" 
+            target="_blank" 
+            rel="noreferrer"
+            className="flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full hover:bg-[#FF3B1D] transition-colors"
+          >
+            <Download className="w-3 h-3" />
+            <span>Resume</span>
           </a>
         </div>
 
@@ -621,83 +1145,165 @@ function Navbar() {
         <div className="flex md:hidden items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-            className="p-2 text-neutral-800 hover:text-black focus:outline-none"
+            aria-label="Toggle navigation"
+            className="p-2 text-black hover:text-[#FF3B1D] transition-colors cursor-pointer"
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      {isOpen && (
-        <div className="md:hidden bg-[#faf9f6] border-b border-neutral-200 px-6 pt-6 pb-8 shadow-lg">
-          <div className="flex flex-col space-y-4 text-xs tracking-widest uppercase text-neutral-700">
-            <Link to="/" onClick={closeMenu} className="py-2 border-b border-neutral-100 hover:text-black">01. Selected Projects</Link>
-            <Link to="/commercial" onClick={closeMenu} className="py-2 border-b border-neutral-100 hover:text-black">02. Client & Industry Work</Link>
-            <Link to="/playground" onClick={closeMenu} className="py-2 border-b border-neutral-100 hover:text-black">03. Visual Lab & Sketches</Link>
-            <Link to="/about" onClick={closeMenu} className="py-2 border-b border-neutral-100 hover:text-black">04. About & Experience</Link>
-            <div className="pt-3">
-              <a 
-                href="mailto:parakhjinendra@gmail.com" 
-                onClick={closeMenu}
-                className="w-full text-center block text-xs uppercase font-medium bg-neutral-900 text-white px-5 py-3 rounded-full"
-              >
-                Let's Connect
-              </a>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-[#EAEAE7] px-6 pt-4 pb-8 border-b border-neutral-300"
+          >
+            <div className="flex flex-col space-y-4 font-mono text-xs font-bold uppercase tracking-wider text-black">
+              <Link to="/" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+                <span>01. Selected Works</span>
+                <span className="text-[#FF3B1D]">4 Inquiries</span>
+              </Link>
+              <Link to="/playground" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+                <span>02. Visual Lab & Sketches</span>
+                <span className="text-[#FF3B1D]">Playground</span>
+              </Link>
+              <Link to="/about" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+                <span>03. About Jinendra</span>
+                <span className="text-neutral-500">Strate School</span>
+              </Link>
+              <Link to="/experience" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+                <span>04. Professional Experience</span>
+                <span className="text-neutral-500">Ticket / Spandigit</span>
+              </Link>
+              
+              <div className="grid grid-cols-2 gap-3 pt-4">
+                <a 
+                  href="/Jinendra_Parakh_Resume.pdf" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="text-center block bg-black text-white py-3 rounded-full hover:bg-[#FF3B1D] transition-colors"
+                >
+                  Resume (PDF)
+                </a>
+                <a 
+                  href="/Jinendra_Parakh_Portfolio.pdf" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="text-center block bg-[#FF3B1D] text-white py-3 rounded-full hover:bg-black transition-colors"
+                >
+                  Full 53p Deck
+                </a>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
 
-/* --- FOOTER --- */
+/* --- FOOTER (PAGE 53 LET'S CONNECT — CLEAN SWISS AESTHETIC) --- */
 function Footer() {
   return (
-    <footer className="bg-neutral-950 text-neutral-300 py-24 px-6 md:px-12 border-t border-neutral-900">
-      <div className="max-w-[1360px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-20">
-          <div className="max-w-lg">
-            <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-neutral-400 block mb-4">
-              // BUILDING DESIRES
+    <footer className="bg-[#0E0E10] text-[#EBEBE8] pt-24 pb-16 px-6 md:px-12 font-mono">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-neutral-800">
+          
+          <div className="lg:col-span-7 space-y-6">
+            <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest block">
+              // ‘BUILDING DESIRES’
             </span>
-            <h3 className="text-3xl md:text-4xl font-editorial text-white mb-6 leading-tight">
+            <h3 className="text-3xl md:text-5xl font-black font-display tracking-tight text-white leading-tight uppercase">
               Every object has a story to tell and an experience to create.
             </h3>
-            <p className="text-neutral-400 text-base leading-relaxed font-light">
-              Product Designer blending functionality with aesthetics to build meaningful solutions that not only solve everyday human problems but also inspire aspirations.
+            <p className="text-neutral-400 text-sm md:text-base font-sans font-light leading-relaxed max-w-xl">
+              I am Jinendra Parakh, a product designer on a mission to change the way we look at things. B.Sc. in Product Design from Strate School of Design, Bangalore.
             </p>
           </div>
-          
-          <div className="grid grid-cols-2 gap-12 md:gap-20">
-            <div>
-              <p className="text-[11px] font-bold text-neutral-400 uppercase tracking-[0.2em] mb-6">Contact</p>
-              <div className="flex flex-col gap-3 text-neutral-200 text-sm">
-                <a href="mailto:parakhjinendra@gmail.com" className="hover:text-white transition-colors">parakhjinendra@gmail.com</a>
-                <a href="tel:+919850889899" className="hover:text-white transition-colors">+91 9850889899</a>
-                <span className="text-neutral-400">Bangalore / Nashik / Pune</span>
+
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
+            <div className="space-y-3 text-xs">
+              <span className="text-neutral-500 uppercase tracking-widest block font-bold text-[10px]">
+                LET’S CONNECT // DIRECT CONTACT
+              </span>
+              <a 
+                href="mailto:parakhjinendra@gmail.com" 
+                className="flex items-center gap-2.5 text-white hover:text-[#FF3B1D] transition-colors text-sm font-semibold"
+              >
+                <Mail className="w-4 h-4 text-[#FF3B1D]" />
+                <span>parakhjinendra@gmail.com</span>
+              </a>
+              <a 
+                href="tel:+919850889899" 
+                className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
+              >
+                <Phone className="w-4 h-4 text-[#FF3B1D]" />
+                <span>+91 9850889899</span>
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/jinendra-parakh-7b643a228" 
+                target="_blank" 
+                rel="noreferrer"
+                className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
+              >
+                <LinkedinIcon className="w-4 h-4 text-[#FF3B1D]" />
+                <span>Jinendra Parakh (LinkedIn)</span>
+              </a>
+              <a 
+                href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
+                target="_blank" 
+                rel="noreferrer"
+                className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
+              >
+                <BehanceIcon className="w-4 h-4 text-[#FF3B1D]" />
+                <span>Behance Design Portfolio</span>
+              </a>
+              <span className="block text-neutral-500 pt-1">
+                Bangalore / Pune / Nashik / Jalgaon, Maharashtra
+              </span>
+              <div className="pt-2 flex items-center gap-2">
+                <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-emerald-400 uppercase text-[10px] tracking-wider font-bold">
+                  Available for Industrial Design Roles
+                </span>
               </div>
             </div>
-            <div>
-              <p className="text-[11px] font-bold text-neutral-400 uppercase tracking-[0.2em] mb-6">Profiles</p>
-              <div className="flex flex-col gap-3 text-neutral-200 text-sm">
-                <Link to="/" className="hover:text-white transition-colors">All Projects</Link>
-                <Link to="/commercial" className="hover:text-white transition-colors">Client Projects</Link>
-                <Link to="/about" className="hover:text-white transition-colors">About Jinendra</Link>
-                <a href="https://www.behance.net/gallery/223719061/Design-Portfolio" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Behance Portfolio</a>
-                <a href="https://linkedin.com/in/jinendra-parakh" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn Profile</a>
-              </div>
+
+            <div className="flex flex-wrap gap-4 text-xs">
+              <a 
+                href="/Jinendra_Parakh_Resume.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 bg-white text-black px-5 py-2.5 rounded-full font-bold hover:bg-[#FF3B1D] hover:text-white transition-colors"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Resume PDF</span>
+              </a>
+              <a 
+                href="/Jinendra_Parakh_Portfolio.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 bg-[#FF3B1D] text-white px-5 py-2.5 rounded-full font-bold hover:bg-white hover:text-black transition-colors"
+              >
+                <span>Full 53-Page Deck</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
+
         </div>
-        
-        <div className="pt-12 border-t border-neutral-800 flex flex-col md:flex-row justify-between gap-4 text-xs text-neutral-400">
-          <p>© {new Date().getFullYear()} Jinendra Parakh. Product Design Portfolio.</p>
-          <div className="flex gap-6 uppercase tracking-widest text-[10px] text-neutral-400">
-            <span>Strate School of Design</span>
-            <span>IDEO Inspired Layout</span>
+
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-neutral-500 text-[11px]">
+          <div>
+            © {new Date().getFullYear()} JINENDRA PARAKH. ALL RIGHTS RESERVED.
+          </div>
+          <div className="flex items-center gap-6 uppercase tracking-wider text-[10px]">
+            <span>STRATE SCHOOL OF DESIGN</span>
+            <span className="text-[#FF3B1D]">PRODUCT DESIGN 2025</span>
           </div>
         </div>
       </div>
@@ -705,175 +1311,319 @@ function Footer() {
   );
 }
 
-/* --- PAGE 1: HOME (IDEO EDITORIAL FEED) --- */
+/* --- HOME PAGE (SWISS BRUTALIST ACCENT — UNBORDERED VERMILION BLOCKS) --- */
 function HomePage() {
   return (
-    <div>
-      {/* Hero Header */}
-      <section className="max-w-[1360px] mx-auto px-6 md:px-12 pt-24 pb-24 border-b border-neutral-200/70">
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-3 mb-8">
-            <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
-            <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-neutral-600">
-              Product Design // 2025
-            </span>
+    <div className="min-h-screen">
+      
+      {/* HERO SECTION: Fluid Swiss Composition */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-24">
+        
+        {/* Subtle Top Metadata Line */}
+        <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-neutral-300/60 mb-16">
+          <div className="flex items-center gap-3">
+            <span className="font-bold text-black">+1</span>
+            <span>PORTFOLIO 2025 // JINENDRA PARAKH</span>
           </div>
-          
-          <h1 className="text-5xl md:text-[80px] font-editorial font-normal leading-[1.08] tracking-tight text-neutral-900 mb-8">
-            Building desires through thoughtful products, <br />
-            <span className="italic text-neutral-500">meaningful stories & human experience.</span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-neutral-600 max-w-3xl leading-relaxed font-light">
-            I'm Jinendra, a product designer on a mission to change the way we look at things. I blend deep user empathy, physical prototyping, and bold aesthetics to build solutions that solve genuine problems while elevating everyday living.
-          </p>
-
-          <div className="flex flex-wrap gap-4 mt-10">
-            <a 
-              href="#projects" 
-              className="text-xs uppercase font-mono tracking-widest bg-neutral-900 text-white px-6 py-3.5 rounded-full hover:bg-neutral-800 transition-colors"
-            >
-              Explore 04 Selected Inquiries ↓
-            </a>
-            <Link 
-              to="/about" 
-              className="text-xs uppercase font-mono tracking-widest border border-neutral-300 text-neutral-700 px-6 py-3.5 rounded-full hover:border-neutral-900 transition-colors"
-            >
-              About Mindset & Skills
-            </Link>
+          <div className="flex items-center gap-4">
+            <span className="hidden sm:inline text-[#FF3B1D]">●</span>
+            <span className="hidden sm:inline text-neutral-500">BANGALORE / PUNE / NASHIK</span>
+            <span className="text-black font-semibold">STRATE SCHOOL OF DESIGN</span>
           </div>
         </div>
+
+        {/* Hero Composition: Typographic Headline with Solid Vermilion Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          {/* Main Display Headline */}
+          <div className="lg:col-span-8 space-y-6">
+            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+              // ‘BUILDING DESIRES’
+            </span>
+
+            <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display tracking-tight text-black leading-[1.0] uppercase">
+              Crafting <br />
+              innovative <br />
+              products that <br />
+              <span className="text-[#FF3B1D]">captivate</span> your <br />
+              desires.
+            </h1>
+
+            <p className="text-lg md:text-xl font-sans text-neutral-600 font-light leading-relaxed max-w-2xl pt-2">
+              On a mission to change the way we look at things. I believe every object has a story to tell and an experience to create—blending functionality with aesthetics to build meaningful solutions.
+            </p>
+          </div>
+
+          {/* Flat Solid Vermilion Card (NO BLACK BORDER) */}
+          <div className="lg:col-span-4">
+            <div className="bg-[#FF3B1D] text-white p-8 md:p-10 rounded-sm flex flex-col justify-between shadow-sm">
+              
+              <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/20 font-mono text-[11px] uppercase tracking-widest text-white/90">
+                <div className="flex items-center gap-2 font-bold">
+                  <span className="w-2 h-2 bg-white block" />
+                  <span>JP // ID</span>
+                </div>
+                <span>EST. 2025</span>
+              </div>
+
+              <div className="space-y-4 mb-8">
+                <p className="font-display font-bold text-xl md:text-2xl leading-snug">
+                  "Blending functionality with aesthetics to build aspirations."
+                </p>
+                <p className="font-mono text-xs text-white/80 leading-relaxed font-light">
+                  From rough conceptual sketches to functional 1:1 scale working prototypes and tactile retro-engineering.
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-white/20 flex items-center justify-between font-mono text-xs font-bold uppercase tracking-wider">
+                <a 
+                  href="#works" 
+                  className="inline-flex items-center gap-1.5 text-white hover:text-black transition-colors"
+                >
+                  <span>Explore Works</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+
+                <a 
+                  href="/Jinendra_Parakh_Portfolio.pdf" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="bg-black/20 hover:bg-black text-white px-3 py-1 rounded-full text-[10px] transition-colors"
+                >
+                  53p Deck ↗
+                </a>
+              </div>
+            </div>
+
+            {/* Subtle Status Pill beneath Card */}
+            <div className="mt-4 p-4 bg-white/70 backdrop-blur-sm rounded-sm flex items-center justify-between font-mono text-xs text-neutral-700">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-semibold uppercase tracking-wider">Open for Design Roles</span>
+              </div>
+              <Link to="/about" className="text-[#FF3B1D] font-bold hover:underline uppercase text-[10px]">
+                Profile →
+              </Link>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Flat Vermilion Horizontal Bar */}
+        <div className="mt-20 bg-[#FF3B1D] text-white p-6 md:p-8 rounded-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono shadow-sm">
+          <div className="flex items-center gap-4">
+            <span className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight">
+              lab. 001
+            </span>
+            <span className="hidden sm:inline border-l border-white/30 h-8" />
+            <div className="flex flex-col">
+              <span className="text-xs font-bold uppercase tracking-widest">
+                CREATIONS OF JINENDRA PARAKH
+              </span>
+              <span className="text-[10px] text-white/80 uppercase tracking-wider">
+                4 CORE PORTFOLIO WORKS // 2025
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
+            <span>[ 4 CASE STUDIES ]</span>
+            <a 
+              href="#works" 
+              className="bg-black text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors"
+            >
+              Inspect 04 Projects ↓
+            </a>
+          </div>
+        </div>
+
       </section>
 
-      {/* SECTION: 04 FEATURED CASE INQUIRIES */}
-      <section id="projects" className="max-w-[1360px] mx-auto px-6 md:px-12 py-24">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-16 pb-4 border-b border-neutral-200">
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-0.5 bg-neutral-900 text-white font-mono text-[10px] uppercase tracking-wider rounded">
-              INDEX
+      {/* 4 FEATURED PROJECTS SHOWCASE (NO CROPPED IMAGES, NO BOXY BLACK BORDERS) */}
+      <section id="works" className="max-w-[1400px] mx-auto px-6 md:px-12 py-16">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-16 border-b border-neutral-300">
+          <div>
+            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-1">
+              // PORTFOLIO 2025
             </span>
-            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-900">
+            <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tight text-black">
               Selected Inquiries
             </h2>
           </div>
-          <span className="text-xs font-mono text-neutral-500">
-            04 Curated Projects
+          <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
+            04 Documented Case Studies
           </span>
         </div>
 
+        {/* Project Feed: Generous, Borderless, Uncropped Imagery */}
         <div className="space-y-32">
           {JINENDRA_PROJECTS.map((proj, idx) => (
-            <div key={proj.slug} className="group grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <motion.div 
+              key={proj.slug}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center group"
+            >
+              
+              {/* Image Frame (ZERO CROPPING — FLEXIBLE CONTAINER WITH UNCLIPPED IMAGE) */}
               <div className={`lg:col-span-7 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
-                <Link to={`/project/${proj.slug}`} className="block overflow-hidden rounded-3xl border border-neutral-200 shadow-xs">
-                  <div className="w-full aspect-[16/10] bg-neutral-100 overflow-hidden">
-                    <ProjectImage 
-                      id={proj.thumbId} 
-                      altText={proj.title}
-                      withLoader={true}
-                      className="group-hover:scale-103 transition-transform duration-700 ease-out" 
-                    />
+                <Link 
+                  to={`/project/${proj.slug}`} 
+                  className="block relative w-full min-h-[340px] md:min-h-[460px] p-6 sm:p-10 bg-[#DFDFDC]/70 hover:bg-[#D7D7D4] transition-colors rounded-sm group flex items-center justify-center overflow-hidden"
+                >
+                  <ProjectImage 
+                    id={proj.thumbId} 
+                    altText={proj.title}
+                    caption={`${proj.title} — ${proj.subtitle}`}
+                    withLoader={true}
+                    allowExpand={false}
+                    className="w-full h-full flex items-center justify-center"
+                    imgClassName="max-h-[380px] md:max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-sm group-hover:scale-102 transition-transform duration-500 ease-out"
+                  />
+                  
+                  {/* Floating Minimal Pill */}
+                  <div className="absolute bottom-4 right-4 bg-black/85 backdrop-blur-sm text-white font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span>Inspect Case Study</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#FF3B1D]" />
                   </div>
                 </Link>
               </div>
 
-              <div className={`lg:col-span-5 space-y-6 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
-                <div className="flex items-center gap-3 font-mono text-xs text-neutral-500">
-                  <span className="text-sm font-bold text-neutral-900">/{proj.number}</span>
-                  <span>—</span>
-                  <span className="uppercase tracking-widest">{proj.category}</span>
-                  <span>•</span>
-                  <span>{proj.timeline}</span>
+              {/* Text Column */}
+              <div className={`lg:col-span-5 space-y-5 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
+                
+                <div className="flex items-center justify-between font-mono text-xs border-b border-black/10 pb-3">
+                  <span className="font-bold text-[#FF3B1D] uppercase tracking-widest">
+                    {proj.indexCode}
+                  </span>
+                  <span className="text-neutral-500 font-semibold">
+                    {proj.duration}
+                  </span>
                 </div>
 
-                <h3 className="text-4xl md:text-5xl font-editorial text-neutral-900 leading-tight">
-                  <Link to={`/project/${proj.slug}`} className="hover:text-neutral-600 transition-colors">
-                    {proj.title}
-                  </Link>
-                </h3>
+                <div>
+                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-black font-display uppercase tracking-tight text-black leading-none mb-2">
+                    <Link to={`/project/${proj.slug}`} className="hover:text-[#FF3B1D] transition-colors">
+                      {proj.title}
+                    </Link>
+                  </h3>
+                  <p className="font-mono text-xs font-bold text-neutral-600 uppercase tracking-wider">
+                    {proj.subtitle}
+                  </p>
+                </div>
 
-                <h4 className="text-lg text-neutral-500 font-editorial italic">
-                  {proj.subtitle}
-                </h4>
-
-                <p className="text-neutral-600 text-base leading-relaxed font-light">
+                <p className="font-sans text-neutral-600 text-base leading-relaxed font-light">
                   {proj.tagline}
                 </p>
+
+                {/* Micro Metric Badges */}
+                {proj.heroMetrics && (
+                  <div className="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
+                    {proj.heroMetrics.slice(0, 2).map((m, mIdx) => (
+                      <div key={mIdx} className="border-l-2 border-[#FF3B1D] pl-3 py-0.5">
+                        <span className="text-neutral-400 block text-[10px] uppercase font-bold">{m.label}</span>
+                        <span className="font-bold text-black">{m.val}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className="pt-2">
                   <Link 
                     to={`/project/${proj.slug}`}
-                    className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest font-semibold text-neutral-900 border-b border-neutral-900 pb-1 hover:text-neutral-500 hover:border-neutral-500 transition-colors"
+                    className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-black hover:text-[#FF3B1D] transition-colors border-b border-black hover:border-[#FF3B1D] pb-1"
                   >
-                    Read Inquiry <ArrowUpRight className="w-3.5 h-3.5" />
+                    <span>Inspect Full Study</span>
+                    <ArrowUpRight className="w-4 h-4" />
                   </Link>
                 </div>
+
               </div>
-            </div>
+
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* SECTION: IDEO-STYLE EDITORIAL CALLOUTS */}
-      <section className="max-w-[1360px] mx-auto px-6 md:px-12 pb-32">
+      {/* QUICK LINKS SECTION (PLAYGROUND & DOSSIERS) */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-neutral-300">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
           <Link 
-            to="/commercial" 
-            className="group block bg-white border border-neutral-200 rounded-3xl p-8 hover:border-neutral-900 transition-all duration-300 shadow-2xs"
+            to="/playground"
+            className="p-8 bg-white/70 backdrop-blur-sm rounded-sm hover:bg-white transition-all group flex flex-col justify-between space-y-6"
           >
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Workflow className="w-4 h-4 text-neutral-900" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-900">Experience</span>
+            <div>
+              <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
+                02 // VISUAL LAB
+              </span>
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
+                Playground & Sketches
+              </h4>
+              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
+                Interactive masonry gallery of horological sketches, Nike AF1 anatomical teardown, Vizcom AI iterations, and makerspace foam prototypes.
+              </p>
             </div>
-            <h4 className="text-2xl font-editorial text-neutral-900 mb-2">Ticket Design & A&T</h4>
-            <p className="text-neutral-600 text-xs leading-relaxed mb-6 font-light">
-              Collaborated on water dispensers, global medical DVT keypads, air fresheners, and PTZ conference camera ecosystems.
-            </p>
-            <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-neutral-900">
-              Read Client Projects <ArrowUpRight className="w-3.5 h-3.5" />
-            </div>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-black group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+              <span>Open Visual Lab</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </span>
           </Link>
 
           <Link 
-            to="/playground" 
-            className="group block bg-white border border-neutral-200 rounded-3xl p-8 hover:border-neutral-900 transition-all duration-300 shadow-2xs"
+            to="/about"
+            className="p-8 bg-white/70 backdrop-blur-sm rounded-sm hover:bg-white transition-all group flex flex-col justify-between space-y-6"
           >
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Sparkles className="w-4 h-4 text-neutral-900" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-900">Creative Detours</span>
+            <div>
+              <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
+                03 // BACKGROUND
+              </span>
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
+                About Jinendra Parakh
+              </h4>
+              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
+                Education at Strate School of Design, Bangalore. Prototyping hard skills, CAD tool competencies (Rhinoceros, Fusion 360, KeyShot), and 'Building Desires' philosophy.
+              </p>
             </div>
-            <h4 className="text-2xl font-editorial text-neutral-900 mb-2">Visual Lab & Sketches</h4>
-            <p className="text-neutral-600 text-xs leading-relaxed mb-6 font-light">
-              A collection of raw hand sketching, sneaker teardown studies, Vizcom generative AI watch trials, and physical workshop builds.
-            </p>
-            <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-neutral-900">
-              Explore Visual Lab <ArrowUpRight className="w-3.5 h-3.5" />
-            </div>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-black group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+              <span>Read Full Dossier</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </span>
           </Link>
 
           <Link 
-            to="/about" 
-            className="group block bg-neutral-950 border border-neutral-900 rounded-3xl p-8 hover:border-neutral-700 transition-all duration-300 shadow-2xs"
+            to="/experience"
+            className="p-8 bg-white/70 backdrop-blur-sm rounded-sm hover:bg-white transition-all group flex flex-col justify-between space-y-6"
           >
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Lightbulb className="w-4 h-4 text-amber-400" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400">Design Biography</span>
+            <div>
+              <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
+                04 // TRACK RECORD
+              </span>
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
+                Professional Experience
+              </h4>
+              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
+                Industry experience at Ticket Design, Pune (Water Dispensers, Medical DVT Devices), A&T Video Networks camera design, and Spandigit Social.
+              </p>
             </div>
-            <h4 className="text-2xl font-editorial text-white mb-2">About Jinendra</h4>
-            <p className="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
-              Strate School of Design alumnus. Passionate about human psychology, interior architecture, and market strategy.
-            </p>
-            <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white">
-              Read Profile & Resume <ArrowUpRight className="w-3.5 h-3.5" />
-            </div>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-black group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+              <span>View Experience</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </span>
           </Link>
+
         </div>
       </section>
+
     </div>
   );
 }
 
-/* --- PAGE 2: CASE STUDY DETAIL VIEW --- */
+/* --- PROJECT DETAIL PAGE (100% UNCLIPPED IMAGES, EDITORIAL FLOW, INTERACTIVE PLATES) --- */
 function ProjectDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -886,641 +1636,1168 @@ function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <div className="max-w-[1360px] mx-auto px-6 py-32 text-center">
-        <h2 className="text-3xl font-editorial text-neutral-900 mb-4">Inquiry Not Found</h2>
-        <Link to="/" className="text-xs uppercase font-mono tracking-widest underline text-neutral-600 hover:text-neutral-900">
-          Return to Overview
+      <div className="max-w-[1400px] mx-auto px-6 py-32 text-center font-mono">
+        <h2 className="text-2xl font-black font-display uppercase mb-4">Project Not Found</h2>
+        <Link to="/" className="text-xs font-bold uppercase tracking-widest text-[#FF3B1D] underline">
+          ← Return to Works
         </Link>
       </div>
     );
   }
 
+  const galleryContext = project.gallery ? project.gallery.map(g => ({ ...g, src: resolveImg(g.id) })) : [];
+
   return (
-    <article className="pb-32">
-      <header className="max-w-[1360px] mx-auto px-6 md:px-12 pt-20 pb-16">
-        <div className="max-w-4xl">
-          <button 
-            onClick={() => navigate(-1)} 
-            className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-neutral-400 hover:text-neutral-900 mb-12 transition-colors uppercase cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> Return to Inquiries
-          </button>
-          
-          <div className="mb-6 flex flex-wrap gap-3 font-mono text-xs">
-            <span className="px-3 py-1 bg-neutral-200/80 text-neutral-800 text-[10px] font-bold uppercase tracking-widest rounded-full">
-              /{project.number} {project.category}
-            </span>
-            <span className="px-3 py-1 bg-neutral-200/80 text-neutral-800 text-[10px] font-bold uppercase tracking-widest rounded-full">
-              {project.timeline} // {project.type}
-            </span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-editorial font-normal tracking-tight text-neutral-900 mb-3 leading-tight">
-            {project.title}
-          </h1>
-          <p className="text-xl md:text-2xl text-neutral-500 font-editorial italic mb-6">
-            {project.subtitle}
-          </p>
-          <p className="text-xl text-neutral-600 leading-relaxed max-w-3xl font-light">
-            {project.tagline}
-          </p>
-
-          {project.metaHeader && (
-            <div className="mt-10 pt-6 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-3 gap-6 font-mono text-xs text-neutral-600">
-              <div><span className="text-neutral-400 block text-[10px] font-bold uppercase">Timeline:</span> {project.metaHeader.timeline}</div>
-              <div><span className="text-neutral-400 block text-[10px] font-bold uppercase">Context:</span> {project.metaHeader.client}</div>
-              <div><span className="text-neutral-400 block text-[10px] font-bold uppercase">Focus:</span> {project.metaHeader.focus}</div>
-            </div>
-          )}
+    <article className="min-h-screen pb-32">
+      
+      {/* Header */}
+      <header id="overview" className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 border-b border-neutral-300">
+        
+        <button 
+          onClick={() => navigate(-1)} 
+          className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" /> Back to Works
+        </button>
+        
+        <div className="flex flex-wrap items-center gap-3 mb-6 font-mono text-xs">
+          <span className="bg-[#FF3B1D] text-white px-3 py-1 font-bold uppercase tracking-widest rounded-full">
+            {project.indexCode}
+          </span>
+          <span className="bg-white/80 text-neutral-700 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
+            {project.duration}
+          </span>
+          <span className="bg-neutral-200/80 text-neutral-700 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
+            {project.projectType}
+          </span>
         </div>
-      </header>
 
-      {/* Main Hero Visual */}
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12 mb-28">
-        <div className="w-full aspect-[21/9] bg-neutral-100 rounded-3xl overflow-hidden border border-neutral-200 shadow-sm">
-          <ProjectImage 
-            id={project.heroId} 
-            altText={`${project.title} Hero Banner`} 
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
+        <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display uppercase tracking-tight text-black leading-none mb-4">
+          {project.title}
+        </h1>
 
-      {/* Narrative Deck Engine */}
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12 space-y-28">
-        {project.deckBlocks && project.deckBlocks.map((block, idx) => {
-          
-          if (block.type === 'quote_and_insights') {
-            return (
-              <section key={idx} className="border-t border-neutral-200 pt-16">
-                <div className="p-8 md:p-14 bg-neutral-100/70 rounded-3xl border border-neutral-200/90 mb-12">
-                  <Quote className="w-8 h-8 text-neutral-400 mb-4" />
-                  <p className="text-2xl md:text-3xl text-neutral-900 font-editorial italic leading-relaxed mb-4">
-                    "{block.quote}"
-                  </p>
-                  <span className="font-mono text-xs text-neutral-500 block">— {block.quoteAuthor}</span>
-                </div>
+        <p className="font-mono text-sm md:text-base font-bold text-neutral-600 uppercase tracking-wider mb-6">
+          {project.subtitle}
+        </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {block.insights.map((ins, inIdx) => (
-                    <div key={inIdx} className="p-6 bg-white rounded-2xl border border-neutral-200 shadow-xs">
-                      <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest block mb-2">0{inIdx + 1} / HUMAN FINDING</span>
-                      <h4 className="text-base font-semibold text-neutral-900 mb-2">{ins.label}</h4>
-                      <p className="text-neutral-500 text-xs font-light leading-relaxed">{ins.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            );
-          }
+        <p className="font-sans text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl">
+          {project.tagline}
+        </p>
 
-          if (block.type === 'brand_manifesto') {
-            return (
-              <section key={idx} className="border-t border-neutral-200 pt-16">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                  <div className="lg:col-span-5 space-y-4">
-                    <span className="font-mono text-xs uppercase tracking-widest text-neutral-400 block">// {block.tag}</span>
-                    <h3 className="text-3xl md:text-4xl font-editorial text-neutral-900 leading-snug">{block.title}</h3>
-                    <p className="text-base text-neutral-600 font-light leading-relaxed">{block.desc}</p>
-                  </div>
-                  <div className="lg:col-span-7">
-                    <div className={`w-full ${block.aspectClass || 'aspect-[16/10]'} bg-neutral-100 rounded-2xl overflow-hidden border border-neutral-200`}>
-                      <ProjectImage id={block.imageId} altText={block.caption} fitMode={block.fitMode || "object-cover"} className="w-full h-full" />
-                    </div>
-                    <span className="font-mono text-[11px] text-neutral-400 tracking-wider block mt-2">fig.{idx + 1} — {block.caption}</span>
-                  </div>
-                </div>
-              </section>
-            );
-          }
-
-          if (block.type === 'thin_horizontal_strip') {
-            return (
-              <section key={idx} className="border-t border-neutral-200 pt-16">
-                <div className="max-w-3xl mb-8">
-                  <span className="font-mono text-xs uppercase tracking-widest text-neutral-400 block mb-2">// {block.tag}</span>
-                  <h3 className="text-3xl font-editorial text-neutral-900 mb-3">{block.title}</h3>
-                  {block.desc && <p className="text-base text-neutral-600 font-light leading-relaxed">{block.desc}</p>}
-                </div>
-                <div className={`w-full ${block.aspectClass || 'aspect-[21/8]'} rounded-2xl overflow-hidden border border-neutral-200 bg-white p-2 shadow-xs`}>
-                  <ProjectImage 
-                    id={block.imageId} 
-                    altText={block.caption} 
-                    fitMode={block.fitMode || "object-contain"} 
-                    className="w-full h-full"
-                  />
-                </div>
-                <span className="font-mono text-[11px] text-neutral-400 tracking-wider block mt-2.5">fig.{idx + 1} — {block.caption}</span>
-              </section>
-            );
-          }
-
-          if (block.type === 'text_top_image_bottom') {
-            return (
-              <section key={idx} className="border-t border-neutral-200 pt-16">
-                <div className="max-w-3xl mb-8">
-                  <span className="font-mono text-xs uppercase tracking-widest text-neutral-400 block mb-2">// {block.tag}</span>
-                  <h3 className="text-3xl font-editorial text-neutral-900 mb-3">{block.title}</h3>
-                  <p className="text-base text-neutral-600 font-light leading-relaxed">{block.desc}</p>
-                </div>
-                <div className={`w-full ${block.aspectClass || 'aspect-[16/10]'} bg-neutral-100 rounded-2xl overflow-hidden border border-neutral-200`}>
-                  <ProjectImage id={block.imageId} altText={block.caption} fitMode={block.fitMode || "object-cover"} className="w-full h-full" />
-                </div>
-                <span className="font-mono text-[11px] text-neutral-400 tracking-wider block mt-2.5">fig.{idx + 1} — {block.caption}</span>
-              </section>
-            );
-          }
-
-          if (block.type === 'text_left_image_right') {
-            return (
-              <section key={idx} className="border-t border-neutral-200 pt-16">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                  <div className="lg:col-span-5 space-y-4">
-                    <span className="font-mono text-xs uppercase tracking-widest text-neutral-400 block">// {block.tag}</span>
-                    <h3 className="text-3xl font-editorial text-neutral-900 leading-snug">{block.title}</h3>
-                    <p className="text-base text-neutral-600 font-light leading-relaxed">{block.desc}</p>
-                  </div>
-                  <div className="lg:col-span-7">
-                    <div className={`w-full ${block.aspectClass || 'aspect-[16/10]'} bg-neutral-100 rounded-2xl overflow-hidden border border-neutral-200`}>
-                      <ProjectImage id={block.imageId} altText={block.caption} fitMode={block.fitMode || "object-cover"} className="w-full h-full" />
-                    </div>
-                    <span className="font-mono text-[11px] text-neutral-400 tracking-wider block mt-2">fig.{idx + 1} — {block.caption}</span>
-                  </div>
-                </div>
-              </section>
-            );
-          }
-
-          if (block.type === 'pure_render_spread') {
-            return (
-              <section key={idx} className="border-t border-neutral-200 pt-12">
-                <div className={`w-full ${block.aspectClass || 'aspect-[16/9] md:aspect-[21/9]'} bg-neutral-100 rounded-3xl overflow-hidden border border-neutral-200 shadow-sm`}>
-                  <ProjectImage id={block.imageId} altText={block.caption} fitMode={block.fitMode || "object-cover"} className="w-full h-full" />
-                </div>
-                {block.caption && (
-                  <span className="font-mono text-[11px] text-neutral-400 tracking-wider block mt-3 text-center">
-                    {block.caption}
-                  </span>
-                )}
-              </section>
-            );
-          }
-
-          return null;
-        })}
-
-        {/* Project Meta Drawer */}
-        {project.specs && (
-          <div className="p-8 md:p-12 bg-neutral-950 text-white rounded-3xl border border-neutral-800 font-mono text-xs">
-            <div className="text-neutral-400 font-semibold mb-6 flex items-center gap-2">
-              <Compass className="w-4 h-4 text-orange-400" />
-              <span>PROJECT SPECIFICATION & DISCIPLINE SUMMARY</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div>
-                <span className="text-neutral-500 block mb-1">DESIGN PHILOSOPHY:</span>
-                <span className="text-neutral-200 font-medium leading-relaxed block">{project.specs.philosophy}</span>
-              </div>
-              <div>
-                <span className="text-neutral-500 block mb-1">MATERIAL & CMF:</span>
-                <span className="text-neutral-200 font-medium leading-relaxed block">{project.specs.material}</span>
-              </div>
-              <div>
-                <span className="text-neutral-500 block mb-1">TOUCHPOINTS & UX:</span>
-                <span className="text-neutral-200 font-medium leading-relaxed block">{project.specs.interface}</span>
-              </div>
-              <div>
-                <span className="text-neutral-500 block mb-1">DESIGN METHODOLOGY:</span>
-                <span className="text-neutral-200 font-medium leading-relaxed block">{project.specs.methodology}</span>
-              </div>
-            </div>
+        {project.collaborators && (
+          <div className="mt-6 pt-4 border-t border-neutral-300 font-mono text-xs text-neutral-500">
+            <span className="text-[#FF3B1D] font-bold uppercase tracking-widest mr-2">// COLLABORATORS:</span>
+            <span>{project.collaborators}</span>
           </div>
         )}
 
-        {/* Bottom Nav */}
-        <div className="flex justify-between items-center pt-8 border-t border-neutral-200 font-mono text-xs">
-          <Link to="/" className="text-neutral-500 hover:text-neutral-900 underline">
-            ← Return to Selected Inquiries
-          </Link>
-          <a 
-            href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
-            target="_blank" 
-            rel="noreferrer" 
-            className="flex items-center gap-1.5 text-neutral-900 font-bold hover:underline"
-          >
-            Full Case Boards on Behance <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
+        {project.heroMetrics && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-neutral-300 font-mono text-xs">
+            {project.heroMetrics.map((m, idx) => (
+              <div key={idx} className="border-l-2 border-[#FF3B1D] pl-4 py-1">
+                <span className="text-neutral-400 uppercase tracking-widest block text-[10px] font-bold mb-1">{m.label}</span>
+                <span className="text-base font-bold text-black">{m.val}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+      </header>
+
+      {/* STICKY QUICK NAVIGATION BAR */}
+      <nav className="sticky top-20 z-40 bg-[#EAEAE7]/95 backdrop-blur-md py-3.5 border-y border-neutral-300/60 my-6 shadow-sm">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between overflow-x-auto no-scrollbar gap-4 text-xs font-mono font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <a href="#overview" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+              01. Overview
+            </a>
+            <a href="#problem" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+              02. Brief & Problem
+            </a>
+            {project.inspirationTitle && (
+              <a href="#inspiration" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+                03. Inspiration
+              </a>
+            )}
+            {(project.features || project.identifiedProblems || project.wearableGuide || project.makerspaceBuild) && (
+              <a href="#anatomy" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+                04. Anatomy & Craft
+              </a>
+            )}
+            <a href="#plates" className="px-3.5 py-1.5 rounded-full bg-[#FF3B1D] text-white hover:bg-black transition-colors">
+              05. Plates ({project.gallery.length})
+            </a>
+            {project.specs && (
+              <a href="#specifications" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+                06. Specifications
+              </a>
+            )}
+          </div>
+
+          <div className="hidden lg:flex items-center gap-3 shrink-0 text-[11px] text-neutral-500">
+            <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
+            <span>{project.indexCode}</span>
+          </div>
         </div>
+      </nav>
+
+      {/* Hero Big Banner (ZERO CROPPING — CENTERED UNCLIPPED IMAGE IN ROOMY CONTAINER) */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 my-12">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7 }}
+          className="w-full min-h-[360px] md:min-h-[540px] max-h-[75vh] bg-[#DFDFDC]/70 p-4 sm:p-10 rounded-sm flex items-center justify-center overflow-hidden"
+        >
+          <ProjectImage 
+            id={project.heroId || project.thumbId} 
+            altText={`${project.title} Hero Banner`} 
+            caption={`${project.title} Hero Presentation Render`}
+            className="w-full h-full flex items-center justify-center"
+            imgClassName="max-h-[70vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-md"
+            gallery={galleryContext}
+          />
+        </motion.div>
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 space-y-24">
+        
+        {/* The Problem & Brief */}
+        <motion.section 
+          id="problem"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-8 border-t border-neutral-300"
+        >
+          <div className="md:col-span-5 space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block">
+              // THE PROBLEM & INQUIRY
+            </span>
+            <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+              Market Challenge
+            </h3>
+          </div>
+          <div className="md:col-span-7 space-y-6">
+            <p className="font-sans text-lg text-neutral-700 font-normal leading-relaxed">
+              {project.problem}
+            </p>
+            <div className="p-6 bg-white/80 backdrop-blur-sm rounded-sm border-l-4 border-[#FF3B1D]">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#FF3B1D] block mb-1">
+                DESIGN BRIEF
+              </span>
+              <p className="font-sans text-sm text-neutral-800 font-medium leading-relaxed">
+                {project.brief}
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Market Research (if applicable, e.g. Vantage) */}
+        {project.marketResearch && (
+          <motion.section 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                  // MARKET RESEARCH
+                </span>
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-black">
+                  {project.marketResearch.headline}
+                </h3>
+              </div>
+              <span className="font-mono text-xs text-neutral-500 font-bold uppercase tracking-wider bg-white/70 px-4 py-2 rounded-full">
+                {project.marketResearch.cagr}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
+              {project.marketResearch.drivers.map((d, dIdx) => (
+                <div key={dIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-l-2 border-[#FF3B1D]">
+                  <span className="font-bold text-[#FF3B1D] uppercase text-xs block">{d.label}</span>
+                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{d.text}</p>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Identified Problems Grid with Authentic Photos (e.g. Vantage) */}
+        {project.identifiedProblems && (
+          <motion.section 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                  // USER FRICTION & DEFICIENCIES
+                </span>
+                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                  Identified Problems
+                </h3>
+              </div>
+              <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
+                Page 15 // Ethnographic Study
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+              {project.identifiedProblems.map((prob, pIdx) => (
+                <div key={pIdx} className="bg-white/70 hover:bg-white transition-all backdrop-blur-sm rounded-sm p-4 space-y-3 shadow-sm flex flex-col justify-between group">
+                  {prob.imageId && (
+                    <div className="w-full h-44 bg-[#DFDFDC]/60 rounded-sm p-2 flex items-center justify-center overflow-hidden">
+                      <ProjectImage 
+                        id={prob.imageId}
+                        altText={prob.title}
+                        caption={prob.title}
+                        className="w-full h-full flex items-center justify-center"
+                        imgClassName="max-h-full max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-102 transition-transform duration-500"
+                        gallery={galleryContext}
+                      />
+                    </div>
+                  )}
+                  <div className="space-y-1.5">
+                    <span className="font-bold text-black uppercase text-xs block font-display tracking-tight">{prob.title}</span>
+                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{prob.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Historical Timeline (if applicable, e.g. Friday) */}
+        {project.historicalTimeline && (
+          <motion.section 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                // THE STORY & HISTORICAL RECLAMATION
+              </span>
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                The Fun of Re-telling History
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 font-mono text-xs">
+              {project.historicalTimeline.map((item, tIdx) => (
+                <div key={tIdx} className="p-5 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-t-2 border-[#FF3B1D]">
+                  <span className="font-bold text-[#FF3B1D] text-[11px] block">{item.epoch}</span>
+                  <p className="font-sans text-neutral-700 text-xs font-light leading-relaxed">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Design Inspiration & Philosophy (ZERO CROPPING) */}
+        {project.inspirationTitle && (
+          <motion.section 
+            id="inspiration"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-neutral-300 items-center"
+          >
+            <div className="md:col-span-5 space-y-4">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block">
+                // DESIGN INSPIRATION
+              </span>
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                {project.inspirationTitle}
+              </h3>
+              {project.inspirationSubtitle && (
+                <p className="font-mono text-xs font-bold text-neutral-500 uppercase tracking-wider">
+                  {project.inspirationSubtitle}
+                </p>
+              )}
+              <p className="font-sans text-base text-neutral-600 font-light leading-relaxed">
+                {project.inspirationDesc}
+              </p>
+            </div>
+            <div className="md:col-span-7">
+              <div className="w-full min-h-[300px] md:min-h-[420px] max-h-[540px] bg-[#DFDFDC]/60 p-4 sm:p-8 rounded-sm flex items-center justify-center overflow-hidden">
+                <ProjectImage 
+                  id={project.inspirationImg} 
+                  altText={project.inspirationTitle}
+                  caption={`${project.inspirationTitle} Inspiration Reference`}
+                  className="w-full h-full flex items-center justify-center"
+                  imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto"
+                  gallery={galleryContext}
+                />
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* Functional Features Callout (e.g. Fuel Dual Layout or Standard Grid) */}
+        {project.features && (
+          <motion.section 
+            id="anatomy"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                  // INTERACTION & TACTILITY
+                </span>
+                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                  Functional Anatomy & Callouts
+                </h3>
+              </div>
+              <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
+                Page 08 // Retro-Engineering Mechanics
+              </span>
+            </div>
+
+            {project.slug === 'fuel' ? (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-7 bg-[#DFDFDC]/60 p-6 sm:p-10 rounded-sm flex items-center justify-center">
+                  <ProjectImage 
+                    id="p8_2"
+                    altText="Fuel Functional Anatomy Overview"
+                    caption="Plate: Functional Anatomy Overview of Fuel Power Bank"
+                    className="w-full flex items-center justify-center"
+                    imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-md"
+                    gallery={galleryContext}
+                  />
+                </div>
+
+                <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 font-mono text-xs">
+                  {project.features.map((feat, fIdx) => (
+                    <div 
+                      key={fIdx} 
+                      className="p-4 bg-white/70 hover:bg-white transition-all backdrop-blur-sm rounded-sm flex items-center gap-4 shadow-sm group"
+                    >
+                      {feat.imageId && (
+                        <div className="w-16 h-16 shrink-0 bg-[#E5E5E2] rounded-full overflow-hidden p-1 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+                          <ProjectImage 
+                            id={feat.imageId}
+                            altText={feat.title}
+                            caption={feat.title}
+                            className="w-full h-full flex items-center justify-center"
+                            imgClassName="w-full h-full object-cover rounded-full"
+                            gallery={galleryContext}
+                          />
+                        </div>
+                      )}
+                      <div className="space-y-0.5">
+                        <span className="text-[10px] text-[#FF3B1D] font-bold uppercase tracking-wider block">{feat.tag}</span>
+                        <h4 className="text-sm font-bold font-display uppercase text-black">{feat.title}</h4>
+                        <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{feat.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+                {project.features.map((feat, fIdx) => (
+                  <div key={fIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-l-2 border-[#FF3B1D]">
+                    <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">{feat.tag}</span>
+                    <h4 className="text-base font-bold font-display uppercase text-black">{feat.title}</h4>
+                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{feat.desc}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.section>
+        )}
+
+        {/* User Steps Guide (if applicable, e.g. Vantage) */}
+        {project.userSteps && (
+          <motion.section 
+            id={!project.features ? "anatomy" : undefined}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                // ERGONOMICS & DEPLOYMENT
+              </span>
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                Just Plug In, Position, and Perfect
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
+              {project.userSteps.map((s, sIdx) => (
+                <div key={sIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-3">
+                  <span className="text-2xl font-black font-display text-[#FF3B1D] block">{s.step}</span>
+                  <h4 className="text-base font-bold font-display uppercase text-black">{s.title}</h4>
+                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Wearable Guide (Friday) */}
+        {project.wearableGuide && (
+          <motion.section 
+            id="anatomy"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                // USER CEREMONY
+              </span>
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                Step into the Story: The Wearable Guide
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+              {project.wearableGuide.map((wg, wgIdx) => (
+                <div key={wgIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-l-2 border-[#FF3B1D]">
+                  <span className="text-[#FF3B1D] font-black font-display text-lg block">{wg.step}</span>
+                  <h4 className="text-base font-bold font-display uppercase text-black">{wg.title}</h4>
+                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{wg.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* 1:1 Scale Makerspace Physical Fabrication (Friday) */}
+        {project.makerspaceBuild && (
+          <motion.section 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-12 border-t border-neutral-300 space-y-8"
+          >
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
+                  // PHYSICAL FABRICATION & PROTOTYPING
+                </span>
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-black">
+                  1:1 Scale Prototype Build (UK 11)
+                </h3>
+              </div>
+              <span className="font-mono text-xs text-neutral-500 font-bold uppercase tracking-wider bg-white/70 px-4 py-2 rounded-full">
+                Strate Makerspace Facility
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+              {project.makerspaceBuild.map((step, sIdx) => (
+                <div key={sIdx} className="bg-white/70 hover:bg-white transition-all backdrop-blur-sm rounded-sm p-4 space-y-3 shadow-sm flex flex-col justify-between group">
+                  <div className="w-full h-48 bg-[#DFDFDC]/60 rounded-sm p-3 flex items-center justify-center overflow-hidden">
+                    <ProjectImage 
+                      id={step.id}
+                      altText={step.title}
+                      caption={step.caption}
+                      className="w-full h-full flex items-center justify-center"
+                      imgClassName="max-h-full max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-102 transition-transform duration-500"
+                      gallery={galleryContext}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-[#FF3B1D] font-bold uppercase tracking-wider block">Stage 0{sIdx + 1}</span>
+                    <h4 className="font-bold text-black font-display uppercase text-xs leading-snug">{step.title}</h4>
+                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{step.caption}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* COMPLETE GALLERY OF ALL PLATES (ZERO CROPPING — EVERY SKETCH, CAD & RENDER 100% UNCLIPPED) */}
+        <section id="plates" className="space-y-16 pt-12 border-t border-neutral-300">
+          <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-neutral-300">
+            <span className="font-bold text-[#FF3B1D] uppercase tracking-widest">
+              // PROCESS, CAD & VISUALIZATIONS
+            </span>
+            <span className="text-neutral-500 uppercase">{project.gallery.length} Plates Documented</span>
+          </div>
+
+          <div className="space-y-24">
+            {project.gallery.map((g, gIdx) => (
+              <motion.div 
+                key={gIdx} 
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-4"
+              >
+                {/* Visual Canvas: Responsive, Generous, Centered, Never Cropped */}
+                <div className="w-full min-h-[300px] md:min-h-[500px] max-h-[85vh] bg-[#DFDFDC]/50 p-4 sm:p-8 rounded-sm flex items-center justify-center overflow-hidden">
+                  <ProjectImage 
+                    id={g.id} 
+                    altText={g.title || g.caption} 
+                    caption={`Plate 0${gIdx + 1}: ${g.title} — ${g.caption}`}
+                    className="w-full h-full flex items-center justify-center"
+                    imgClassName="max-h-[80vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-sm"
+                    gallery={galleryContext}
+                  />
+                </div>
+
+                {/* Plate Technical Metadata & Caption */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs pt-1 border-b border-neutral-300/40 pb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="bg-black text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
+                      Plate 0{gIdx + 1}
+                    </span>
+                    <span className="font-bold text-black uppercase tracking-wider text-xs">
+                      {g.title}
+                    </span>
+                    {g.category && (
+                      <span className="text-neutral-400 text-[10px] uppercase hidden md:inline">
+                        // {g.category}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-neutral-500 text-[11px] font-sans font-light">
+                    {g.caption}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Technical DFM Specifications Drawer */}
+        {project.specs && (
+          <motion.div 
+            id="specifications"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="p-8 md:p-12 bg-[#0E0E10] text-white rounded-sm font-mono text-xs shadow-sm"
+          >
+            <div className="text-[#FF3B1D] font-bold mb-6 uppercase tracking-widest text-sm flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#FF3B1D]" />
+              <span>TECHNICAL SPECIFICATIONS & MATERIAL METRICS</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Object.entries(project.specs).map(([key, val], sIdx) => (
+                <div key={sIdx} className="border-l border-neutral-800 pl-4">
+                  <span className="text-neutral-400 block mb-1 uppercase font-bold text-[10px]">{key}</span>
+                  <span className="text-neutral-200 font-light leading-relaxed block">{val}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Bottom Pagination */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-12 border-t border-neutral-300 font-mono text-xs font-bold uppercase tracking-wider">
+          <Link to="/" className="text-black hover:text-[#FF3B1D] flex items-center gap-2 transition-colors">
+            ← Return to Works
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link 
+              to="/playground"
+              className="bg-neutral-200 text-black px-5 py-2.5 rounded-full hover:bg-neutral-300 transition-colors"
+            >
+              Visual Lab →
+            </Link>
+            <a 
+              href="/Jinendra_Parakh_Portfolio.pdf" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="flex items-center gap-2 bg-[#FF3B1D] text-white px-5 py-2.5 rounded-full hover:bg-black transition-colors"
+            >
+              <span>Download 53p Deck (PDF)</span>
+              <Download className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+
       </div>
     </article>
   );
 }
 
-/* --- PAGE 3: CLIENT & STRATEGIC DOSSIER --- */
-function CommercialPage() {
+/* --- PLAYGROUND & VISUAL LAB PAGE (INTERACTIVE MASONRY, ZERO CROPPING, CATEGORY FILTERS) --- */
+function PlaygroundPage() {
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const items = [
+    // Horology & Hand Sketches
+    { id: "p1_2", category: "Hand Sketches", title: "Chronograph Watch Hand Sketch", caption: "Portfolio cover perspective study of mechanical chronograph with custom knurled pushers and subdials." },
+    { id: "p46_2", category: "Hand Sketches", title: "Industrial Design Ideation Sheets", caption: "Form sketches: technical backpacks, mid-century lounge chairs, running sneakers, and origami faceted seating." },
+    
+    // Sneaker Teardown & Anatomy
+    { id: "p47_2", category: "Footwear Teardown", title: "Sneaker Anatomical Analysis", caption: "Lateral, front, and rear teardown analyzing tongue padding, foxing, toe spring, and heel counter." },
+    { id: "p48_2", category: "Footwear Teardown", title: "Deconstructed Footwear Layers", caption: "Layered deconstruction of footwear construction: PU leather upper, soft padding, insole, midsole, and outsole." },
+    { id: "p49_2", category: "Footwear Teardown", title: "Nike Air Force 1 Deep Dive", caption: "Deep dive study of AF1: sewed branding, 1-to-6 hole pattern, double stitching, metal medallion, and air sole." },
+
+    // Vizcom AI Trials
+    { id: "p50_2", category: "Vizcom AI Trials", title: "Vizcom AI: Hand Sketch to Concept", caption: "Translating hand-drawn watch sketch into generative conceptual passes with prompt tuning." },
+    { id: "p50_4", category: "Vizcom AI Trials", title: "Vizcom AI: Cosmic Space Environment", caption: "Material specularity and zero-gravity reflection prompt trial on watch casing." },
+    { id: "p50_6", category: "Vizcom AI Trials", title: "Vizcom AI: Cyberpunk Metropolis", caption: "Futuristic neon lighting pass exploring architectural watch bezel reflections." },
+    { id: "p50_8", category: "Vizcom AI Trials", title: "Vizcom AI: Studio Matte Black Finish", caption: "High-contrast minimalist studio product render exploring stealth CMF." },
+
+    // Models & Prototypes (Strate Makerspace)
+    { id: "p51_8", category: "Makerspace & Mockups", title: "High-Gloss Clay Heel Form Mockup", caption: "Physical styling clay heel mockups exploring high-gloss black and red lacquer finishes." },
+    { id: "p51_10", category: "Makerspace & Mockups", title: "3D Printed Prototype Heel", caption: "White SLA 3D printed heel platform studying stability and curvature." },
+    { id: "p51_12", category: "Makerspace & Mockups", title: "CNC 3-Axis Foam Sole Toolpath", caption: "High-density polyurethane foam sole milling on industrial CNC router." },
+    { id: "p51_14", category: "Makerspace & Mockups", title: "Foam Lathe Turning & Radio Mockup", caption: "Turned foam acoustic horn and corrugated foam radio / powerbank mockups." },
+    { id: "p51_18", category: "Makerspace & Mockups", title: "1:1 Scale UK 11 Heel Assembly", caption: "Wearable working boot prototype assembly at Strate makerspace." },
+
+    // Glass Vessel
+    { id: "p44_2", category: "Glass Vessel", title: "Acoustic Glass Sound Vessel", caption: "Blown glass double hourglass spheres suspended in an intertwined copper wire cradle." },
+    { id: "p45_2", category: "Glass Vessel", title: "Glass Vessel Core Detailing", caption: "Macro view of central diffuser and copper wire cradle interface." },
+
+    // Fuel & Vantage Highlights
+    { id: "p7_2", category: "Hand Sketches", title: "Fuel Retro-Engineering Ideation", caption: "Sketches exploring tactile thumb grips, exposed sub-frames, and morphod glass panels." },
+    { id: "p18_2", category: "Hand Sketches", title: "Vantage 360 Ideation Sheet", caption: "Complete sketch sheet exploring articulated boom arms, ball sockets, and the Final Concept." },
+    { id: "p35_2", category: "Hand Sketches", title: "Friday Heels Matrix Sketches", caption: "Feature exploration sketches: Authoritative, Dynamic, and Hulk silhouettes." },
+    { id: "p39_2", category: "Hand Sketches", title: "The Wearable Guide Illustrations", caption: "6-step illustrated user ceremony from monogram release to custom dialed fit." },
+    { id: "p41_2", category: "Makerspace & Mockups", title: "Prototype Sole CNC Machining", caption: "CNC router carving sole ergonomics for physical UK 11 boot." }
+  ];
+
+  const categories = ['All', 'Hand Sketches', 'Footwear Teardown', 'Vizcom AI Trials', 'Makerspace & Mockups', 'Glass Vessel'];
+
+  const filteredItems = activeCategory === 'All' 
+    ? items 
+    : items.filter(it => it.category === activeCategory);
+
+  return (
+    <div className="min-h-screen pb-32">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
+        
+        {/* Navigation Breadcrumb */}
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors">
+          <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
+        </Link>
+
+        {/* Header */}
+        <div className="pb-12 border-b border-neutral-300 mb-12">
+          <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
+            // EXPERIMENTAL LAB & ARCHIVES
+          </span>
+          <h1 className="text-5xl sm:text-7xl font-black font-display uppercase tracking-tight text-black mb-4">
+            Visual Lab & Sketches
+          </h1>
+          <p className="font-sans text-xl text-neutral-600 font-light max-w-2xl leading-relaxed">
+            Continuous creative explorations spanning horological hand sketching, generative AI workflows, footwear anatomical teardowns, and physical workshop model-making.
+          </p>
+        </div>
+
+        {/* Filter Pills with Layout Animation */}
+        <div className="flex flex-wrap items-center gap-2 mb-12 font-mono text-xs">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`relative px-4 py-2 rounded-full uppercase tracking-wider font-semibold transition-colors cursor-pointer ${
+                activeCategory === cat 
+                  ? 'bg-black text-white' 
+                  : 'bg-white/80 text-neutral-600 hover:bg-white hover:text-black'
+              }`}
+            >
+              {activeCategory === cat && (
+                <motion.span 
+                  layoutId="activeFilterPill"
+                  className="absolute inset-0 bg-[#FF3B1D] rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{cat}</span>
+            </button>
+          ))}
+          <span className="ml-auto text-neutral-400 font-mono text-xs hidden sm:inline">
+            {filteredItems.length} Artifacts
+          </span>
+        </div>
+
+        {/* Interactive Responsive Masonry Grid (ZERO CROPPING — IMAGES EXPAND TO NATURAL HEIGHT) */}
+        {(() => {
+          const playgroundGallery = filteredItems.map(it => ({ ...it, src: resolveImg(it.id) }));
+          return (
+            <motion.div 
+              layout
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              <AnimatePresence>
+                {filteredItems.map((item, idx) => (
+                  <motion.div
+                    key={item.id + idx}
+                    layout
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.5, delay: (idx % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                    className="group bg-white/70 hover:bg-white backdrop-blur-sm rounded-sm p-4 flex flex-col justify-between transition-all shadow-sm hover:shadow-md"
+                  >
+                    {/* Image Container: Ample Padding, Flexible Height, 100% Unclipped */}
+                    <div className="w-full min-h-[240px] max-h-[460px] p-4 bg-[#DFDFDC]/50 rounded-sm flex items-center justify-center overflow-hidden mb-4">
+                      <ProjectImage 
+                        id={item.id} 
+                        altText={item.title} 
+                        caption={`${item.title} — ${item.caption}`}
+                        className="w-full h-full flex items-center justify-center"
+                        imgClassName="max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-102 transition-transform duration-500 ease-out"
+                        gallery={playgroundGallery}
+                      />
+                    </div>
+
+                    <div className="space-y-1.5 font-mono text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-[#FF3B1D] uppercase tracking-wider">
+                          {item.category}
+                        </span>
+                        <span className="text-[10px] text-neutral-400 uppercase">
+                          {item.id}
+                        </span>
+                      </div>
+                      <h3 className="font-bold text-black font-display uppercase text-sm leading-snug">
+                        {item.title}
+                      </h3>
+                      <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">
+                        {item.caption}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          );
+        })()}
+
+      </div>
+    </div>
+  );
+}
+
+/* --- ABOUT JINENDRA PARAKH PAGE (PAGE 2 BUILDING DESIRES + RESUME) --- */
+function AboutPage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const clientPrograms = [
+  return (
+    <div className="min-h-screen pb-32">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
+        
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors">
+          <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
+        </Link>
+
+        {/* Bio Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pb-16 border-b border-neutral-300">
+          
+          <div className="lg:col-span-7 space-y-6">
+            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+              // ‘BUILDING DESIRES’
+            </span>
+
+            <h1 className="text-5xl sm:text-7xl font-black font-display uppercase tracking-tight text-black leading-none">
+              On a mission to change how we look at things.
+            </h1>
+
+            <p className="font-sans text-xl text-neutral-600 font-light leading-relaxed">
+              I believe every object has a story to tell and experience to create. My goal is to blend functionality with aesthetics, creating meaningful solutions that not only solve problems but also build aspirations.
+            </p>
+
+            <div className="flex flex-wrap gap-4 pt-2 font-mono text-xs">
+              <a 
+                href="/Jinendra_Parakh_Resume.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="bg-black text-white px-6 py-3 rounded-full hover:bg-[#FF3B1D] transition-colors flex items-center gap-2"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Download Resume (PDF)</span>
+              </a>
+
+              <a 
+                href="/Jinendra_Parakh_Portfolio.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="bg-[#FF3B1D] text-white px-6 py-3 rounded-full hover:bg-black transition-colors flex items-center gap-2"
+              >
+                <span>View Full 53-Page Deck</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
+              <a 
+                href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
+                target="_blank" 
+                rel="noreferrer"
+                className="bg-white/80 text-black px-6 py-3 rounded-full hover:bg-[#FF3B1D] hover:text-white transition-colors flex items-center gap-2 font-semibold"
+              >
+                <BehanceIcon className="w-3.5 h-3.5" />
+                <span>Behance Portfolio</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 space-y-4">
+            <div className="bg-[#DFDFDC]/60 p-6 rounded-sm flex items-center justify-center">
+              <ProjectImage 
+                id="p1_2" 
+                altText="Jinendra Parakh Chronograph Hand Sketch"
+                caption="Original Chronograph Perspective Sketch by Jinendra Parakh"
+                className="w-full flex items-center justify-center"
+                imgClassName="max-h-[380px] max-w-full w-auto h-auto object-contain mx-auto"
+              />
+            </div>
+            <div className="flex items-center justify-between font-mono text-[11px] text-neutral-500">
+              <span className="uppercase tracking-wider">Fig. Chronograph Watch Hand Sketch</span>
+              <span className="text-[#FF3B1D] font-bold">PORTFOLIO COVER 2025</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Education & Competencies */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-16">
+          
+          {/* Education Milestones */}
+          <div className="lg:col-span-6 space-y-6 font-mono">
+            <h2 className="text-2xl font-black font-display uppercase tracking-tight text-black pb-3 border-b border-neutral-300">
+              Education Milestones
+            </h2>
+
+            <div className="space-y-6">
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm border-l-2 border-[#FF3B1D]">
+                <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest block mb-1">
+                  Product Design // 2021 — 2025
+                </span>
+                <h3 className="text-xl font-bold font-display uppercase text-black">
+                  Bsc, Product Design
+                </h3>
+                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
+                  Strate School of Design, Bangalore
+                </p>
+                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
+                  Specialized in user research, physical rapid prototyping, form semantics, CMF strategy, ergonomic modeling, and manufacturing realization.
+                </p>
+              </div>
+
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm border-l-2 border-neutral-400">
+                <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-1">
+                  Higher Secondary // PCM
+                </span>
+                <h3 className="text-xl font-bold font-display uppercase text-black">
+                  12th Science, PCM
+                </h3>
+                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
+                  Matoshri Junior College, Nashik
+                </p>
+                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
+                  12th Science (Physics, Chemistry, Mathematics).
+                </p>
+              </div>
+
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm border-l-2 border-neutral-400">
+                <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-1">
+                  Secondary School
+                </span>
+                <h3 className="text-xl font-bold font-display uppercase text-black">
+                  10th, ICSE
+                </h3>
+                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
+                  Anubhuti Residential School, Jalgaon
+                </p>
+                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
+                  10th ICSE. Active in student delegation at India International Model United Nations (IIMUN).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Hard Skills, Soft Skills & Tools (Exact from Resume and Portfolio Page 2) */}
+          <div className="lg:col-span-6 space-y-6 font-mono">
+            <h2 className="text-2xl font-black font-display uppercase tracking-tight text-black pb-3 border-b border-neutral-300">
+              Skills & Competencies
+            </h2>
+
+            <div className="space-y-6">
+              
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm">
+                <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
+                  // HARD SKILLS & DOMAINS
+                </span>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  {["Sketching", "3D Modeling", "Rapid Prototyping", "3D Printing", "User Research", "CMF Strategy", "Form Semantics"].map((s, i) => (
+                    <span key={i} className="bg-neutral-100 text-neutral-800 px-3 py-1 font-semibold rounded-full">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm">
+                <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
+                  // SOFT SKILLS (PORTFOLIO PAGE 2)
+                </span>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  {["Adaptive", "Team Player", "Empathetic", "Emotional Intelligence", "Design Leadership", "Vendor Coordination"].map((s, i) => (
+                    <span key={i} className="bg-neutral-100 text-neutral-800 px-3 py-1 font-semibold rounded-full">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm">
+                <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
+                  // SOFTWARE TOOLBOX (RESUME & PORTFOLIO)
+                </span>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  {["Photoshop", "Illustrator", "Rhinoceros 3D", "Fusion 360", "Keyshot 3D", "Procreate", "Vizcom"].map((s, i) => (
+                    <span key={i} className="bg-neutral-100 text-neutral-800 px-3 py-1 font-semibold rounded-full">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-3">
+                <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block">
+                  // INTERESTS
+                </span>
+                <p className="font-sans text-xs text-neutral-700 leading-relaxed font-light">
+                  Interior Design, Entrepreneurship, Marketing, Table Tennis, Business Case Studies, and Human Psychology.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+/* --- EXPERIENCE PAGE (TICKET DESIGN, A&T VIDEO NETWORKS, FREELANCE INTERIOR, SPANDIGIT) --- */
+function ExperiencePage() {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const experiences = [
     {
-      category: "Global Appliance & Medical Systems",
-      badge: "Ticket Design, Pune (Internship)",
-      desc: "Contributed across the product life-cycle on global projects under senior mentorship. 2 designs selected by clients for mass production.",
-      items: [
-        {
-          title: "Medical DVT Therapy Keypad & Device Enclosure",
-          tag: "Healthcare Usability & Tactile Reassurance",
-          desc: "Researched deep vein thrombosis (DVT) caregiver interactions in hospital settings. Developed intuitive, wipeable membrane keypads with clear tactile confirmation for clinical staff.",
-          imageId: "29",
-          specs: ["Hospital Clinical Sanitization", "Ergonomic Keypad Spacing", "Client Selected Design"]
-        },
-        {
-          title: "Next-Generation Domestic Water Dispenser Architecture",
-          tag: "Countertop Fluid Usability & CMF",
-          desc: "Designed modern purification water dispensers balancing compact residential footprints with intuitive vessel reach envelopes and spill-free ergonomics.",
-          imageId: "30",
-          specs: ["Multi-Vessel Clearance", "Rapid Physical Prototyping", "ADI Presentation Contribution"]
-        }
+      company: "Freelance Interior Design Project, Nashik",
+      role: "Interior Design Project Lead",
+      period: "September 2024 — March 2025",
+      grade: null,
+      desc: "Assisted architect in executing interior designs for a private bungalow, learning hands-on about space planning, materials, and furniture design.",
+      bullets: [
+        "Managed on-site coordination with labourers and vendors, resolving design conflicts, and working around the constraints.",
+        "Helped selecting material and colour options while considering practicality, aesthetics, and budget.",
+        "Identifying gaps between drawings and on-site builds and learnt how to address them."
       ]
     },
     {
-      category: "Enterprise Camera & Hardware Ecosystems",
-      badge: "A&T Video Networks (Industry Grade-O Project)",
-      desc: "Redesigned professional web and PTZ cameras within strict electronic packaging constraints. Earned an 'O' Grade for holistic research and brand language.",
-      items: [
-        {
-          title: "Enterprise PTZ & Conference Camera Redesign",
-          tag: "Thermal Dissipation & Cohesive Brand Language",
-          desc: "Conducted user research across conference setups, redesigned the physical camera enclosure to optimize internal airflow, and developed a cohesive brand language and identity for the product line.",
-          imageId: "31",
-          specs: ["PTZ Mechanism Clearance", "Cohesive Brand Language", "User & Market Placement"]
-        }
+      company: "Ticket Design, Pune",
+      role: "Industrial Design Intern",
+      period: "March — July 2024",
+      grade: "Grade - A",
+      desc: "Collaborated with Senior Designers and Engineers on global Projects including Water Dispensers, Air Fresheners, Medical devices(DVT) Keypad.",
+      bullets: [
+        "Involved in the whole product life-cycle from research to development and prototyping.",
+        "Successfully contributed to 4 projects with 2 designs selected by clients for further development.",
+        "Assisted in ADI presentations and under took side projects under mentorship."
       ]
     },
     {
-      category: "Digital Growth & Consumer Research",
-      badge: "Spandigit Social, Nashik",
-      desc: "Conducted demographic and brand research to understand user behavior, running campaigns that drove festive footfalls for regional lifestyle centers.",
-      items: [
-        {
-          title: "User Behavior & Audience Targeting Studies",
-          tag: "Digital Strategy Influencing Physical Design",
-          desc: "Analyzed audience engagement patterns to optimize campaigns, enhancing my ability as a product designer to align consumer psychology and marketing with physical product desires.",
-          imageId: "48",
-          specs: ["Demographic Insights", "Brand Psychology", "Consumer Touchpoint Mapping"]
-        }
+      company: "A&T Video Networks",
+      role: "Industry Project Designer",
+      period: "Duration: 4 Months",
+      grade: "Grade - O",
+      desc: "Redesigned a web and PTZ camera with internal constraints. Worked with the engineers on its development and prototyping.",
+      bullets: [
+        "Worked on user research, market analysis, Product marketing and placement.",
+        "Created a cohesive Brand Language for the company and redesigned its logo.",
+        "Earned top 'O' Grade for the project."
+      ]
+    },
+    {
+      company: "Spandigit Social, Nashik",
+      role: "Digital Marketing Intern",
+      period: "June — July 2023",
+      grade: null,
+      desc: "Conducted brand and demographic research to recognize the target audience and optimize target campaigns accordingly.",
+      bullets: [
+        "Managed Google and Facebook Ads, increasing click through rates.",
+        "Got hands-on experience on SEO and Back Linking.",
+        "Successfully ran 2 campaigns for a shopping mall to increase footfalls during festive season.",
+        "Strengthened understanding of consumer behavioral preferences to inform industrial design decisions."
+      ]
+    },
+    {
+      company: "India International Model United Nations (IIMUN)",
+      role: "Student Delegate",
+      period: "Anubhuti School, Jalgaon",
+      grade: null,
+      desc: "Developed critical thinking skills by understanding different perspectives and arguments during parliamentary sessions.",
+      bullets: [
+        "Enhanced team working skills by participating in group discussions and negotiations.",
+        "Led team discussions and managed time effectively to balance multiple tasks and meet deadlines."
       ]
     }
   ];
 
   return (
-    <div className="max-w-[1360px] mx-auto px-6 md:px-12 pt-20 pb-32">
-      <Link to="/" className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-neutral-400 hover:text-neutral-900 mb-12 transition-colors uppercase">
-        <ArrowLeft className="w-3.5 h-3.5" /> Return to Home
-      </Link>
-      
-      <div className="max-w-4xl mb-20">
-        <div className="inline-flex items-center gap-2 mb-6 text-[10px] font-bold text-white bg-neutral-900 px-3 py-1 rounded-full uppercase tracking-widest">
-          <Workflow className="w-3 h-3 text-orange-400" /> Industry Experience & Client Studies
-        </div>
-        <h1 className="text-5xl md:text-7xl font-editorial font-normal tracking-tight text-neutral-900 mb-8 leading-tight">
-          Client Projects & <br /> Industry Collaborations
-        </h1>
-        <p className="text-2xl text-neutral-600 leading-relaxed font-light">
-          A showcase of industry projects developed with Ticket Design, A&T Video Networks, and freelance architectural clients—spanning medical devices, workplace video equipment, and digital user research.
-        </p>
-      </div>
-
-      <div className="space-y-24">
-        {clientPrograms.map((prog, pIdx) => (
-          <div key={pIdx} className="border-t border-neutral-200 pt-12">
-            <div className="mb-8">
-              <span className="text-xs font-mono text-orange-600 font-bold uppercase tracking-wider">{prog.badge}</span>
-              <h2 className="text-3xl font-editorial text-neutral-900 mt-1 mb-2">{prog.category}</h2>
-              <p className="text-neutral-500 text-sm font-light max-w-2xl">{prog.desc}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {prog.items.map((item, itemIdx) => (
-                <div 
-                  key={itemIdx} 
-                  className="bg-white rounded-3xl border border-neutral-200 overflow-hidden flex flex-col justify-between hover:border-neutral-400 transition-colors duration-300 shadow-2xs"
-                >
-                  <div className="w-full h-56 bg-neutral-100 relative overflow-hidden border-b border-neutral-200">
-                    <ProjectImage 
-                      id={item.imageId} 
-                      altText={`${item.title} Study`} 
-                      className="w-full h-full object-cover filter blur-[4px] scale-105 opacity-80"
-                    />
-                    <div className="absolute inset-0 bg-neutral-950/20 backdrop-blur-[2px] flex flex-col items-center justify-center text-center p-4">
-                      <div className="bg-black/80 border border-neutral-700 text-white px-3.5 py-1.5 rounded-full flex items-center gap-2 font-mono text-[10px] tracking-wider uppercase mb-1">
-                        <Lock className="w-3 h-3 text-orange-400" />
-                        <span>Client Case Study</span>
-                      </div>
-                      <span className="font-mono text-[9px] text-neutral-200">
-                        Sanitized Portfolio Documentation
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-8 md:p-10 flex-grow flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest block mb-2">{item.tag}</span>
-                      <h3 className="text-2xl font-editorial text-neutral-900 mb-3">{item.title}</h3>
-                      <p className="text-neutral-600 text-sm leading-relaxed mb-6 font-light">{item.desc}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2 pt-4 border-t border-neutral-100">
-                      {item.specs.map((s, i) => (
-                        <span key={i} className="text-[10px] font-bold uppercase tracking-wider bg-neutral-100 px-2.5 py-1 rounded text-neutral-700">
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <div className="mt-28 p-12 bg-neutral-950 rounded-3xl text-center flex flex-col items-center text-white">
-        <h3 className="text-3xl font-editorial mb-4">Interested in a walkthrough?</h3>
-        <p className="text-neutral-400 text-base mb-8 max-w-xl font-light">
-          Available for portfolio presentations and discussions on product design opportunities.
-        </p>
-        <a 
-          href="mailto:parakhjinendra@gmail.com?subject=Portfolio%20Inquiry%20-%20Jinendra%20Parakh" 
-          className="bg-white text-neutral-950 px-8 py-3.5 rounded-full font-bold uppercase text-xs tracking-widest hover:bg-neutral-100 active:scale-95 transition-all duration-200"
-        >
-          Contact Jinendra Parakh
-        </a>
-      </div>
-    </div>
-  );
-}
-
-/* --- PAGE 4: PLAYGROUND / VISUAL LAB --- */
-function PlaygroundPage() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
-  const visualLabRenders = [
-    { id: "59", alt: "Physical Clay and Foam Prototyping Last" },
-    { id: "60", alt: "Hourglass Glass Caustic Reflection" },
-    { id: "63", alt: "Spatial Watch Chronograph Sketch" },
-    { id: "66", alt: "High-Gloss CMF Study" },
-    { id: "69", alt: "Kinematic Detent Joint Exploration" },
-    { id: "70", alt: "Exploded Mechanism Packaging Study" },
-    { id: "71", alt: "Continuous Additive Toolpath Iteration" },
-    { id: "72", alt: "Sneaker Outsole Layering Diagram" },
-    { id: "73", alt: "Subdivision Hard Surface CAD Study" },
-    { id: "79", alt: "Tactile Texture CMF Palette" },
-    { id: "80", alt: "Curved Parting Section Exploration" },
-    { id: "81", alt: "Tactile Button Affordance & Travel Clearance" },
-    { id: "82", alt: "Thermal Fin Simulation" },
-    { id: "83", alt: "Dual-Durometer Texture Sample" },
-    { id: "84", alt: "Minimalist Ambient Lighting Render" },
-    { id: "85", alt: "Workshop Prototyping Assembly Still" },
-    { id: "86", alt: "Ergonomic Handheld Exploration" },
-    { id: "87", alt: "Sub-D Surface Continuity Study" },
-    { id: "88", alt: "Algorithmic Generative Texture" },
-    { id: "89", alt: "Anodized Aluminum CMF Specularity" },
-    { id: "90", alt: "Snap-Fit Latch Deflection CAD" },
-    { id: "91", alt: "Exploded Chassis Fastener Architecture" },
-    { id: "92", alt: "Spiral Vase Additive Toolpath" },
-    { id: "93", alt: "Progressive Sheet Nesting" },
-    { id: "94", alt: "Cycles Physical Lighting Study" },
-    { id: "95", alt: "Analog Dial Mechanical Detent Study" },
-    { id: "96", alt: "Thermal Convection Heat Fin Analysis" },
-    { id: "97", alt: "Dual-Tone Co-Molding Interface" }
-  ];
-
-  return (
-    <div className="max-w-[1360px] mx-auto px-6 md:px-12 pt-20 pb-32">
-      <Link to="/" className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-neutral-400 hover:text-neutral-900 mb-12 transition-colors uppercase">
-        <ArrowLeft className="w-3.5 h-3.5" /> Return to Home
-      </Link>
-      
-      <div className="max-w-3xl mb-14">
-        <div className="inline-flex items-center gap-2 mb-6 text-[10px] font-bold text-neutral-900 bg-neutral-200/70 border border-neutral-300 px-3 py-1 rounded-full uppercase tracking-widest">
-          <Sparkles className="w-3 h-3 text-orange-500" /> Visual Lab & Sketches
-        </div>
-        <h1 className="text-5xl md:text-7xl font-editorial font-normal tracking-tight text-neutral-900 mb-6 leading-tight">
-          Visual Artifacts, Sketches <br />& Creative Detours
-        </h1>
-        <p className="text-xl text-neutral-600 leading-relaxed font-light">
-          A living archive of standalone explorations: Vizcom AI generative watch experiments, sneaker construction teardowns, kinetic hourglasses, and workshop prototyping.
-        </p>
-      </div>
-
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-        {visualLabRenders.map((item, idx) => (
-          <div 
-            key={idx} 
-            className="break-inside-avoid rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-100 shadow-xs hover:border-neutral-400 transition-all duration-300 group min-h-[140px]"
-          >
-            <ProjectImage 
-              id={item.id} 
-              altText={item.alt} 
-              fitMode="object-cover"
-              withLoader={true}
-              className="w-full h-auto transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* --- PAGE 5: ABOUT (RESUME & MINDSET) --- */
-function AboutPage() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-  return (
-    <div>
-      <header className="max-w-[1360px] mx-auto px-6 md:px-12 pt-16 md:pt-20 pb-20">
-        <Link to="/" className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-neutral-400 hover:text-neutral-900 mb-12 transition-colors uppercase">
-          <ArrowLeft className="w-3.5 h-3.5" /> Return to Home
-        </Link>
+    <div className="min-h-screen pb-32">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2.5 mb-6">
-              <span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
-              <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-                Product Designer // Strate School of Design
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors">
+          <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
+        </Link>
+
+        <div className="pb-12 border-b border-neutral-300 mb-16">
+          <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
+            // TRACK RECORD
+          </span>
+          <h1 className="text-5xl sm:text-7xl font-black font-display uppercase tracking-tight text-black mb-4">
+            Professional Experience
+          </h1>
+          <p className="font-sans text-xl text-neutral-600 font-light max-w-2xl">
+            Hands-on work spanning global consultancy at Ticket Design, camera engineering at A&T Video Networks, bungalow spatial execution, and digital market research.
+          </p>
+        </div>
+
+        <div className="space-y-16">
+          {experiences.map((exp, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="p-8 md:p-12 bg-white/70 backdrop-blur-sm rounded-sm space-y-6 shadow-sm"
+            >
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-neutral-200 pb-4 font-mono">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-2xl md:text-3xl font-black font-display uppercase text-black">
+                      {exp.company}
+                    </h3>
+                    {exp.grade && (
+                      <span className="bg-[#FF3B1D] text-white px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-full">
+                        {exp.grade}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs font-bold text-[#FF3B1D] uppercase mt-1">
+                    {exp.role}
+                  </p>
+                </div>
+                <span className="text-xs text-neutral-500 font-semibold uppercase">
+                  {exp.period}
+                </span>
+              </div>
+
+              <p className="font-sans text-neutral-700 text-base font-normal leading-relaxed">
+                {exp.desc}
               </p>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-editorial font-normal tracking-tight text-neutral-900 mb-8 leading-[1.08]">
-              Building Desires. <br />
-              <span className="italic text-neutral-500">Creating Meaningful Stories.</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-neutral-600 leading-relaxed font-light">
-              I believe every object has a story to tell and an experience to create. My goal is to blend functionality with aesthetics, creating meaningful solutions that not only solve everyday problems but also build aspirations.
-            </p>
-          </div>
 
-          <div className="lg:col-span-5">
-            <div className="w-full aspect-[4/3] lg:aspect-[16/13] rounded-3xl overflow-hidden shadow-sm border border-neutral-200 bg-neutral-100">
-              <ProjectImage 
-                id="1"
-                altText="Jinendra Parakh Product Design Studio" 
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Experience, Education & Skills */}
-      <section className="bg-neutral-950 py-32 text-white">
-        <div className="max-w-[1360px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            <div className="lg:col-span-5 space-y-12">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-editorial text-white mb-6">Design Philosophy</h2>
-                <p className="text-neutral-400 text-lg font-light leading-relaxed mb-6">
-                  Good design balances human empathy, business logic, and tactile form. With a background spanning product design, interior execution, and digital marketing, I approach hardware from both the user's emotions and the market's realities.
-                </p>
-                <div className="flex flex-wrap gap-2.5">
-                  <span className="px-3.5 py-1.5 border border-neutral-700 bg-neutral-800/60 rounded-full text-xs text-white font-mono">B.Sc. Product Design</span>
-                  <span className="px-3.5 py-1.5 border border-neutral-700 rounded-full text-xs text-neutral-300 font-mono">User Research</span>
-                  <span className="px-3.5 py-1.5 border border-neutral-700 rounded-full text-xs text-neutral-300 font-mono">Rapid Prototyping</span>
-                  <span className="px-3.5 py-1.5 border border-neutral-700 rounded-full text-xs text-neutral-300 font-mono">3D Modeling</span>
-                  <span className="px-3.5 py-1.5 border border-neutral-700 rounded-full text-xs text-neutral-300 font-mono">Business Strategy</span>
-                  <span className="px-3.5 py-1.5 border border-neutral-700 rounded-full text-xs text-neutral-300 font-mono">Emotional Intelligence</span>
-                </div>
-              </div>
-
-              {/* Education Box */}
-              <div className="p-8 bg-neutral-900/60 rounded-3xl border border-neutral-800 space-y-6">
-                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
-                  <Lightbulb className="w-4 h-4 text-orange-400" /> Education
-                </div>
-                <div className="space-y-4 text-sm">
-                  <div>
-                    <h5 className="font-editorial text-lg text-white">B.Sc. in Product Design</h5>
-                    <p className="text-neutral-400 text-xs">Strate School of Design, Bangalore</p>
-                  </div>
-                  <div className="border-t border-neutral-800 pt-3">
-                    <h5 className="font-editorial text-lg text-white">12th Science (PCM)</h5>
-                    <p className="text-neutral-400 text-xs">Matoshri Junior College, Nashik</p>
-                  </div>
-                  <div className="border-t border-neutral-800 pt-3">
-                    <h5 className="font-editorial text-lg text-white">10th ICSE</h5>
-                    <p className="text-neutral-400 text-xs">Anubhuti Residential School, Jalgaon</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Skills Box */}
-              <div className="p-8 bg-neutral-900/60 rounded-3xl border border-neutral-800 space-y-6">
-                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
-                  <Compass className="w-4 h-4 text-orange-400" /> Technical Skills & Tools
-                </div>
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <span className="text-neutral-400 block mb-1">3D CAD & Visualization</span>
-                    <p className="text-neutral-200 font-medium leading-relaxed">Rhinoceros 3D, Fusion 360, KeyShot 3D, Vizcom</p>
-                  </div>
-                  <div className="border-t border-neutral-800 pt-3">
-                    <span className="text-neutral-400 block mb-1">2D Creative & Ideation</span>
-                    <p className="text-neutral-200 font-medium leading-relaxed">Photoshop, Illustrator, Procreate, Rapid Hand Sketching</p>
-                  </div>
-                  <div className="border-t border-neutral-800 pt-3">
-                    <span className="text-neutral-400 block mb-1">Making & Validation</span>
-                    <p className="text-neutral-200 font-medium leading-relaxed">Rapid Prototyping, 3D Printing, Foam Sculpting, User Testing</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Experience List */}
-            <div className="lg:col-span-7">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400 mb-8">Professional Experience</h3>
-              <div className="space-y-8">
-                {[
-                  {
-                    role: "Freelance Interior Design Project",
-                    company: "Nashik, Maharashtra",
-                    period: "Sept 2024 — March 2025",
-                    duration: "7 Months",
-                    desc: "Assisted architect in executing interior designs for a private bungalow. Managed hands-on space planning, vendor coordination, material/color selection, and resolved on-site conflicts between drawings and builds."
-                  },
-                  {
-                    role: "Industrial Design Intern",
-                    company: "Ticket Design, Pune (Grade A)",
-                    period: "March 2024 — July 2024",
-                    duration: "5 Months",
-                    desc: "Collaborated with senior designers and engineers on global projects including water dispensers, air fresheners, and medical DVT therapy keypads. 2 designs selected by clients for production."
-                  },
-                  {
-                    role: "Industry Project: Web & PTZ Camera",
-                    company: "A&T Video Networks (Grade O)",
-                    period: "Academic Project",
-                    duration: "4 Months",
-                    desc: "Redesigned a PTZ camera within internal engineering constraints. Conducted comprehensive user research, market analysis, and created a cohesive brand identity and logo language."
-                  },
-                  {
-                    role: "Digital Marketing Intern",
-                    company: "Spandigit Social, Nashik",
-                    period: "June 2023 — July 2023",
-                    duration: "2 Months",
-                    desc: "Conducted brand and demographic research to optimize digital campaigns, managing Google/Facebook Ads and strengthening my understanding of user behavior and consumer preferences."
-                  }
-                ].map((item, idx) => (
-                  <div 
-                    key={idx} 
-                    className="p-6 rounded-2xl border border-neutral-800/80 bg-neutral-900/30 hover:border-neutral-700 transition-all duration-200 flex flex-col md:flex-row justify-between gap-4"
-                  >
-                    <div>
-                      <h4 className="text-2xl font-editorial text-white">{item.role}</h4>
-                      <p className="text-orange-400 text-sm mt-1">{item.company}</p>
-                    </div>
-                    <div className="md:text-right flex flex-col md:items-end gap-1">
-                      <span className="text-neutral-300 text-sm font-mono font-medium">{item.period}</span>
-                      <span className="text-neutral-500 text-xs font-mono">{item.duration}</span>
-                      <p className="text-neutral-400 text-sm max-w-sm md:text-right font-light mt-2">{item.desc}</p>
-                    </div>
-                  </div>
+              <ul className="space-y-2.5 font-sans text-sm text-neutral-600 font-light">
+                {exp.bullets.map((b, bIdx) => (
+                  <li key={bIdx} className="flex items-start gap-2.5">
+                    <span className="text-[#FF3B1D] font-bold">›</span>
+                    <span>{b}</span>
+                  </li>
                 ))}
-              </div>
-            </div>
-
-          </div>
+              </ul>
+            </motion.div>
+          ))}
         </div>
-      </section>
+
+      </div>
     </div>
   );
 }
 
-/* --- ROOT APP --- */
+/* --- ROOT APP WITH GLOBAL LIGHTBOX & SCROLL SYSTEM --- */
 export default function App() {
+  const [lightboxState, setLightboxState] = useState({
+    activeItem: null,
+    gallery: []
+  });
+
   useEffect(() => {
     document.title = "Jinendra Parakh | Product Design Portfolio 2025";
   }, []);
 
+  const openLightbox = (imgData, galleryList = []) => {
+    setLightboxState({
+      activeItem: imgData,
+      gallery: galleryList && galleryList.length ? galleryList : [imgData]
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightboxState({ activeItem: null, gallery: [] });
+  };
+
+  const navigateLightbox = (nextItem) => {
+    setLightboxState(prev => ({
+      ...prev,
+      activeItem: nextItem
+    }));
+  };
+
   return (
     <ErrorBoundary>
-      <Router>
-        <div className="min-h-screen bg-[#faf9f6] text-neutral-900 font-sans selection:bg-neutral-900 selection:text-white flex flex-col">
-          <CustomCursor />
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/project/:slug" element={<ProjectDetailPage />} />
-              <Route path="/commercial" element={<CommercialPage />} />
-              <Route path="/commercial-nda" element={<CommercialPage />} />
-              <Route path="/playground" element={<PlaygroundPage />} />
-              <Route path="/personal" element={<PlaygroundPage />} />
-              <Route path="/about" element={<AboutPage />} />
-            </Routes>
-          </main>
-          <Footer />
-          <ScrollToTopButton />
-        </div>
-      </Router>
+      <LightboxContext.Provider value={{ openLightbox, closeLightbox }}>
+        <Router>
+          <div className="min-h-screen bg-[#EAEAE7] text-[#0E0E10] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col">
+            <ScrollProgressBar />
+            <CustomCursor />
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/project/:slug" element={<ProjectDetailPage />} />
+                <Route path="/playground" element={<PlaygroundPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/experience" element={<ExperiencePage />} />
+              </Routes>
+            </main>
+            <Footer />
+            <ScrollToTopButton />
+            <ImageLightboxModal 
+              activeItem={lightboxState.activeItem}
+              gallery={lightboxState.gallery}
+              onClose={closeLightbox}
+              onNavigate={navigateLightbox}
+            />
+          </div>
+        </Router>
+      </LightboxContext.Provider>
     </ErrorBoundary>
   );
 }
