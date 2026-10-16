@@ -596,7 +596,7 @@ function Navbar() {
           onClick={closeMenu}
           className="text-lg md:text-xl font-editorial tracking-tight text-neutral-900 hover:opacity-70 transition-opacity"
         >
-          <span className="font-semibold">Jinendra Parakh</span>
+          <span className="font-semibold">Jinendra</span>
           <span className="italic font-light text-neutral-500 ml-2">/ Product Design</span>
         </Link>
         
