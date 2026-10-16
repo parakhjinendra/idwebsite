@@ -558,76 +558,88 @@ const JINENDRA_PROJECTS = [
       "Corner Anchors": "Dual Cast Metal Lanyard Carabiner Loop & Woven Nylon Ribbon"
     },
 
-    // All Plates from PDF Pages 4 to 12
+    // All Plates from PDF Pages 4 to 12 strictly sequenced
     gallery: [
       { 
         id: "p4_2", 
+        page: "Page 04",
         title: "Fuel Hero Overview",
         caption: "Hero render of Fuel wireless power bank showcasing the interplay between bead-blasted aluminum and vibrant orange woven strap.",
         category: "Hero Render"
       },
       { 
         id: "p5_2", 
+        page: "Page 05",
         title: "Problem Space: Monolithic Bland Bricks",
         caption: "Market analysis documenting conventional powerbanks: bulky, clunky forms and bland monolithic bricks that clash with modern smartphones.",
         category: "Problem Definition"
       },
       { 
         id: "p6_2", 
+        page: "Page 06",
         title: "Design Inspiration: Teenage Engineering TX-6",
         caption: "Teenage Engineering philosophy: playful, honest, tactile hardware with bold color accents and precision knurled controls.",
         category: "Inspiration Board"
       },
       { 
         id: "p7_2", 
+        page: "Page 07",
         title: "Form Ideation & Concept Sketches",
         caption: "Exploratory form sketches studying thumb grip ergonomics, exposed structural sub-frames, corner loops, and morphod glass panels.",
         category: "Hand Ideation"
       },
       { 
         id: "p8_2", 
+        page: "Page 08",
         title: "Functional Anatomy & Callouts",
         caption: "Interactive callouts: digital charge indicator, audible click power switch, magnetic wireless pad, woven strap, and corner loop.",
         category: "Product Architecture"
       },
       { 
         id: "p9_2", 
+        page: "Page 09",
         title: "Dimensioned Technical CAD Drawing",
         caption: "Complete orthographic blueprint: 79.94mm length, 51.8mm width, 8.5mm profile, detail sections A(2:1), B(2:1), C(2:1). Title Block: Jinendra Parakh 02-11-2023.",
         category: "Technical Drawing"
       },
       { 
         id: "p10_2", 
+        page: "Page 10",
         title: "Orthographic Solution Renders",
         caption: "Three-view elevation study: Front face with recessed diagonal gesture, ultra-slim 8.5mm profile with slider switch, and rear magnetic inductive ring.",
         category: "CMF Elevation"
       },
       { 
         id: "p11_2", 
+        page: "Page 11",
         title: "Internal Exploded Architecture",
         caption: "Exploded engineering CAD model: wireless induction coil, lithium polymer battery core, tactile slider switch detent, and unibody chassis.",
         category: "Exploded Assembly"
       },
       { 
         id: "p11_4", 
+        page: "Page 11",
         title: "A Symphony of Contrasts",
         caption: "\"A symphony of contrasts: The interplay of hard edges and soft blends. A dialogue of colour contrasts: Aluminum brilliance accented by vibrant orange.\"",
         category: "CMF Philosophy"
       },
       { 
         id: "p12_2", 
+        page: "Page 12",
         title: "Corner Strap Anchor Detail",
         caption: "High-resolution macro render of the cast vermilion corner loop and precision machined lanyard slot.",
         category: "Macro Detail"
       },
       { 
         id: "p12_4", 
+        page: "Page 12",
         title: "Tactile Power Switch Detent",
         caption: "Recessed linear power switch with tactile orange detent rib, calibrated to produce a crisp acoustic click upon actuation.",
         category: "Macro Detail"
       },
       { 
         id: "p12_6", 
+        page: "Page 12",
         title: "Magnetic Phone Docking Pad",
         caption: "Integrated circular MagSafe-compatible magnetic backplate with subtle crosshair alignment guide.",
         category: "Macro Detail"
@@ -709,111 +721,130 @@ const JINENDRA_PROJECTS = [
       "Materials": "Dark Anodized Aluminum Extrusions, Silicone Grips, Soft-Touch Non-Marring Rubber"
     },
 
+    // All Plates from PDF Pages 13 to 30 strictly sequenced
     gallery: [
       { 
         id: "p13_2", 
+        page: "Page 13",
         title: "Vantage Hero Profile",
         caption: "Cylindrical Vantage camera head docked in upright desktop stand, showing the clean anodized aluminum finish and integrated camera pill.",
         category: "Hero Render"
       },
       { 
         id: "p14_2", 
+        page: "Page 14",
         title: "Global Market Research & Growth Drivers",
         caption: "Market research analysis: Global webcam market reaching $18.85B by 2029 (CAGR 14.3%), driven by remote work, streaming, and online education.",
         category: "Market Analysis"
       },
       { 
         id: "p15_2", 
+        page: "Page 15",
         title: "Identified User Pain Points",
         caption: "Ethnographic workspace study documenting fixed camera angles, messy cables, multi-device fatigue, and unengaging webcam perspectives.",
         category: "Problem Definition"
       },
       { 
         id: "p16_2", 
+        page: "Page 16",
         title: "Pain Points & Solution Tree",
         caption: "Architectural mapping matrix connecting modularity, moving the camera instead of the subject, hidden cables, and Lego-inspired building blocks.",
         category: "Systems Thinking"
       },
       { 
         id: "p17_8", 
+        page: "Page 17",
         title: "Inspiration Board: Minimal & Adaptive",
         caption: "Form inspiration: architectural counterbalanced desk lamps, tactile rotary dials, gimbal cameras, and the modular docking of Nintendo Switch.",
         category: "Inspiration Board"
       },
       { 
         id: "p18_2", 
+        page: "Page 18",
         title: "Ideation Sketches & Final Concept",
         caption: "Comprehensive hand sketching exploring articulated sliding booms, counterweighted bases, ball joints, and the highlighted Final Concept.",
         category: "Concept Ideation"
       },
       { 
         id: "p19_2", 
+        page: "Page 19",
         title: "Introducing Vantage Stand System",
         caption: "\"In a world where connection is everything, clarity and perspective are the keys to unlocking truly immersive experiences. Introducing Vantage.\"",
         category: "Hero System"
       },
       { 
         id: "p20_4", 
+        page: "Page 20",
         title: "360° Freedom of Movement & Kinematics",
         caption: "Kinematic engineering diagrams showing horizontal sliding travel, vertical track travel, 360° pan, 360° rotation, and one-tap ring light switch.",
         category: "Kinematic Diagrams"
       },
       { 
         id: "p21_8", 
+        page: "Page 21",
         title: "Dimensions & 4-Step Setup Guide",
         caption: "Technical dimensions (400mm stand, 323mm boom, 70mm camera) with illustrated 4-step user guide: 01 Connect, 02 Adjust, 03 Set, 04 Frame.",
         category: "Ergonomics & Specs"
       },
       { 
         id: "p22_2", 
+        page: "Page 22",
         title: "Pivoting Mount 360° & Culinary Lifestyle",
         caption: "Full 360° pivoting freedom in real-world lifestyle context: Vantage capturing an overhead kitchen culinary presentation with crisp clarity.",
         category: "Lifestyle Context"
       },
       { 
         id: "p23_2", 
+        page: "Page 23",
         title: "Casual Creative Workspace Context",
         caption: "Vantage adapted for informal floor study and creative session, providing personal framing alongside laptop workspace.",
         category: "Lifestyle Context"
       },
       { 
         id: "p24_4", 
+        page: "Page 24",
         title: "Modular Quick Release Transformation",
         caption: "\"With a simple press, twist, and pull, Vantage transforms from a stand-mounted camera to a compact monitor-mounted webcam via secure pogo pins.\"",
         category: "Modular Engineering"
       },
       { 
         id: "p25_2", 
+        page: "Page 25",
         title: "Monitor Mount Detailing & Snap Cap",
         caption: "Monitor mount features: One-press snap / two-press record button, protective snap cap, and non-marring soft-touch silicone padding.",
         category: "Hardware Detailing"
       },
       { 
         id: "p26_4", 
+        page: "Page 26",
         title: "Mechanical Privacy Shutter & 360 Pan-Tilt",
         caption: "Slide the physical privacy shutter closed for instant peace of mind. Integrated motors automatically pan and tilt to keep the presenter in frame.",
         category: "Privacy & Motion"
       },
       { 
         id: "p27_2", 
+        page: "Page 27",
         title: "Macro Lock Button & Camera Array",
         caption: "Macro close-up of tactile quick-release lock button and multi-microphone optical sensor housing.",
         category: "Macro Detail"
       },
       { 
         id: "p28_2", 
+        page: "Page 28",
         title: "Dynamic Auto-Framing Scenarios",
         caption: "AI auto-framing tracking a seated presenter, a standing whiteboard presentation, and an overhead tabletop sketching session.",
         category: "Use Scenarios"
       },
       { 
         id: "p29_2", 
+        page: "Page 29",
         title: "Student Desktop Hybrid Session",
         caption: "Top-down reading and screen-sharing setup showing Vantage mounted directly on laptop monitor bezel.",
         category: "Lifestyle Context"
       },
       { 
         id: "p30_2", 
+        page: "Page 30",
         title: "Executive Studio Display Configuration",
         caption: "Monitor-mounted Vantage providing crystal clear video on a primary desktop workspace display.",
         category: "Lifestyle Context"
@@ -896,75 +927,88 @@ const JINENDRA_PROJECTS = [
       "Internal Comfort": "Orthotic Molded Footbed, Gel Cushioning Cups, Dynamic Arch Support"
     },
 
+    // All Plates from PDF Pages 31 to 42 strictly sequenced
     gallery: [
       { 
         id: "p31_2", 
+        page: "Page 31",
         title: "Friday Heels on Pedestal",
         caption: "Hero studio render of Friday high-heeled boot on exhibition plinth with Louis Vuitton × Friday collaboration branding.",
         category: "Hero Render"
       },
       { 
         id: "p32_4", 
+        page: "Page 32",
         title: "Brand DNA & Material Sensibility",
         caption: "Friday moodboard: luxury dynamic weekend celebration, classic coachbuilt sports cars, Rolex Cellini Dual Time horology, and rich aromatics.",
         category: "Moodboard"
       },
       { 
         id: "p33_2", 
+        page: "Page 33",
         title: "The Story: Re-Telling the History of Heels",
         caption: "Historical timeline: from King Louis XIV royal heels to 17th-century aristocratic prestige, to modern high-fashion runway reclamation.",
         category: "Historical Research"
       },
       { 
         id: "p35_2", 
+        page: "Page 35",
         title: "Concept Feature Exploration Matrix",
         caption: "Design matrix exploring Authoritative, Dynamic, and Hulk silhouettes with dial lacing, gel cups, 3D midsoles, front peels, and snug collar cuts.",
         category: "Concept Matrix"
       },
       { 
         id: "p36_2", 
+        page: "Page 36",
         title: "Silhouette Ideation & Gothic Architecture",
         caption: "Hand sketches exploring angular heel cuts, origami heel wraps, pocket watch mechanics, and tailored gothic architectural references.",
         category: "Concept Ideation"
       },
       { 
         id: "p37_2", 
+        page: "Page 37",
         title: "3-D Printed Heel Shield",
         caption: "\"3-D printed Shield: The elegant protector of a king. Heel so high it raises the bar with you.\"",
         category: "CMF & Structure"
       },
       { 
         id: "p38_2", 
+        page: "Page 38",
         title: "Monogram Release Dial & Outsole Bridging",
         caption: "\"The dazzling Louis Vuitton monogram — has everyone's eyes on you.\" Detailed view of pop-out rotary button and bridged heel branding.",
         category: "Hardware Detailing"
       },
       { 
         id: "p39_2", 
+        page: "Page 39",
         title: "Step into the Story: The Wearable Guide",
         caption: "The 6-step ritual: 01 Initiate Elegance, 02 Prelude to Opulence, 03 Engage the Ritual, 04 Confer Regality, 05 Harmonize Comfort, 06 Culminate the Ceremony.",
         category: "User Experience Guide"
       },
       { 
         id: "p40_2", 
+        page: "Page 40",
         title: "Orthographic Technical Projections",
         caption: "Dimensioned orthographic views: plan view collar opening, lateral heel profile, and rear monogram spine elevation.",
         category: "Technical Drawing"
       },
       { 
         id: "p40_4", 
+        page: "Page 40",
         title: "Exploded Engineering CAD Assembly",
         caption: "Exploded view showing calfskin upper, inner lining, orthotic insole, sole chassis, 3D printed heel shield, and internal rotary lacing spool.",
         category: "Exploded Assembly"
       },
       { 
         id: "p41_2", 
+        page: "Page 41",
         title: "1:1 Prototype Fabrication (UK 11 Scale)",
         caption: "Physical prototype build at Strate makerspace: 3D printing heel components, CNC foam sole milling, vacuum forming, and physical lasting.",
         category: "Makerspace Prototype"
       },
       { 
         id: "p42_2", 
+        page: "Page 42",
         title: "Editorial Campaign Render",
         caption: "\"Bringing them back for the royalty. In collaboration with FRIDAY. Sold exclusively on louisvuitton.com. @ Pradyumn Soni, Louis Vuitton.\"",
         category: "Editorial Campaign"
@@ -1014,63 +1058,74 @@ const JINENDRA_PROJECTS = [
       "Workshop Machinery": "CNC 3-Axis Foam Router, Vacuum Former, Polyurethane Casting, 3D Printers"
     },
 
+    // All Plates from PDF strictly sequenced (Cover, Pages 44 to 52)
     gallery: [
       { 
         id: "p1_2", 
+        page: "Page 01 (Cover)",
         title: "Portfolio Cover: Chronograph Watch Perspective Sketch",
         caption: "Original hand-drawn chronograph perspective sketch: precision crown, pushers, and subdials exploring technical luxury horology.",
         category: "Horology Sketch"
       },
       { 
         id: "p44_2", 
+        page: "Page 44",
         title: "Acoustic Glass Hourglass Study",
         caption: "Exploration of blown glass dual spheres supported by an intertwined copper wire harness, examining acoustic resonance and liquid containment.",
         category: "Glass Vessel"
       },
       { 
         id: "p45_2", 
+        page: "Page 45",
         title: "Glass Vessel Core Detailing",
         caption: "Macro view of internal central diffuser and curved copper wire cradle interface.",
         category: "Glass Vessel"
       },
       { 
         id: "p46_2", 
+        page: "Page 46",
         title: "Industrial Design Sketches",
         caption: "Rapid ideation sketches exploring technical utilitarian backpacks, iconic mid-century lounge chairs, athletic sneakers, and origami faceted seating.",
         category: "Hand Sketches"
       },
       { 
         id: "p47_2", 
+        page: "Page 47",
         title: "Analysis of a Sneaker: Lateral & Heel Anatomy",
         caption: "Detailed anatomical teardown: shoe tongue, tongue holder, PU rubber outsole, toe counter, foxing, toe spring, and heel counter structure.",
         category: "Footwear Teardown"
       },
       { 
         id: "p48_2", 
+        page: "Page 48",
         title: "Deconstructed Sneaker Layers & Materials",
         caption: "Layered deconstruction of footwear construction: PU leather upper, soft padding, polyester tongue lining, insole, midsole, and outsole.",
         category: "Footwear Teardown"
       },
       { 
         id: "p49_2", 
+        page: "Page 49",
         title: "Nike Air Force 1 Deep Dive",
         caption: "Deep dive analysis of Nike AF1: sewed branding, hole pattern 1 to 6, double stitching, AF1 metal lace medallion, breathing holes, and embossed rubber air sole.",
         category: "Footwear Teardown"
       },
       { 
         id: "p50_2", 
+        page: "Page 50",
         title: "Vizcom AI Trials: Generative Transformations",
         caption: "\"I brought one of my sketches to Vizcom and experimented with various prompts, played around with reference images and how they impact the final image. Also explored different features to get the hang of using Vizcom.\"",
         category: "Vizcom AI Trials"
       },
       { 
         id: "p51_8", 
+        page: "Page 51",
         title: "Physical Models and Workshop Prototypes",
         caption: "Hands-on makerspace fabrication gallery: high-gloss styling clay heels, wood lathe turning, CNC foam milling, radio foam mockups, and UK 11 shoe prototype.",
         category: "Makerspace Mockups"
       },
       { 
         id: "p52_2", 
+        page: "Page 52",
         title: "Spandigit Social Digital Marketing Internship",
         caption: "Workspace photos and team collaboration during digital marketing internship (June - July 2023), gaining hands-on audience targeting and user research skills.",
         category: "Internship & Research"
@@ -1079,17 +1134,36 @@ const JINENDRA_PROJECTS = [
   }
 ];
 
-/* --- NAVIGATION BAR (CLEAN, BORDERLESS, REFINED SWISS/BRUTALIST) --- */
+/* --- NAVIGATION BAR (CLEAN, BORDERLESS, REFINED SWISS/BRUTALIST + MIRKO STYLE CLOSE BUTTON) --- */
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const closeMenu = () => setIsOpen(false);
+
+  // Check if we are inside a project view
+  const isProjectPage = location.pathname.startsWith('/project/');
+  const currentSlug = isProjectPage ? location.pathname.split('/project/')[1] : null;
+  const currentProject = isProjectPage ? JINENDRA_PROJECTS.find(p => p.slug === currentSlug) : null;
+
+  // Listen for Escape key to close project and return to home
+  useEffect(() => {
+    if (!isProjectPage) return;
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      if (e.key === 'Escape') {
+        navigate('/');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isProjectPage, navigate]);
 
   return (
     <nav className="sticky top-0 z-50 bg-[#EAEAE7]/95 backdrop-blur-md transition-all border-b border-neutral-300/60">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
         
-        {/* Clean Logo */}
+        {/* Brand Logo & Project Indicator */}
         <Link 
           to="/" 
           onClick={closeMenu}
@@ -1097,63 +1171,89 @@ function Navbar() {
         >
           <span className="w-2.5 h-2.5 bg-[#FF3B1D] block rounded-full" />
           <div className="flex flex-col">
-            <span className="text-lg md:text-xl font-bold font-display tracking-tight text-black uppercase leading-none">
-              Jinendra Parakh
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-lg md:text-xl font-bold font-display tracking-tight text-black uppercase leading-none">
+                Jinendra Parakh
+              </span>
+              {isProjectPage && currentProject && (
+                <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase hidden sm:inline">
+                  / {currentProject.indexCode}
+                </span>
+              )}
+            </div>
             <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-medium mt-1">
-              Product Design Portfolio 2025
+              {isProjectPage && currentProject 
+                ? currentProject.subtitle 
+                : "Product Design Portfolio 2025"}
             </span>
           </div>
         </Link>
         
-        {/* Desktop Links (No Boxy Outlines) */}
-        <div className="hidden md:flex items-center gap-8 font-mono text-xs font-medium uppercase tracking-wider text-neutral-600">
-          <Link 
-            to="/" 
-            className={`transition-colors hover:text-black ${location.pathname === '/' ? 'text-[#FF3B1D] font-bold' : ''}`}
-          >
-            01. Works
-          </Link>
-          <Link 
-            to="/playground" 
-            className={`transition-colors hover:text-black ${location.pathname === '/playground' ? 'text-[#FF3B1D] font-bold' : ''}`}
-          >
-            02. Visual Lab
-          </Link>
-          <Link 
-            to="/about" 
-            className={`transition-colors hover:text-black ${location.pathname === '/about' ? 'text-[#FF3B1D] font-bold' : ''}`}
-          >
-            03. Profile
-          </Link>
-          <Link 
-            to="/experience" 
-            className={`transition-colors hover:text-black ${location.pathname === '/experience' ? 'text-[#FF3B1D] font-bold' : ''}`}
-          >
-            04. Experience
-          </Link>
-          
-          <a 
-            href="/Jinendra_Parakh_Resume.pdf" 
-            target="_blank" 
-            rel="noreferrer"
-            className="flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full hover:bg-[#FF3B1D] transition-colors"
-          >
-            <Download className="w-3 h-3" />
-            <span>Resume</span>
-          </a>
-        </div>
+        {/* Context-Aware Navigation Controls */}
+        {isProjectPage ? (
+          /* Project Mode: Dedicated Mirko Romanelli Style Close Action */
+          <div className="flex items-center gap-4">
+            <Link 
+              to="/" 
+              className="group flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest bg-black text-white hover:bg-[#FF3B1D] px-4 py-2 rounded-full transition-all duration-200 shadow-sm cursor-pointer"
+              title="Close Project (Esc)"
+            >
+              <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
+              <span>Close</span>
+            </Link>
+          </div>
+        ) : (
+          /* Standard Site Navigation Links */
+          <div className="hidden md:flex items-center gap-8 font-mono text-xs font-medium uppercase tracking-wider text-neutral-600">
+            <Link 
+              to="/" 
+              className={`transition-colors hover:text-black ${location.pathname === '/' ? 'text-[#FF3B1D] font-bold' : ''}`}
+            >
+              01. Works
+            </Link>
+            <Link 
+              to="/playground" 
+              className={`transition-colors hover:text-black ${location.pathname === '/playground' ? 'text-[#FF3B1D] font-bold' : ''}`}
+            >
+              02. Visual Lab
+            </Link>
+            <Link 
+              to="/about" 
+              className={`transition-colors hover:text-black ${location.pathname === '/about' ? 'text-[#FF3B1D] font-bold' : ''}`}
+            >
+              03. Profile
+            </Link>
+            <Link 
+              to="/experience" 
+              className={`transition-colors hover:text-black ${location.pathname === '/experience' ? 'text-[#FF3B1D] font-bold' : ''}`}
+            >
+              04. Experience
+            </Link>
+            
+            <a 
+              href="/Jinendra_Parakh_Resume.pdf" 
+              target="_blank" 
+              rel="noreferrer"
+              className="flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full hover:bg-[#FF3B1D] transition-colors"
+            >
+              <Download className="w-3 h-3" />
+              <span>Resume</span>
+            </a>
+          </div>
+        )}
 
-        {/* Mobile Toggle */}
-        <div className="flex md:hidden items-center">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle navigation"
-            className="p-2 text-black hover:text-[#FF3B1D] transition-colors cursor-pointer"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
+        {/* Mobile Toggle (Only on non-project pages) */}
+        {!isProjectPage && (
+          <div className="flex md:hidden items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle navigation"
+              className="p-2 text-black hover:text-[#FF3B1D] transition-colors cursor-pointer"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Mobile Drawer */}
@@ -1314,6 +1414,107 @@ function Footer() {
   );
 }
 
+/* --- HOME PAGE HERO SHOWCASE SPOTLIGHT (MIRKO ROMANELLI INTERACTION) --- */
+function HeroShowcase() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const activeProj = JINENDRA_PROJECTS[activeIdx];
+
+  return (
+    <div className="relative mt-16 select-none">
+      
+      {/* Background Watermark Typography */}
+      <div 
+        aria-hidden="true" 
+        className="absolute -bottom-8 -left-4 font-display font-black text-[11vw] uppercase leading-none tracking-tighter text-black/[0.04] pointer-events-none select-none z-0"
+      >
+        Jinendra Parakh
+      </div>
+
+      {/* Showcase Card Stage */}
+      <div className="relative z-10 bg-[#DFDFDC]/85 backdrop-blur-sm rounded-sm p-6 sm:p-10 md:p-12 overflow-hidden shadow-sm group">
+        
+        {/* Project Selector Tabs */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-black/10 font-mono text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF3B1D] animate-pulse" />
+            <span className="font-bold uppercase tracking-wider text-black">
+              Featured Case Studies
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {JINENDRA_PROJECTS.map((p, idx) => (
+              <button
+                key={p.slug}
+                onClick={() => setActiveIdx(idx)}
+                className={`px-3.5 py-1.5 rounded-full font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  activeIdx === idx
+                    ? 'bg-black text-white'
+                    : 'bg-white/70 text-neutral-600 hover:bg-white hover:text-black'
+                }`}
+              >
+                <span>{p.indexCode}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Hero Interactive Canvas */}
+        <Link 
+          to={`/project/${activeProj.slug}`}
+          className="relative block w-full min-h-[340px] sm:min-h-[460px] md:min-h-[500px] flex items-center justify-center my-6 group/canvas cursor-pointer"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeProj.slug}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full h-full flex flex-col items-center justify-center"
+            >
+              <img
+                src={resolveImg(activeProj.thumbId || activeProj.heroId)}
+                alt={activeProj.title}
+                className="max-h-[320px] sm:max-h-[420px] md:max-h-[460px] max-w-full w-auto h-auto object-contain drop-shadow-lg group-hover/canvas:scale-[1.02] transition-transform duration-500 ease-out"
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Floating Dark Frosted Pill on Hover (Signature Mirko Romanelli interaction) */}
+          <motion.div 
+            className="absolute bottom-6 bg-black/90 backdrop-blur-md text-white font-mono text-xs font-bold px-6 py-3 rounded-full uppercase tracking-wider flex items-center gap-2 shadow-xl group-hover/canvas:bg-[#FF3B1D] transition-colors"
+          >
+            <span>Explore {activeProj.title}</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </motion.div>
+        </Link>
+
+        {/* Bottom Metadata in Stage */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-6 border-t border-black/10 font-mono text-xs">
+          <div className="flex items-center gap-3">
+            <span className="text-xl sm:text-2xl font-black font-display uppercase tracking-tight text-black">
+              {activeProj.title}
+            </span>
+            <span className="text-neutral-400">/</span>
+            <span className="text-neutral-600 font-medium">
+              {activeProj.subtitle}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 text-neutral-500 text-[11px] uppercase tracking-wider">
+            <span>{activeProj.duration}</span>
+            <span>•</span>
+            <span className="text-[#FF3B1D] font-bold">{activeProj.category}</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
 /* --- HOME PAGE (SWISS BRUTALIST ACCENT — UNBORDERED VERMILION BLOCKS) --- */
 function HomePage() {
   return (
@@ -1411,6 +1612,9 @@ function HomePage() {
           </div>
 
         </div>
+
+        {/* HERO INTERACTIVE SHOWCASE SPOTLIGHT (MIRKO ROMANELLI STYLE) */}
+        <HeroShowcase />
 
         {/* Flat Vermilion Horizontal Bar */}
         <div className="mt-20 bg-[#FF3B1D] text-white p-6 md:p-8 rounded-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono shadow-sm">
@@ -1626,6 +1830,292 @@ function HomePage() {
   );
 }
 
+/* --- HORIZONTAL PROJECT SLIDER (MIRKO ROMANELLI INTERACTIVE CAROUSEL) --- */
+function ProjectHorizontalSlider({ project, gallery = [] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const { openLightbox } = useLightbox();
+
+  const total = gallery.length;
+
+  const goToNext = () => {
+    setDirection(1);
+    setCurrentIndex(prev => (prev + 1) % total);
+  };
+
+  const goToPrev = () => {
+    setDirection(-1);
+    setCurrentIndex(prev => (prev - 1 + total) % total);
+  };
+
+  const goToSlide = (idx) => {
+    setDirection(idx > currentIndex ? 1 : -1);
+    setCurrentIndex(idx);
+  };
+
+  // Keyboard navigation for slider
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      if (e.key === 'ArrowRight') goToNext();
+      if (e.key === 'ArrowLeft') goToPrev();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [total, currentIndex]);
+
+  if (!gallery || gallery.length === 0) return null;
+
+  const currentPlate = gallery[currentIndex];
+  const imgSrc = resolveImg(currentPlate.id);
+
+  // Framer Motion spring slide variants
+  const slideVariants = {
+    enter: (dir) => ({
+      x: dir > 0 ? 340 : -340,
+      opacity: 0,
+      scale: 0.98
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        x: { type: "spring", stiffness: 280, damping: 28 },
+        opacity: { duration: 0.25 }
+      }
+    },
+    exit: (dir) => ({
+      x: dir > 0 ? -340 : 340,
+      opacity: 0,
+      scale: 0.98,
+      transition: {
+        x: { type: "spring", stiffness: 280, damping: 28 },
+        opacity: { duration: 0.2 }
+      }
+    })
+  };
+
+  return (
+    <div className="w-full select-none my-6">
+      
+      {/* Slider Top Metadata Bar */}
+      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-neutral-500 pb-3 border-b border-neutral-300 mb-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="w-2.5 h-2.5 bg-[#FF3B1D] rounded-full inline-block" />
+          <span className="font-bold text-black">
+            PLATE 0{currentIndex + 1} / 0{total}
+          </span>
+          <span className="text-neutral-400">|</span>
+          <span className="text-[#FF3B1D] font-bold">
+            {currentPlate.page || `PAGE 0${currentIndex + 4}`}
+          </span>
+          {currentPlate.category && (
+            <span className="text-neutral-500 hidden sm:inline">
+              // {currentPlate.category}
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="hidden md:inline text-[11px] text-neutral-400">
+            DRAG / ARROWS TO SLIDE
+          </span>
+          <button
+            onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
+            className="flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-black hover:text-white rounded-full font-mono text-[11px] font-bold text-neutral-700 transition-colors shadow-sm cursor-pointer ml-2"
+            title="Expand Fullscreen (Zoom)"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">EXPAND (+)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Slide Presentation Stage with Drag and Spring Transition */}
+      <div className="relative w-full min-h-[360px] sm:min-h-[480px] md:min-h-[580px] lg:min-h-[640px] bg-[#DFDFDC]/80 rounded-sm overflow-hidden flex items-center justify-center p-4 sm:p-8 md:p-12 shadow-sm group">
+        
+        {/* Previous Button */}
+        <button
+          onClick={goToPrev}
+          aria-label="Previous slide"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/85 hover:bg-[#FF3B1D] text-black hover:text-white backdrop-blur-md flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer group/btn"
+        >
+          <ChevronLeft className="w-6 h-6 group-hover/btn:-translate-x-0.5 transition-transform" />
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={goToNext}
+          aria-label="Next slide"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/85 hover:bg-[#FF3B1D] text-black hover:text-white backdrop-blur-md flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer group/btn"
+        >
+          <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-0.5 transition-transform" />
+        </button>
+
+        {/* Center Animated Slide Plate */}
+        <div className="w-full h-full flex items-center justify-center relative">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = offset.x;
+                if (swipe < -50 || velocity.x < -300) {
+                  goToNext();
+                } else if (swipe > 50 || velocity.x > 300) {
+                  goToPrev();
+                }
+              }}
+              className="w-full h-full flex flex-col items-center justify-center cursor-grab active:cursor-grabbing"
+            >
+              <img
+                src={imgSrc}
+                alt={currentPlate.title || "Project plate"}
+                onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
+                className="max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] max-w-full w-auto h-auto object-contain select-none drop-shadow-md mx-auto hover:scale-[1.01] transition-transform duration-300"
+                draggable={false}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Quick Zoom Pill (mirko style on hover) */}
+        <button
+          onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
+          className="absolute bottom-4 right-4 z-20 bg-black/85 backdrop-blur-sm text-white font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-md cursor-pointer hover:bg-[#FF3B1D]"
+        >
+          <Maximize2 className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:text-white" />
+          <span>Full Resolution</span>
+        </button>
+      </div>
+
+      {/* Slide Caption & Technical Context */}
+      <div className="pt-4 pb-2 border-b border-neutral-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="bg-black text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
+              PLATE 0{currentIndex + 1}
+            </span>
+            <span className="bg-[#FF3B1D] text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
+              {currentPlate.page || `Page 0${currentIndex + 4}`}
+            </span>
+            <h3 className="font-display font-black text-lg md:text-xl uppercase tracking-tight text-black">
+              {currentPlate.title}
+            </h3>
+          </div>
+          <p className="font-sans text-xs md:text-sm text-neutral-600 font-light max-w-3xl leading-relaxed">
+            {currentPlate.caption}
+          </p>
+        </div>
+
+        {/* Progress Fraction */}
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="text-xs font-bold text-neutral-400">
+            {String(currentIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </span>
+        </div>
+      </div>
+
+      {/* Interactive Horizontal Scrubber / Thumbnail Strip */}
+      <div className="pt-4 flex items-center gap-2 overflow-x-auto no-scrollbar py-2">
+        {gallery.map((plate, pIdx) => (
+          <button
+            key={pIdx}
+            onClick={() => goToSlide(pIdx)}
+            className={`group relative shrink-0 transition-all cursor-pointer rounded-sm overflow-hidden ${
+              pIdx === currentIndex
+                ? 'ring-2 ring-[#FF3B1D] scale-105'
+                : 'opacity-60 hover:opacity-100'
+            }`}
+            title={`Slide 0${pIdx + 1}: ${plate.title}`}
+          >
+            <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#DFDFDC] p-1 flex items-center justify-center">
+              <img
+                src={resolveImg(plate.id)}
+                alt={plate.title}
+                className="max-h-full max-w-full object-contain"
+                loading="lazy"
+              />
+            </div>
+            <div className={`absolute bottom-0 inset-x-0 h-1 ${
+              pIdx === currentIndex ? 'bg-[#FF3B1D]' : 'bg-transparent group-hover:bg-neutral-400'
+            }`} />
+          </button>
+        ))}
+      </div>
+
+    </div>
+  );
+}
+
+/* --- DOCKED FIXED BOTTOM BAR (MIRKO ROMANELLI STYLE PROJECT NAVIGATION) --- */
+function ProjectBottomBar({ project }) {
+  const currentIndex = JINENDRA_PROJECTS.findIndex(p => p.slug === project.slug);
+  const total = JINENDRA_PROJECTS.length;
+  const prevProject = JINENDRA_PROJECTS[(currentIndex - 1 + total) % total];
+  const nextProject = JINENDRA_PROJECTS[(currentIndex + 1) % total];
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <aside 
+      aria-label="Project Navigation Bar"
+      className="fixed bottom-0 inset-x-0 z-40 bg-[#EAEAE7]/95 backdrop-blur-md border-t border-neutral-300 py-3.5 px-6 md:px-12 shadow-lg font-mono text-xs"
+    >
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
+        
+        {/* Previous Project Link */}
+        <Link 
+          to={`/project/${prevProject.slug}`}
+          className="group flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span className="hidden sm:inline text-neutral-400 font-normal">PREV //</span>
+          <span>{prevProject.title}</span>
+        </Link>
+
+        {/* Center Metadata & Back to Top */}
+        <div className="hidden md:flex items-center gap-4 text-neutral-500 uppercase tracking-widest text-[11px]">
+          <span className="text-[#FF3B1D] font-bold">{project.indexCode}</span>
+          <span>•</span>
+          <span>{project.duration}</span>
+          <span>•</span>
+          <span>{project.category}</span>
+          <span>•</span>
+          <button 
+            onClick={scrollToTop} 
+            className="text-black hover:text-[#FF3B1D] font-bold underline flex items-center gap-1 cursor-pointer"
+          >
+            <span>Top</span>
+            <ArrowUp className="w-3 h-3" />
+          </button>
+        </div>
+
+        {/* Next Project Link */}
+        <Link 
+          to={`/project/${nextProject.slug}`}
+          className="group flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
+        >
+          <span>{nextProject.title}</span>
+          <span className="hidden sm:inline text-neutral-400 font-normal">// NEXT</span>
+          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+
+      </div>
+    </aside>
+  );
+}
+
 /* --- PROJECT DETAIL PAGE (100% UNCLIPPED IMAGES, EDITORIAL FLOW, INTERACTIVE PLATES) --- */
 function ProjectDetailPage() {
   const { slug } = useParams();
@@ -1651,7 +2141,7 @@ function ProjectDetailPage() {
   const galleryContext = project.gallery ? project.gallery.map(g => ({ ...g, src: resolveImg(g.id) })) : [];
 
   return (
-    <article className="min-h-screen pb-32">
+    <article className="min-h-screen pb-44">
       
       {/* Header */}
       <header id="overview" className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 border-b border-neutral-300">
@@ -1707,6 +2197,11 @@ function ProjectDetailPage() {
 
       </header>
 
+      {/* INTERACTIVE HORIZONTAL PROJECT SLIDER (MIRKO ROMANELLI STYLE CAROUSEL) */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 pt-6">
+        <ProjectHorizontalSlider project={project} gallery={project.gallery} />
+      </section>
+
       {/* STICKY QUICK NAVIGATION BAR */}
       <nav className="sticky top-20 z-40 bg-[#EAEAE7]/95 backdrop-blur-md py-3.5 border-y border-neutral-300/60 my-6 shadow-sm">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between overflow-x-auto no-scrollbar gap-4 text-xs font-mono font-bold uppercase tracking-wider">
@@ -1743,25 +2238,6 @@ function ProjectDetailPage() {
           </div>
         </div>
       </nav>
-
-      {/* Hero Big Banner (ZERO CROPPING — CENTERED UNCLIPPED IMAGE IN ROOMY CONTAINER) */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 my-12">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
-          className="w-full min-h-[360px] md:min-h-[540px] max-h-[75vh] bg-[#DFDFDC]/70 p-4 sm:p-10 rounded-sm flex items-center justify-center overflow-hidden"
-        >
-          <ProjectImage 
-            id={project.heroId || project.thumbId} 
-            altText={`${project.title} Hero Banner`} 
-            caption={`${project.title} Hero Presentation Render`}
-            className="w-full h-full flex items-center justify-center"
-            imgClassName="max-h-[70vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-md"
-            gallery={galleryContext}
-          />
-        </motion.div>
-      </div>
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 space-y-24">
         
@@ -2173,6 +2649,9 @@ function ProjectDetailPage() {
                     <span className="bg-black text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
                       Plate 0{gIdx + 1}
                     </span>
+                    <span className="bg-[#FF3B1D] text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
+                      {g.page || `Page 0${gIdx + 1}`}
+                    </span>
                     <span className="font-bold text-black uppercase tracking-wider text-xs">
                       {g.title}
                     </span>
@@ -2241,6 +2720,9 @@ function ProjectDetailPage() {
         </div>
 
       </div>
+
+      {/* Docked Project Bottom Bar (Mirko Romanelli Style Project-to-Project Navigation) */}
+      <ProjectBottomBar project={project} />
     </article>
   );
 }
