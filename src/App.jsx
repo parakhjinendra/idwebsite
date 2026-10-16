@@ -1163,28 +1163,31 @@ function Navbar() {
     <nav className="sticky top-0 z-50 bg-[#EAEAE7]/95 backdrop-blur-md transition-all border-b border-neutral-300/60">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
         
-        {/* Brand Logo & Project Indicator */}
+        {/* Brand Logo & Project Indicator (Kinetic Studio JP monogram) */}
         <Link 
           to="/" 
           onClick={closeMenu}
           className="flex items-center gap-3 group"
         >
-          <span className="w-2.5 h-2.5 bg-[#FF3B1D] block rounded-full" />
-          <div className="flex flex-col">
+          <div className="flex items-center gap-1 font-display font-black text-2xl uppercase tracking-tighter text-black">
+            <span>JP</span>
+            <span className="text-[11px] font-mono font-bold text-[#FF3B1D] align-super">®</span>
+          </div>
+          <div className="hidden sm:flex flex-col border-l border-neutral-300 pl-3">
             <div className="flex items-center gap-2">
-              <span className="text-lg md:text-xl font-bold font-display tracking-tight text-black uppercase leading-none">
+              <span className="text-sm font-bold font-display tracking-tight text-black uppercase leading-none">
                 Jinendra Parakh
               </span>
               {isProjectPage && currentProject && (
-                <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase hidden sm:inline">
+                <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase">
                   / {currentProject.indexCode}
                 </span>
               )}
             </div>
-            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-medium mt-1">
+            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-medium mt-0.5">
               {isProjectPage && currentProject 
                 ? currentProject.subtitle 
-                : "Product Design Portfolio 2025"}
+                : "Kinetic Studio // Portfolio 2025"}
             </span>
           </div>
         </Link>
@@ -1203,42 +1206,62 @@ function Navbar() {
             </Link>
           </div>
         ) : (
-          /* Standard Site Navigation Links */
+          /* Standard Site Navigation Links (with active dot indicator from Image 1) */
           <div className="hidden md:flex items-center gap-8 font-mono text-xs font-medium uppercase tracking-wider text-neutral-600">
             <Link 
               to="/" 
-              className={`transition-colors hover:text-black ${location.pathname === '/' ? 'text-[#FF3B1D] font-bold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/' ? 'text-black font-bold' : ''}`}
             >
-              01. Works
+              <span>Home</span>
+              {location.pathname === '/' && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#FF3B1D] rounded-full" />
+              )}
             </Link>
+            <a 
+              href="/#inquiries" 
+              className="relative transition-colors hover:text-black py-1"
+            >
+              <span>Work</span>
+            </a>
             <Link 
               to="/playground" 
-              className={`transition-colors hover:text-black ${location.pathname === '/playground' ? 'text-[#FF3B1D] font-bold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/playground' ? 'text-black font-bold' : ''}`}
             >
-              02. Visual Lab
+              <span>Visual Lab</span>
+              {location.pathname === '/playground' && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#FF3B1D] rounded-full" />
+              )}
             </Link>
             <Link 
               to="/about" 
-              className={`transition-colors hover:text-black ${location.pathname === '/about' ? 'text-[#FF3B1D] font-bold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/about' ? 'text-black font-bold' : ''}`}
             >
-              03. Profile
-            </Link>
-            <Link 
-              to="/experience" 
-              className={`transition-colors hover:text-black ${location.pathname === '/experience' ? 'text-[#FF3B1D] font-bold' : ''}`}
-            >
-              04. Experience
+              <span>About</span>
+              {location.pathname === '/about' && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#FF3B1D] rounded-full" />
+              )}
             </Link>
             
-            <a 
-              href="/Jinendra_Parakh_Resume.pdf" 
-              target="_blank" 
-              rel="noreferrer"
-              className="flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full hover:bg-[#FF3B1D] transition-colors"
-            >
-              <Download className="w-3 h-3" />
-              <span>Resume</span>
-            </a>
+            {/* Pill CTA Button (Image 1 style: Contact us) */}
+            <div className="flex items-center gap-3 pl-4 border-l border-neutral-300">
+              <a 
+                href="/Jinendra_Parakh_Resume.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="flex items-center gap-1.5 text-neutral-600 hover:text-black transition-colors"
+                title="Download Resume"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Resume</span>
+              </a>
+              <a 
+                href="mailto:parakhjinendra@gmail.com"
+                className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-[#FF3B1D] transition-colors shadow-sm font-bold"
+              >
+                <span>Contact us</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
+              </a>
+            </div>
           </div>
         )}
 
@@ -1414,347 +1437,456 @@ function Footer() {
   );
 }
 
-/* --- HOME PAGE HERO SHOWCASE SPOTLIGHT (MIRKO ROMANELLI INTERACTION) --- */
-function HeroShowcase() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const activeProj = JINENDRA_PROJECTS[activeIdx];
-
+/* --- SIGNATURE KINETIC STARBURST ICON (FROM REFERENCE MOODBOARDS) --- */
+function StarburstIcon({ className = "w-4 h-4 text-[#FF3B1D]" }) {
   return (
-    <div className="relative mt-16 select-none">
-      
-      {/* Background Watermark Typography */}
-      <div 
-        aria-hidden="true" 
-        className="absolute -bottom-8 -left-4 font-display font-black text-[11vw] uppercase leading-none tracking-tighter text-black/[0.04] pointer-events-none select-none z-0"
-      >
-        Jinendra Parakh
-      </div>
-
-      {/* Showcase Card Stage */}
-      <div className="relative z-10 bg-[#DFDFDC]/85 backdrop-blur-sm rounded-sm p-6 sm:p-10 md:p-12 overflow-hidden shadow-sm group">
-        
-        {/* Project Selector Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-black/10 font-mono text-xs">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FF3B1D] animate-pulse" />
-            <span className="font-bold uppercase tracking-wider text-black">
-              Featured Case Studies
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {JINENDRA_PROJECTS.map((p, idx) => (
-              <button
-                key={p.slug}
-                onClick={() => setActiveIdx(idx)}
-                className={`px-3.5 py-1.5 rounded-full font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  activeIdx === idx
-                    ? 'bg-black text-white'
-                    : 'bg-white/70 text-neutral-600 hover:bg-white hover:text-black'
-                }`}
-              >
-                <span>{p.indexCode}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Hero Interactive Canvas */}
-        <Link 
-          to={`/project/${activeProj.slug}`}
-          className="relative block w-full min-h-[340px] sm:min-h-[460px] md:min-h-[500px] flex items-center justify-center my-6 group/canvas cursor-pointer"
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProj.slug}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full h-full flex flex-col items-center justify-center"
-            >
-              <img
-                src={resolveImg(activeProj.thumbId || activeProj.heroId)}
-                alt={activeProj.title}
-                className="max-h-[320px] sm:max-h-[420px] md:max-h-[460px] max-w-full w-auto h-auto object-contain drop-shadow-lg group-hover/canvas:scale-[1.02] transition-transform duration-500 ease-out"
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Floating Dark Frosted Pill on Hover (Signature Mirko Romanelli interaction) */}
-          <motion.div 
-            className="absolute bottom-6 bg-black/90 backdrop-blur-md text-white font-mono text-xs font-bold px-6 py-3 rounded-full uppercase tracking-wider flex items-center gap-2 shadow-xl group-hover/canvas:bg-[#FF3B1D] transition-colors"
-          >
-            <span>Explore {activeProj.title}</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </motion.div>
-        </Link>
-
-        {/* Bottom Metadata in Stage */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-6 border-t border-black/10 font-mono text-xs">
-          <div className="flex items-center gap-3">
-            <span className="text-xl sm:text-2xl font-black font-display uppercase tracking-tight text-black">
-              {activeProj.title}
-            </span>
-            <span className="text-neutral-400">/</span>
-            <span className="text-neutral-600 font-medium">
-              {activeProj.subtitle}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-neutral-500 text-[11px] uppercase tracking-wider">
-            <span>{activeProj.duration}</span>
-            <span>•</span>
-            <span className="text-[#FF3B1D] font-bold">{activeProj.category}</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0L13.8 8.2L20.5 3.5L16.8 10.2L24 12L16.8 13.8L20.5 20.5L13.8 15.8L12 24L10.2 15.8L3.5 20.5L7.2 13.8L0 12L7.2 10.2L3.5 3.5L10.2 8.2Z" />
+    </svg>
   );
 }
 
-/* --- HOME PAGE (SWISS BRUTALIST ACCENT — UNBORDERED VERMILION BLOCKS) --- */
+/* --- INLINE MOTION CAPSULE (FROM REFERENCE HEADLINES) --- */
+function InlineMotionCapsule({ className = "" }) {
+  return (
+    <span className={`inline-flex items-center justify-center align-middle mx-1.5 sm:mx-2 px-2 py-0.5 h-7 sm:h-9 md:h-10 w-14 sm:w-20 md:w-24 rounded-full bg-gradient-to-r from-[#FF3B1D] via-[#FF7A00] to-[#E02404] shadow-md shadow-orange-500/25 overflow-hidden relative shrink-0 ${className}`}>
+      <span className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/70 via-transparent to-transparent animate-pulse" />
+      <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff]" />
+    </span>
+  );
+}
+
+/* --- 1. HERO KINETIC SECTION (IMAGE 1 RECREATION) --- */
+function HeroKineticSection() {
+  return (
+    <section className="relative overflow-hidden pt-8 sm:pt-14 pb-0">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        
+        {/* Top Context Metadata Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-neutral-300/60 mb-12">
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
+            <span className="font-bold text-black">KINETIC STUDIO // JINENDRA PARAKH</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <span className="hidden sm:inline text-neutral-400">BANGALORE / PUNE / NASHIK</span>
+            <span className="text-black font-semibold">STRATE SCHOOL OF DESIGN '25</span>
+          </div>
+        </div>
+
+        {/* Hero 2-Column Composition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left Column: Display Typography & CTA */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest">
+              <StarburstIcon className="w-3.5 h-3.5" />
+              <span>‘BUILDING DESIRES’ // HARDWARE INQUIRY</span>
+            </div>
+
+            <h1 className="text-5xl sm:text-7xl md:text-[84px] lg:text-[94px] font-black font-display tracking-tight leading-[0.96] uppercase text-black">
+              Redefine <br />
+              <span className="text-neutral-400 font-light lowercase">product desires</span>
+            </h1>
+
+            <p className="text-base sm:text-lg md:text-xl font-sans text-neutral-600 font-light leading-relaxed max-w-xl pt-2">
+              Our kinetic studio shapes bold physical journeys with adaptive motion systems flowing across endless layers of future.
+            </p>
+
+            <div className="pt-4 flex flex-wrap items-center gap-4">
+              <a 
+                href="#inquiries" 
+                className="inline-flex items-center gap-3 bg-white text-black font-mono text-xs font-bold uppercase tracking-wider py-2 pl-2 pr-6 rounded-full shadow-md hover:shadow-xl hover:bg-neutral-50 transition-all cursor-pointer group border border-black/5"
+              >
+                <span className="w-9 h-7 rounded-full bg-gradient-to-r from-[#FF3B1D] via-[#FF7A00] to-[#E02404] flex items-center justify-center text-white shadow-inner">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff]" />
+                </span>
+                <span>Explore Inquiries</span>
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+              <a 
+                href="/Jinendra_Parakh_Portfolio.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-neutral-600 hover:text-black py-2.5 px-4 rounded-full border border-neutral-300 hover:border-black transition-colors"
+              >
+                <span>53-Page Deck</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Floating Squircle Preview Card (Directly opens /project/fuel) */}
+          <div className="lg:col-span-5">
+            <Link 
+              to="/project/fuel" 
+              className="group block relative bg-[#121214] text-white p-7 md:p-8 rounded-[32px] shadow-2xl border border-white/10 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(255,59,29,0.18)] transition-all duration-300 cursor-pointer"
+            >
+              {/* Card Header */}
+              <div className="flex items-center justify-between font-mono text-xs text-neutral-400 pb-3 border-b border-white/10">
+                <span className="uppercase tracking-widest text-[11px] font-bold text-white/80">case 01</span>
+                <StarburstIcon className="w-4 h-4 text-[#FF3B1D] group-hover:rotate-90 transition-transform duration-500" />
+              </div>
+
+              {/* Central Kinetic Motion Visual with Fiery Glow Streak */}
+              <div className="relative my-6 h-56 sm:h-64 flex items-center justify-center overflow-hidden rounded-2xl bg-neutral-900/90 p-4">
+                {/* Dynamic Fire Streak / Light Flare */}
+                <div className="absolute inset-x-0 h-16 bg-gradient-to-r from-transparent via-[#FF3B1D]/50 to-transparent blur-2xl animate-pulse" />
+                <img 
+                  src={resolveImg('p4_2')} 
+                  alt="Fuel Power Bank" 
+                  className="relative z-10 max-h-48 sm:max-h-52 w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform duration-500 ease-out" 
+                />
+              </div>
+
+              {/* Card Meta & Action */}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display font-bold text-xl uppercase tracking-tight text-white group-hover:text-[#FF3B1D] transition-colors">
+                    Fuel Power Bank
+                  </h3>
+                  <span className="text-xs font-mono font-bold text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    <span>Inspect</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+                <p className="font-mono text-xs text-neutral-400 font-light leading-relaxed">
+                  Modern & tactile retro-engineering with audible click slider and woven nylon ribbon.
+                </p>
+              </div>
+            </Link>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* Giant Typographic Watermark 'kinetic' Across Bottom (as in Image 1) */}
+      <div className="relative overflow-hidden w-full pt-10 pb-0 select-none pointer-events-none">
+        <div className="font-display font-black text-[18vw] leading-none tracking-tighter uppercase text-white drop-shadow-sm text-center">
+          kinetic
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --- 2. STAGGERED THUMBNAILS SECTION (IMAGE 2 RECREATION) --- */
+const STAGGERED_PROJECTS = [
+  {
+    slug: "fuel",
+    badge: "Strategy",
+    tag: "01 // Tech",
+    title: "Fuel Power Bank",
+    desc: "Tactile retro-engineering with audible mechanical slider switch & woven nylon ribbon.",
+    bgClass: "bg-[#121214] text-white border border-white/10",
+    pillClass: "bg-white text-black",
+    starburstClass: "text-[#FF3B1D]",
+    imgId: "p4_2",
+    stagger: ""
+  },
+  {
+    slug: "vantage",
+    badge: "Growth",
+    tag: "02 // Kinematics",
+    title: "Vantage Webcam",
+    desc: "Ergonomic dual-axis camera for hybrid professional workspace and privacy.",
+    bgClass: "bg-gradient-to-br from-[#FF3B1D] via-[#E52A0B] to-[#991402] text-white shadow-xl shadow-orange-600/20",
+    pillClass: "bg-white text-black",
+    starburstClass: "text-white",
+    imgId: "p13_2",
+    stagger: "md:translate-y-16"
+  },
+  {
+    slug: "friday",
+    badge: "Creative",
+    tag: "03 // Luxury",
+    title: "Friday Footwear",
+    desc: "Biomechanical ergonomic modular footwear engineering with swappable components.",
+    bgClass: "bg-[#18181B] text-white border border-white/10",
+    pillClass: "bg-white text-black",
+    starburstClass: "text-[#FF3B1D]",
+    imgId: "p31_2",
+    stagger: ""
+  },
+  {
+    slug: "miscellaneous",
+    badge: "Powerful",
+    tag: "04 // Visual Lab",
+    title: "Visual Lab & Chrono",
+    desc: "Horological chronographs, sneaker ideation, and rapid foam prototypes.",
+    bgClass: "bg-[#E2E2DF] text-black border border-neutral-300 shadow-sm",
+    pillClass: "bg-black text-white",
+    starburstClass: "text-[#FF3B1D]",
+    imgId: "p1_2",
+    stagger: "md:translate-y-16"
+  }
+];
+
+function StaggeredThumbnailsSection() {
+  return (
+    <section id="inquiries" className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-neutral-300/60">
+      
+      {/* Top Inquiry Tag */}
+      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-neutral-300 shadow-sm font-mono text-xs text-black mb-8">
+        <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
+        <span className="font-bold uppercase tracking-wider">About inquiry</span>
+      </div>
+
+      {/* Main Display Headline with 2 Inline Motion Capsules (Image 2) */}
+      <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-black leading-[1.2] max-w-5xl mb-20">
+        Kinetic Studio – is an ID inquiry of bold <InlineMotionCapsule /> creators that delivers the power of tactile hardware with <InlineMotionCapsule /> cutting-edge strategy
+      </h2>
+
+      {/* 4 Staggered Squircle Cards (Clicking opens that project directly) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-start pb-16">
+        {STAGGERED_PROJECTS.map((card) => (
+          <Link
+            key={card.slug}
+            to={`/project/${card.slug}`}
+            className={`group relative block rounded-[32px] p-7 md:p-8 min-h-[490px] md:min-h-[540px] flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer ${card.bgClass} ${card.stagger}`}
+          >
+            {/* Top Badge & Tag */}
+            <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-current/10">
+              <span className={`font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm ${card.pillClass}`}>
+                {card.badge}
+              </span>
+              <span className="font-mono text-[11px] uppercase tracking-widest opacity-60 font-semibold">
+                {card.tag}
+              </span>
+            </div>
+
+            {/* Middle Product Render (Zero Cropped) */}
+            <div className="my-auto py-6 flex items-center justify-center min-h-[220px]">
+              <img 
+                src={resolveImg(card.imgId)} 
+                alt={card.title} 
+                className="max-h-[220px] max-w-full w-auto h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500 ease-out" 
+              />
+            </div>
+
+            {/* Bottom Meta & Starburst */}
+            <div className="pt-4 border-t border-current/10 space-y-2">
+              <div className="flex items-center justify-between">
+                <StarburstIcon className={`w-4 h-4 ${card.starburstClass} group-hover:rotate-90 transition-transform duration-500`} />
+                <span className="font-mono text-[11px] font-bold uppercase tracking-widest opacity-80 group-hover:opacity-100 flex items-center gap-1">
+                  <span>Open</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
+              <h3 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight leading-tight">
+                {card.title}
+              </h3>
+              <p className="font-sans text-xs font-light opacity-75 leading-relaxed line-clamp-2">
+                {card.desc}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+    </section>
+  );
+}
+
+/* --- 3. DARK KINETIC CAROUSEL SECTION (IMAGE 3 RECREATION) --- */
+const CAROUSEL_CARDS = [
+  {
+    id: "lead",
+    badge: "Lead Designer",
+    slug: "fuel",
+    link: "/about",
+    title: "Jinendra Parakh",
+    role: "Lead Industrial Designer // Strate '25",
+    desc: "B.Sc. in Product Design. Hardware ideation, high-fidelity surfacing, and tactile retro-engineering.",
+    imgId: "p11_4",
+    tag: "Design Lead"
+  },
+  {
+    id: "fuel",
+    badge: "Retro-Engineering",
+    slug: "fuel",
+    link: "/project/fuel",
+    title: "Fuel Power Bank",
+    role: "Consumer Tech // 1-Week Sprint",
+    desc: "Audible click mechanical slider with MagSafe magnetic backplate and woven nylon ribbon.",
+    imgId: "p4_2",
+    tag: "01 // Hardware"
+  },
+  {
+    id: "vantage",
+    badge: "Kinematic Cam",
+    slug: "vantage",
+    link: "/project/vantage",
+    title: "Vantage Webcam",
+    role: "Hybrid Workspace // Form Ergonomics",
+    desc: "Dual-axis rotating mount with magnetic privacy shutter and die-cast aluminum knuckle joint.",
+    imgId: "p26_2",
+    tag: "02 // Kinematics"
+  },
+  {
+    id: "friday",
+    badge: "Modular Footwear",
+    slug: "friday",
+    link: "/project/friday",
+    title: "Friday Footwear",
+    role: "Footwear Systems // Biomechanics",
+    desc: "Ergonomic high-heel with modular swappable heel geometries and custom silicone lattice.",
+    imgId: "p41_2",
+    tag: "03 // Footwear"
+  }
+];
+
+function DarkKineticCarouselSection() {
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const prev = () => setActiveIdx((curr) => (curr === 0 ? CAROUSEL_CARDS.length - 1 : curr - 1));
+  const next = () => setActiveIdx((curr) => (curr === CAROUSEL_CARDS.length - 1 ? 0 : curr + 1));
+
+  const activeCard = CAROUSEL_CARDS[activeIdx];
+
+  return (
+    <section className="bg-[#050505] text-white py-28 px-6 md:px-12 border-t border-neutral-900 overflow-hidden relative">
+      
+      {/* Background Kinetic Flare Streak */}
+      <div 
+        aria-hidden="true" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#FF3B1D]/20 via-[#FF7A00]/15 to-transparent blur-3xl pointer-events-none" 
+      />
+
+      <div className="max-w-[1400px] mx-auto relative z-10">
+        
+        {/* Top Tag Pill */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 font-mono text-xs text-white mb-8">
+          <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
+          <span className="font-bold uppercase tracking-wider">About team & craft</span>
+        </div>
+
+        {/* Display Headline with Inline Motion Capsule */}
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-white leading-[1.2] max-w-5xl mb-16">
+          We are the talented team and passionate experts <InlineMotionCapsule /> shaping your brand’s digital journey with tactile hardware precision
+        </h2>
+
+        {/* 3D Squircle Showcase Stage */}
+        <div className="relative py-8">
+          
+          <div className="max-w-4xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCard.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="bg-[#121214] rounded-[36px] border-2 border-white/85 shadow-[0_0_60px_rgba(255,59,29,0.18)] p-8 sm:p-12 relative overflow-hidden"
+              >
+                {/* Top Row: JP Logo & Tag */}
+                <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display font-black text-2xl uppercase tracking-tighter text-white">JP</span>
+                    <span className="text-[10px] font-mono font-bold text-[#FF3B1D] align-super">®</span>
+                  </div>
+                  <span className="font-mono text-xs font-bold uppercase tracking-widest bg-white/10 text-white px-4 py-1.5 rounded-full border border-white/15">
+                    {activeCard.badge}
+                  </span>
+                </div>
+
+                {/* Center Cinematic Hardware Render with Speed Trail */}
+                <div className="relative my-8 h-64 sm:h-80 flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-neutral-900 to-black p-6">
+                  <div className="absolute inset-x-0 h-24 bg-gradient-to-r from-transparent via-[#FF3B1D]/40 to-transparent blur-2xl animate-pulse" />
+                  <img
+                    src={resolveImg(activeCard.imgId)}
+                    alt={activeCard.title}
+                    className="relative z-10 max-h-56 sm:max-h-72 max-w-full w-auto h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
+                  />
+                </div>
+
+                {/* Bottom Row: Metadata & Open Action */}
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 border-t border-white/10">
+                  <div className="space-y-1">
+                    <span className="font-mono text-xs text-[#FF3B1D] font-bold uppercase tracking-widest block">
+                      {activeCard.tag}
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-white">
+                      {activeCard.title}
+                    </h3>
+                    <p className="font-mono text-xs text-neutral-400">
+                      {activeCard.role}
+                    </p>
+                    <p className="font-sans text-xs text-neutral-400 font-light max-w-lg pt-1">
+                      {activeCard.desc}
+                    </p>
+                  </div>
+
+                  <Link
+                    to={activeCard.link}
+                    className="inline-flex items-center gap-2 bg-white text-black font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full hover:bg-[#FF3B1D] hover:text-white transition-all shadow-md shrink-0 cursor-pointer"
+                  >
+                    <span>Inspect Inquiry</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Carousel Controls: Circular Prev / Next Buttons */}
+          <div className="flex items-center justify-center gap-4 mt-10">
+            <button
+              onClick={prev}
+              aria-label="Previous Kinetic Card"
+              className="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer shadow-sm"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            {/* Indicator Dots */}
+            <div className="flex items-center gap-2 px-3">
+              {CAROUSEL_CARDS.map((c, idx) => (
+                <button
+                  key={c.id}
+                  onClick={() => setActiveIdx(idx)}
+                  aria-label={`Go to ${c.title}`}
+                  className={`transition-all rounded-full ${
+                    activeIdx === idx 
+                      ? 'w-8 h-2 bg-[#FF3B1D]' 
+                      : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={next}
+              aria-label="Next Kinetic Card"
+              className="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer shadow-sm"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+  );
+}
+
+/* --- HOME PAGE (EXACT KINETIC STUDIO MOODBOARD ARCHITECTURE) --- */
 function HomePage() {
   return (
     <div className="min-h-screen">
       
-      {/* HERO SECTION: Fluid Swiss Composition */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-24">
-        
-        {/* Subtle Top Metadata Line */}
-        <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-neutral-300/60 mb-16">
-          <div className="flex items-center gap-3">
-            <span className="font-bold text-black">+1</span>
-            <span>PORTFOLIO 2025 // JINENDRA PARAKH</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="hidden sm:inline text-[#FF3B1D]">●</span>
-            <span className="hidden sm:inline text-neutral-500">BANGALORE / PUNE / NASHIK</span>
-            <span className="text-black font-semibold">STRATE SCHOOL OF DESIGN</span>
-          </div>
-        </div>
+      {/* 1. HERO KINETIC SECTION (IMAGE 1) */}
+      <HeroKineticSection />
 
-        {/* Hero Composition: Typographic Headline with Solid Vermilion Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* Main Display Headline */}
-          <div className="lg:col-span-8 space-y-6">
-            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
-              // ‘BUILDING DESIRES’
-            </span>
+      {/* 2. STAGGERED THUMBNAILS GRID (IMAGE 2) */}
+      <StaggeredThumbnailsSection />
 
-            <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display tracking-tight text-black leading-[1.0] uppercase">
-              Crafting <br />
-              innovative <br />
-              products that <br />
-              <span className="text-[#FF3B1D]">captivate</span> your <br />
-              desires.
-            </h1>
-
-            <p className="text-lg md:text-xl font-sans text-neutral-600 font-light leading-relaxed max-w-2xl pt-2">
-              On a mission to change the way we look at things. I believe every object has a story to tell and an experience to create—blending functionality with aesthetics to build meaningful solutions.
-            </p>
-          </div>
-
-          {/* Flat Solid Vermilion Card (NO BLACK BORDER) */}
-          <div className="lg:col-span-4">
-            <div className="bg-[#FF3B1D] text-white p-8 md:p-10 rounded-sm flex flex-col justify-between shadow-sm">
-              
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/20 font-mono text-[11px] uppercase tracking-widest text-white/90">
-                <div className="flex items-center gap-2 font-bold">
-                  <span className="w-2 h-2 bg-white block" />
-                  <span>JP // ID</span>
-                </div>
-                <span>EST. 2025</span>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                <p className="font-display font-bold text-xl md:text-2xl leading-snug">
-                  "Blending functionality with aesthetics to build aspirations."
-                </p>
-                <p className="font-mono text-xs text-white/80 leading-relaxed font-light">
-                  From rough conceptual sketches to functional 1:1 scale working prototypes and tactile retro-engineering.
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-white/20 flex items-center justify-between font-mono text-xs font-bold uppercase tracking-wider">
-                <a 
-                  href="#works" 
-                  className="inline-flex items-center gap-1.5 text-white hover:text-black transition-colors"
-                >
-                  <span>Explore Works</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
-
-                <a 
-                  href="/Jinendra_Parakh_Portfolio.pdf" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="bg-black/20 hover:bg-black text-white px-3 py-1 rounded-full text-[10px] transition-colors"
-                >
-                  53p Deck ↗
-                </a>
-              </div>
-            </div>
-
-            {/* Subtle Status Pill beneath Card */}
-            <div className="mt-4 p-4 bg-white/70 backdrop-blur-sm rounded-sm flex items-center justify-between font-mono text-xs text-neutral-700">
-              <div className="flex items-center gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-semibold uppercase tracking-wider">Open for Design Roles</span>
-              </div>
-              <Link to="/about" className="text-[#FF3B1D] font-bold hover:underline uppercase text-[10px]">
-                Profile →
-              </Link>
-            </div>
-          </div>
-
-        </div>
-
-        {/* HERO INTERACTIVE SHOWCASE SPOTLIGHT (MIRKO ROMANELLI STYLE) */}
-        <HeroShowcase />
-
-        {/* Flat Vermilion Horizontal Bar */}
-        <div className="mt-20 bg-[#FF3B1D] text-white p-6 md:p-8 rounded-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono shadow-sm">
-          <div className="flex items-center gap-4">
-            <span className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight">
-              lab. 001
-            </span>
-            <span className="hidden sm:inline border-l border-white/30 h-8" />
-            <div className="flex flex-col">
-              <span className="text-xs font-bold uppercase tracking-widest">
-                CREATIONS OF JINENDRA PARAKH
-              </span>
-              <span className="text-[10px] text-white/80 uppercase tracking-wider">
-                4 CORE PORTFOLIO WORKS // 2025
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
-            <span>[ 4 CASE STUDIES ]</span>
-            <a 
-              href="#works" 
-              className="bg-black text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors"
-            >
-              Inspect 04 Projects ↓
-            </a>
-          </div>
-        </div>
-
-      </section>
-
-      {/* 4 FEATURED PROJECTS SHOWCASE (NO CROPPED IMAGES, NO BOXY BLACK BORDERS) */}
-      <section id="works" className="max-w-[1400px] mx-auto px-6 md:px-12 py-16">
-        
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-16 border-b border-neutral-300">
-          <div>
-            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-1">
-              // PORTFOLIO 2025
-            </span>
-            <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tight text-black">
-              Selected Inquiries
-            </h2>
-          </div>
-          <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
-            04 Documented Case Studies
-          </span>
-        </div>
-
-        {/* Project Feed: Generous, Borderless, Uncropped Imagery */}
-        <div className="space-y-32">
-          {JINENDRA_PROJECTS.map((proj, idx) => (
-            <motion.div 
-              key={proj.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center group"
-            >
-              
-              {/* Image Frame (ZERO CROPPING — FLEXIBLE CONTAINER WITH UNCLIPPED IMAGE) */}
-              <div className={`lg:col-span-7 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
-                <Link 
-                  to={`/project/${proj.slug}`} 
-                  className="block relative w-full min-h-[340px] md:min-h-[460px] p-6 sm:p-10 bg-[#DFDFDC]/70 hover:bg-[#D7D7D4] transition-colors rounded-sm group flex items-center justify-center overflow-hidden"
-                >
-                  <ProjectImage 
-                    id={proj.thumbId} 
-                    altText={proj.title}
-                    caption={`${proj.title} — ${proj.subtitle}`}
-                    withLoader={true}
-                    allowExpand={false}
-                    className="w-full h-full flex items-center justify-center"
-                    imgClassName="max-h-[380px] md:max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-sm group-hover:scale-102 transition-transform duration-500 ease-out"
-                  />
-                  
-                  {/* Floating Minimal Pill */}
-                  <div className="absolute bottom-4 right-4 bg-black/85 backdrop-blur-sm text-white font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span>Inspect Case Study</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-[#FF3B1D]" />
-                  </div>
-                </Link>
-              </div>
-
-              {/* Text Column */}
-              <div className={`lg:col-span-5 space-y-5 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
-                
-                <div className="flex items-center justify-between font-mono text-xs border-b border-black/10 pb-3">
-                  <span className="font-bold text-[#FF3B1D] uppercase tracking-widest">
-                    {proj.indexCode}
-                  </span>
-                  <span className="text-neutral-500 font-semibold">
-                    {proj.duration}
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-black font-display uppercase tracking-tight text-black leading-none mb-2">
-                    <Link to={`/project/${proj.slug}`} className="hover:text-[#FF3B1D] transition-colors">
-                      {proj.title}
-                    </Link>
-                  </h3>
-                  <p className="font-mono text-xs font-bold text-neutral-600 uppercase tracking-wider">
-                    {proj.subtitle}
-                  </p>
-                </div>
-
-                <p className="font-sans text-neutral-600 text-base leading-relaxed font-light">
-                  {proj.tagline}
-                </p>
-
-                {/* Micro Metric Badges */}
-                {proj.heroMetrics && (
-                  <div className="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-                    {proj.heroMetrics.slice(0, 2).map((m, mIdx) => (
-                      <div key={mIdx} className="border-l-2 border-[#FF3B1D] pl-3 py-0.5">
-                        <span className="text-neutral-400 block text-[10px] uppercase font-bold">{m.label}</span>
-                        <span className="font-bold text-black">{m.val}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div className="pt-2">
-                  <Link 
-                    to={`/project/${proj.slug}`}
-                    className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-black hover:text-[#FF3B1D] transition-colors border-b border-black hover:border-[#FF3B1D] pb-1"
-                  >
-                    <span>Inspect Full Study</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </Link>
-                </div>
-
-              </div>
-
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* 3. DARK KINETIC CAROUSEL (IMAGE 3) */}
+      <DarkKineticCarouselSection />
 
       {/* QUICK LINKS SECTION (PLAYGROUND & DOSSIERS) */}
       <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-neutral-300">
