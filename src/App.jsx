@@ -87,6 +87,9 @@ export function resolveImg(idOrPath) {
   // 4. Normalization for web paths
   if (raw.startsWith('/portfolio')) return raw.replace(/\\/g, '/');
   if (raw.startsWith('public/portfolio')) return '/' + raw.slice(7).replace(/\\/g, '/');
+  if (raw.startsWith('/assets/portfolio')) return raw.replace(/\\/g, '/');
+  if (raw.startsWith('src/assets/portfolio')) return '/assets/' + raw.slice(11).replace(/\\/g, '/');
+  if (raw.startsWith('src/assets/')) return '/' + raw.slice(4).replace(/\\/g, '/');
   
   return raw;
 }
