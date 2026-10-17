@@ -146,6 +146,62 @@
   box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 1);
 }
 
+/* --- SIGNATURE APPLE WATERGLASS SYSTEM (LIQUID FROSTED REFRACTION) --- */
+.waterglass-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03),
+    0 20px 48px -12px rgba(0, 0, 0, 0.07),
+    0 1px 3px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.waterglass-card:hover {
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 
+    inset 0 1px 2.5px 0 rgba(255, 255, 255, 1),
+    0 28px 64px -14px rgba(0, 0, 0, 0.11),
+    0 2px 8px 0 rgba(0, 0, 0, 0.04);
+}
+
+.waterglass-dock {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(32px) saturate(210%);
+  -webkit-backdrop-filter: blur(32px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03),
+    0 16px 40px -8px rgba(0, 0, 0, 0.12);
+}
+
+.waterglass-pill {
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 1),
+    0 4px 14px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.waterglass-pill:hover {
+  background: rgba(255, 255, 255, 0.96);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1),
+    0 8px 20px -3px rgba(0, 0, 0, 0.09);
+}
+
+.waterglass-pill:active {
+  transform: translateY(0.5px) scale(0.98);
+}
+
 /* Apple Specular Highlight & Glassmorphism Utilities */
 .apple-glass {
   background: rgba(255, 255, 255, 0.8);

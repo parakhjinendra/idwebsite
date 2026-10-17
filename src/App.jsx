@@ -11,6 +11,8 @@ import {
 import { 
   ArrowUpRight, 
   ArrowLeft, 
+  ArrowRight,
+  ArrowDown,
   ArrowUp, 
   Menu, 
   X, 
@@ -1470,328 +1472,510 @@ function InlineMotionCapsule({ className = "" }) {
   );
 }
 
-/* --- 1. HERO KINETIC SECTION (IMAGE 1 RECREATION) --- */
-/* --- 1. HERO KINETIC SECTION (APPLE KEYNOTE HARDWARE REVEAL) --- */
-function HeroKineticSection() {
-  const [activeHotspot, setActiveHotspot] = useState(null);
-
-  const hotspots = [
-    { id: 1, x: "30%", y: "28%", title: "Tactile Power Switch", detail: "Mechanical linear slider with spring-loaded audible detent click." },
-    { id: 2, x: "48%", y: "38%", title: "Segment LED Readout", detail: "Integrated digital charge percentage for instantaneous readout." },
-    { id: 3, x: "62%", y: "52%", title: "Magnetic Wireless Pad", detail: "MagSafe-compatible inductive charging coil interface." },
-    { id: 4, x: "82%", y: "74%", title: "Woven Nylon Ribbon", detail: "Heavy-duty nylon lanyard with cast metal carabiner loop." }
-  ];
+/* --- 1. APPLE KEYNOTE HERO: MONUMENTAL OPENING STAGE --- */
+function AppleKeynoteHero() {
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 bg-white text-[#1d1d1f]">
+    <section className="relative overflow-hidden pt-16 sm:pt-24 pb-20 bg-white text-[#1d1d1f]">
       {/* Volumetric Radial Ambient Lighting */}
       <div 
         aria-hidden="true" 
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF3B1D]/10 via-[#FF7A00]/05 to-transparent blur-3xl pointer-events-none" 
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF3B1D]/08 via-[#FF7A00]/04 to-transparent blur-3xl pointer-events-none" 
       />
 
       <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 relative z-10">
         
-        {/* Top Context Eyebrow Line */}
-        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-black/[0.08] mb-14">
-          <div className="flex items-center gap-3">
+        {/* Top Eyebrow Status Capsule */}
+        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-black/[0.08] mb-12">
+          <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-[#FF3B1D] animate-pulse" />
-            <span className="font-bold text-black">APPLE DESIGN PHILOSOPHY // JINENDRA PARAKH</span>
+            <span className="font-bold text-black">JINENDRA PARAKH // INDUSTRIAL DESIGN</span>
+            <span className="text-neutral-300 hidden sm:inline">•</span>
+            <span className="hidden sm:inline text-neutral-500">STRATE SCHOOL OF DESIGN '25</span>
           </div>
-          <div className="flex items-center gap-6">
-            <span className="hidden sm:inline text-neutral-400">BANGALORE / PUNE / NASHIK</span>
-            <span className="text-black font-semibold">STRATE SCHOOL OF DESIGN '25</span>
+
+          <div className="flex items-center gap-3">
+            <div className="apple-fluid-glass-btn py-1 px-3.5 rounded-full flex items-center gap-2 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-emerald-600 font-bold uppercase text-[10px] tracking-wider">
+                Available for Full-Time ID Roles
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Hero 2-Column Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Display Typography & Keynote CTA */}
-          <div className="lg:col-span-7 space-y-7">
-            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#FF3B1D] uppercase tracking-widest">
-              <StarburstIcon className="w-3.5 h-3.5" />
-              <span>‘BUILDING DESIRES’ • HARDWARE INQUIRY</span>
-            </div>
+        {/* Hero Monumental Statement */}
+        <div className="max-w-5xl space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#FF3B1D] uppercase tracking-widest">
+            <StarburstIcon className="w-3.5 h-3.5" />
+            <span>‘BUILDING DESIRES’ • PHYSICAL DESIGN PORTFOLIO</span>
+          </div>
 
-            <h1 className="text-5xl sm:text-7xl md:text-[84px] lg:text-[96px] font-black font-display tracking-tight leading-[0.94] uppercase text-black">
-              Building desires. <br />
-              <span className="apple-headline-gradient font-light normal-case">Designed to be felt.</span>
-            </h1>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-black font-display tracking-[-0.04em] leading-[0.94] uppercase text-black">
+            Form, Ergonomics <br />
+            <span className="apple-headline-gradient font-light normal-case">& Physical Craft.</span>
+          </h1>
 
-            <p className="text-base sm:text-lg md:text-xl font-sans text-neutral-600 font-light leading-relaxed max-w-xl">
-              Industrial design inquiry of Jinendra Parakh. Exploring tactile retro-engineering, kinematic mechanisms, and modular ergonomics with extreme intentionality.
-            </p>
+          <p className="font-sans text-lg sm:text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl">
+            I believe every object has a story to tell and an experience to create. Industrial designer specialized in bridging human emotion and mechanical precision through form semantics, 3-axis CNC craft, and DFM rigor.
+          </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-4 font-mono text-xs">
-              <a 
-                href="#inquiries" 
-                className="apple-fluid-glass-primary inline-flex items-center gap-3 font-bold uppercase tracking-wider py-3.5 px-7 rounded-full shadow-md cursor-pointer group"
+          {/* Quick-Action Waterglass Button Bar */}
+          <div className="pt-4 flex flex-wrap items-center gap-4 font-mono text-xs">
+            <button 
+              onClick={() => scrollTo('inquiries')}
+              className="apple-fluid-glass-primary inline-flex items-center gap-3 font-bold uppercase tracking-wider py-3.5 px-7 rounded-full shadow-md cursor-pointer group"
+            >
+              <span>Explore 4 Master Inquiries</span>
+              <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+            </button>
+
+            <a 
+              href="/Jinendra_Parakh_Portfolio.pdf" 
+              target="_blank" 
+              rel="noreferrer"
+              className="apple-fluid-glass-btn inline-flex items-center gap-2 font-bold uppercase tracking-wider text-black py-3.5 px-6 rounded-full cursor-pointer shadow-xs"
+            >
+              <span>Download 53p Deck (PDF)</span>
+              <Download className="w-3.5 h-3.5 text-neutral-500" />
+            </a>
+
+            <Link 
+              to="/about"
+              className="apple-fluid-glass-btn inline-flex items-center gap-2 font-bold uppercase tracking-wider text-neutral-700 hover:text-black py-3.5 px-6 rounded-full cursor-pointer shadow-xs"
+            >
+              <span>About & Skills</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Floating Waterglass Quick-Switch Island (Hero Dock) */}
+        <div className="mt-16 pt-10 border-t border-black/[0.08]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 font-mono text-xs">
+            <span className="text-neutral-500 uppercase tracking-widest font-bold text-[11px] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
+              <span>DIRECT EXHIBITION ACCESS // SELECT INQUIRY</span>
+            </span>
+            <span className="text-neutral-400 text-[11px] hidden sm:inline">
+              100% UNCLIPPED PDF PLATES • INTERACTIVE HOTSPOTS
+            </span>
+          </div>
+
+          <div className="waterglass-dock p-2 rounded-2xl sm:rounded-full flex items-center gap-2 overflow-x-auto no-scrollbar shadow-lg">
+            {[
+              { id: 'vantage', num: '01', title: 'Vantage 360°', tag: 'Webcam Architecture' },
+              { id: 'fuel', num: '02', title: 'Fuel Handheld', tag: 'Retro-Engineering' },
+              { id: 'friday', num: '03', title: 'Friday Boot', tag: 'Adaptive Footwear' },
+              { id: 'glass-vessel', num: '04', title: 'Glass Vessel', tag: 'Acoustic Sound' },
+              { id: 'studio-craft', num: '05', title: 'Studio Craft', tag: 'Prototyping Pillars' },
+              { id: 'visual-lab', num: '06', title: 'Visual Lab', tag: 'Sketches & AI' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => scrollTo(tab.id)}
+                className="waterglass-pill shrink-0 px-4 py-2 rounded-full font-mono text-xs flex items-center gap-2 text-neutral-700 hover:text-black font-semibold cursor-pointer group"
               >
-                <span className="w-2 h-2 rounded-full bg-white shadow-xs" />
-                <span>Explore Inquiries</span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
-
-              <a 
-                href="/Jinendra_Parakh_Portfolio.pdf" 
-                target="_blank" 
-                rel="noreferrer"
-                className="apple-fluid-glass-btn inline-flex items-center gap-2 font-bold uppercase tracking-wider text-black py-3.5 px-6 rounded-full cursor-pointer shadow-xs"
-              >
-                <span>53-Page Deck</span>
-                <ExternalLink className="w-3.5 h-3.5 text-neutral-500" />
-              </a>
-
-              <div className="apple-fluid-glass-btn p-3 rounded-full flex items-center gap-2 px-4 shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-emerald-600 font-bold uppercase text-[10px] tracking-wider">
-                  Open for ID Roles
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Floating Apple Squircle Card with Interactive Hotspots */}
-          <div className="lg:col-span-5">
-            <div className="group relative apple-card rounded-[32px] p-6 sm:p-8 shadow-xl overflow-hidden bg-white border border-neutral-200/80">
-              
-              {/* Card Header */}
-              <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-neutral-200/80">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
-                  <span className="uppercase tracking-widest text-[11px] font-bold text-neutral-700">case 01 // FLAGSHIP HARDWARE</span>
-                </div>
-                <StarburstIcon className="w-4 h-4 text-[#FF3B1D] group-hover:rotate-90 transition-transform duration-500" />
-              </div>
-
-              {/* Central Cinematic Hardware Stage with Aspect Ratio Matching Renders */}
-              <div className="relative my-6 aspect-[16/10] sm:aspect-[16/9] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#f8f8fa] to-[#ececf0] p-3 sm:p-5 border border-neutral-200/80 shadow-inner">
-                {/* Ambient Glow */}
-                <div className="absolute inset-x-0 h-24 bg-gradient-to-r from-transparent via-[#FF3B1D]/20 to-transparent blur-2xl pointer-events-none" />
-                
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <Link to="/project/fuel" className="w-full h-full flex items-center justify-center cursor-pointer">
-                    <img 
-                      src={resolveImg('p11_4')} 
-                      alt="Fuel Power Bank" 
-                      className="w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-500 ease-out" 
-                    />
-                  </Link>
-
-                  {/* Apple Interactive Hotspot Pins (anchored directly on the hardware) */}
-                  {hotspots.map((h) => (
-                    <button
-                      key={h.id}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setActiveHotspot(activeHotspot === h.id ? null : h.id);
-                      }}
-                      style={{ left: h.x, top: h.y }}
-                      aria-label={h.title}
-                      className="absolute z-20 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer group/pin"
-                    >
-                      <span className="absolute inset-0 rounded-full bg-[#FF3B1D]/30 animate-ping" />
-                      <span className="relative w-2.5 h-2.5 rounded-full bg-[#FF3B1D] border-2 border-white shadow-[0_0_8px_#FF3B1D] group-hover/pin:scale-125 transition-transform" />
-                    </button>
-                  ))}
-                </div>
-
-                {/* Hotspot Floating Detail Callout Modal */}
-                <AnimatePresence>
-                  {activeHotspot && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute bottom-4 inset-x-4 z-30 p-4 rounded-xl bg-white/95 backdrop-blur-2xl border border-neutral-200/90 font-mono shadow-2xl text-left"
-                    >
-                      <div className="flex items-center justify-between pb-1 mb-1 border-b border-neutral-200">
-                        <span className="text-[#FF3B1D] font-bold text-xs uppercase">
-                          {hotspots.find(h => h.id === activeHotspot)?.title}
-                        </span>
-                        <button 
-                          onClick={() => setActiveHotspot(null)}
-                          className="text-neutral-500 hover:text-black text-xs font-bold cursor-pointer"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                      <p className="font-sans text-xs text-neutral-700 font-normal">
-                        {hotspots.find(h => h.id === activeHotspot)?.detail}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Card Meta & Action */}
-              <div className="space-y-2 pt-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display font-bold text-2xl uppercase tracking-tight text-black group-hover:text-[#FF3B1D] transition-colors">
-                    Fuel Power Bank
-                  </h3>
-                  <Link 
-                    to="/project/fuel"
-                    className="text-xs font-mono font-bold text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                  >
-                    <span>Inspect</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-                <p className="font-mono text-xs text-neutral-600 font-light leading-relaxed">
-                  Modern & tactile retro-engineering with audible click slider and woven nylon ribbon.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Apple Bento Metrics Strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-10 border-t border-black/[0.08] font-mono text-xs">
-          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
-            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">SPRINT DURATION</span>
-            <span className="text-lg font-bold text-black block">1-Week Sprint</span>
-            <span className="text-neutral-500 text-[11px] font-light">Rapid form ideation & CAD</span>
-          </div>
-          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
-            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">PROTOTYPE SCALE</span>
-            <span className="text-lg font-bold text-black block">1:1 Physical Scale</span>
-            <span className="text-neutral-500 text-[11px] font-light">Makerspace CNC & 3D print</span>
-          </div>
-          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
-            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">SURFACE CURVATURE</span>
-            <span className="text-lg font-bold text-[#FF3B1D] block">R15 / R5.5 Fillets</span>
-            <span className="text-neutral-500 text-[11px] font-light">Continuous ergonomic radii</span>
-          </div>
-          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
-            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">PRIMARY CMF</span>
-            <span className="text-lg font-bold text-black block">Bead-Blasted Al</span>
-            <span className="text-neutral-500 text-[11px] font-light">+ Saturated Polycarbonate</span>
+                <span className="text-[#FF3B1D] font-bold text-[10px]">{tab.num}</span>
+                <span className="group-hover:text-black">{tab.title}</span>
+                <span className="text-[10px] text-neutral-400 hidden md:inline font-normal">// {tab.tag}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-      </div>
-
-      {/* Subtle Bottom Watermark */}
-      <div className="relative overflow-hidden w-full pt-16 pb-0 select-none pointer-events-none">
-        <div className="font-display font-black text-[18vw] leading-none tracking-tighter uppercase text-black/[0.03] text-center">
-          kinetic
-        </div>
       </div>
     </section>
   );
 }
 
-/* --- 2. STAGGERED THUMBNAILS SECTION (APPLE PRO LINEUP BENTO GRID) --- */
-const STAGGERED_PROJECTS = [
-  {
-    slug: "fuel",
-    badge: "Strategy",
-    tag: "01 // Tech",
-    title: "Fuel Power Bank",
-    desc: "Tactile retro-engineering with audible mechanical slider switch & woven nylon ribbon.",
-    pillClass: "bg-white text-black",
-    starburstClass: "text-[#FF3B1D]",
-    imgId: "p4_2",
-    stagger: ""
-  },
-  {
-    slug: "vantage",
-    badge: "Growth",
-    tag: "02 // Kinematics",
-    title: "Vantage Webcam",
-    desc: "Ergonomic dual-axis camera for hybrid professional workspace and privacy.",
-    pillClass: "bg-white text-black",
-    starburstClass: "text-[#FF3B1D]",
-    imgId: "p13_2",
-    stagger: "md:translate-y-16"
-  },
-  {
-    slug: "friday",
-    badge: "Creative",
-    tag: "03 // Luxury",
-    title: "Friday Footwear",
-    desc: "Biomechanical ergonomic modular footwear engineering with swappable components.",
-    pillClass: "bg-white text-black",
-    starburstClass: "text-[#FF3B1D]",
-    imgId: "p31_2",
-    stagger: ""
-  },
-  {
-    slug: "miscellaneous",
-    badge: "Powerful",
-    tag: "04 // Visual Lab",
-    title: "Visual Lab & Chrono",
-    desc: "Horological chronographs, sneaker ideation, and rapid foam prototypes.",
-    pillClass: "bg-white text-black",
-    starburstClass: "text-[#FF3B1D]",
-    imgId: "p1_2",
-    stagger: "md:translate-y-16"
-  }
-];
+/* --- 2. APPLE PROJECT CHAPTER: MONUMENTAL FLAGSHIP EXHIBITION --- */
+function AppleProjectChapter({ 
+  project, 
+  index, 
+  taglineOverride, 
+  hotspots = [], 
+  specsHighlights = [] 
+}) {
+  const { openLightbox } = useLightbox();
+  const [activeHotspot, setActiveHotspot] = useState(null);
+  const [slideIdx, setSlideIdx] = useState(0);
 
-function StaggeredThumbnailsSection() {
+  const gallery = project.gallery || [];
+  const total = gallery.length;
+
+  const nextSlide = () => setSlideIdx(p => (p + 1) % total);
+  const prevSlide = () => setSlideIdx(p => (p - 1 + total) % total);
+
+  const currentPlate = gallery[slideIdx] || gallery[0];
+  const heroSrc = resolveImg(project.heroImage || currentPlate.id);
+
   return (
-    <section id="inquiries" className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-28 border-t border-black/[0.08]">
-      
-      {/* Top Inquiry Tag */}
-      <div className="apple-fluid-glass-btn inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs text-neutral-800 mb-8 shadow-xs">
-        <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
-        <span className="font-bold uppercase tracking-wider">About inquiry • Pro Lineup</span>
+    <article 
+      id={project.slug} 
+      className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-24 border-t border-black/[0.08] scroll-mt-20"
+    >
+      {/* Chapter Top Metadata Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs mb-8">
+        <div className="flex items-center gap-3">
+          <span className="waterglass-pill text-[#FF3B1D] font-bold px-3.5 py-1 rounded-full text-xs">
+            {project.indexCode || `INQUIRY 0${index + 1}`}
+          </span>
+          <span className="waterglass-pill text-neutral-700 px-3.5 py-1 rounded-full text-xs">
+            {project.duration}
+          </span>
+          <span className="waterglass-pill text-neutral-600 px-3.5 py-1 rounded-full text-xs hidden sm:inline">
+            {project.projectType}
+          </span>
+        </div>
+
+        <Link
+          to={`/project/${project.slug}`}
+          className="waterglass-pill inline-flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold px-4 py-1.5 rounded-full shadow-xs cursor-pointer group"
+        >
+          <span>View All {total} Plates</span>
+          <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        </Link>
       </div>
 
-      {/* Main Display Headline with 2 Inline Motion Capsules */}
-      <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-black leading-[1.2] max-w-5xl mb-20">
-        Kinetic Studio – is an ID inquiry of bold <InlineMotionCapsule /> creators that delivers the power of tactile hardware with <InlineMotionCapsule /> cutting-edge strategy
-      </h2>
+      {/* Chapter Header Typography */}
+      <div className="max-w-4xl space-y-4 mb-12">
+        <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-display tracking-tight uppercase text-black leading-[0.98]">
+          {project.title}
+        </h2>
+        <p className="font-mono text-sm md:text-base font-bold text-[#FF3B1D] uppercase tracking-wider">
+          {project.subtitle}
+        </p>
+        <p className="font-sans text-lg sm:text-xl text-neutral-700 font-light leading-relaxed">
+          {taglineOverride || project.tagline}
+        </p>
+      </div>
 
-      {/* 4 Staggered Squircle Cards (Clicking opens that project directly) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-start pb-16">
-        {STAGGERED_PROJECTS.map((card) => (
-          <Link
-            key={card.slug}
-            to={`/project/${card.slug}`}
-            className={`group relative block rounded-[32px] p-7 md:p-8 min-h-[500px] md:min-h-[550px] flex flex-col justify-between apple-card bg-[#f8f8fa] hover:bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl hover:border-neutral-300 transition-all cursor-pointer ${card.stagger}`}
-          >
-            {/* Top Badge & Tag */}
-            <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-black/[0.06]">
-              <span className="apple-fluid-glass-btn font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-xs text-black">
-                {card.badge}
-              </span>
-              <span className="font-mono text-[11px] uppercase tracking-widest text-neutral-500 font-semibold">
-                {card.tag}
-              </span>
-            </div>
+      {/* The Master Hardware Stage (Waterglass Card + Hotspots + Atmosphere) */}
+      <div className="waterglass-card rounded-[36px] p-6 sm:p-10 md:p-14 overflow-hidden shadow-xl mb-12 relative">
+        
+        {/* Hardware Ambient Pedestal */}
+        <div className="relative aspect-[16/10] sm:aspect-[16/9] max-h-[580px] w-full flex items-center justify-center overflow-hidden rounded-[24px] bg-gradient-to-b from-[#f8f8fa] to-[#ececf0] p-6 sm:p-12 border border-neutral-200/80 shadow-inner group">
+          
+          {/* Backlight Radial Flare */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF3B1D]/15 via-transparent to-transparent blur-3xl pointer-events-none" />
 
-            {/* Middle Product Render (Zero Cropped) */}
-            <div className="my-auto py-6 flex items-center justify-center min-h-[220px]">
-              <img 
-                src={resolveImg(card.imgId)} 
-                alt={card.title} 
-                className="max-h-[220px] max-w-full w-auto h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-500 ease-out" 
-              />
-            </div>
+          {/* Unclipped Hero Render */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            <img 
+              src={heroSrc} 
+              alt={project.title}
+              onClick={() => openLightbox({ src: heroSrc, ...currentPlate }, gallery)}
+              className="max-h-full max-w-full w-auto h-auto object-contain select-none drop-shadow-[0_25px_45px_rgba(0,0,0,0.18)] cursor-pointer hover:scale-[1.015] transition-transform duration-500 ease-out"
+            />
 
-            {/* Bottom Meta & Starburst */}
-            <div className="pt-4 border-t border-black/[0.06] space-y-2">
-              <div className="flex items-center justify-between">
-                <StarburstIcon className={`w-4 h-4 ${card.starburstClass} group-hover:rotate-90 transition-transform duration-500`} />
-                <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>Inspect</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </span>
+            {/* Interactive Liquid Waterglass Hotspots */}
+            {hotspots.map((h, hIdx) => (
+              <div 
+                key={hIdx}
+                style={{ left: h.x, top: h.y }}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveHotspot(activeHotspot === hIdx ? null : hIdx);
+                  }}
+                  aria-label={h.title}
+                  className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer group/pin relative"
+                >
+                  <span className="absolute inset-0 rounded-full bg-[#FF3B1D]/30 animate-ping" />
+                  <span className="relative w-3.5 h-3.5 rounded-full bg-[#FF3B1D] border-2 border-white shadow-[0_0_10px_#FF3B1D] group-hover/pin:scale-125 transition-transform" />
+                </button>
+
+                {/* Hotspot Floating Liquid Waterglass Callout Tooltip */}
+                <AnimatePresence>
+                  {activeHotspot === hIdx && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 w-64 sm:w-72 waterglass-card p-4 rounded-2xl font-mono text-xs text-left shadow-2xl z-30"
+                    >
+                      <div className="flex items-center justify-between pb-2 border-b border-black/10 mb-2">
+                        <span className="text-[#FF3B1D] font-bold text-[10px] uppercase tracking-wider">
+                          // SPEC DETENT
+                        </span>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setActiveHotspot(null); }}
+                          className="text-neutral-400 hover:text-black"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <h4 className="font-bold text-black font-display uppercase text-sm mb-1">
+                        {h.title}
+                      </h4>
+                      <p className="font-sans text-xs text-neutral-600 font-light leading-relaxed">
+                        {h.detail}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <h3 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight leading-tight text-black group-hover:text-[#FF3B1D] transition-colors">
-                {card.title}
-              </h3>
-              <p className="font-sans text-xs font-light text-neutral-600 leading-relaxed line-clamp-2">
-                {card.desc}
+            ))}
+          </div>
+
+          {/* Quick Zoom Fullscreen Pill */}
+          <button
+            onClick={() => openLightbox({ src: heroSrc, ...currentPlate }, gallery)}
+            className="apple-fluid-glass-btn absolute bottom-4 right-4 z-20 font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-md cursor-pointer hover:text-[#FF3B1D]"
+          >
+            <Maximize2 className="w-3.5 h-3.5 text-[#FF3B1D]" />
+            <span>Expand Fullscreen</span>
+          </button>
+        </div>
+
+        {/* Integrated Filmstrip Plate Scrubber */}
+        {gallery.length > 0 && (
+          <div className="mt-8 pt-6 border-t border-black/[0.08]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs mb-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
+                <span className="font-bold text-black uppercase tracking-wider">
+                  AUTHENTIC PDF FILMSTRIP ({gallery.length} UNCLIPPED PLATES)
+                </span>
+                <span className="text-neutral-400 hidden md:inline">// CLICK TO INSPECT HIGH-RES</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prevSlide}
+                  className="apple-fluid-glass-btn w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-xs text-black hover:text-[#FF3B1D]"
+                  title="Previous Plate"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <span className="text-[11px] font-bold text-neutral-600 min-w-[50px] text-center">
+                  0{slideIdx + 1} / 0{total}
+                </span>
+                <button
+                  onClick={nextSlide}
+                  className="apple-fluid-glass-btn w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-xs text-black hover:text-[#FF3B1D]"
+                  title="Next Plate"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Scrollable Horizontal Plates Scrubber */}
+            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-2">
+              {gallery.map((plate, pIdx) => (
+                <button
+                  key={pIdx}
+                  onClick={() => {
+                    setSlideIdx(pIdx);
+                    openLightbox({ src: resolveImg(plate.id), ...plate }, gallery);
+                  }}
+                  className={`group relative shrink-0 transition-all cursor-pointer rounded-xl overflow-hidden border ${
+                    pIdx === slideIdx
+                      ? 'border-[#FF3B1D] ring-2 ring-[#FF3B1D]/40 scale-105'
+                      : 'border-neutral-200/80 opacity-70 hover:opacity-100 hover:scale-102'
+                  }`}
+                  title={`${plate.title || `Plate 0${pIdx + 1}`}`}
+                >
+                  <div className="w-24 h-16 sm:w-28 sm:h-20 bg-[#f8f8fa] p-1.5 flex items-center justify-center">
+                    <img 
+                      src={resolveImg(plate.id)} 
+                      alt={plate.title} 
+                      className="max-h-full max-w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 bg-white/90 backdrop-blur-xs py-0.5 px-1 text-[9px] font-mono text-center truncate text-neutral-600">
+                    {plate.page || `P0${pIdx + 1}`}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* Bento Specifications & Engineering Highlights */}
+      {specsHighlights.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs mb-10">
+          {specsHighlights.map((s, sIdx) => (
+            <div 
+              key={sIdx}
+              className="waterglass-card p-6 rounded-2xl border-l-4 border-l-[#FF3B1D] space-y-1.5 shadow-xs"
+            >
+              <span className="text-neutral-500 uppercase font-bold text-[10px] tracking-widest block">
+                {s.label}
+              </span>
+              <span className="text-base font-bold text-black block">
+                {s.value}
+              </span>
+              <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">
+                {s.desc}
               </p>
             </div>
+          ))}
+        </div>
+      )}
+
+      {/* Action CTA Row */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-black/[0.08] font-mono text-xs">
+        <Link 
+          to={`/project/${project.slug}`}
+          className="apple-fluid-glass-primary inline-flex items-center gap-3 font-bold uppercase tracking-wider py-3 px-6 rounded-full shadow-sm cursor-pointer group"
+        >
+          <span>Open Full Case Study ({total} Plates)</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+
+        <div className="flex items-center gap-3">
+          <Link
+            to={`/project/${project.slug}#specifications`}
+            className="apple-fluid-glass-btn px-5 py-3 rounded-full font-bold uppercase tracking-wider text-neutral-700 hover:text-black cursor-pointer shadow-xs"
+          >
+            Technical DFM Specs
           </Link>
+          <a
+            href="/Jinendra_Parakh_Portfolio.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="apple-fluid-glass-btn px-5 py-3 rounded-full font-bold uppercase tracking-wider text-black cursor-pointer shadow-xs flex items-center gap-2"
+          >
+            <Download className="w-3.5 h-3.5 text-neutral-500" />
+            <span>PDF Deck</span>
+          </a>
+        </div>
+      </div>
+
+    </article>
+  );
+}
+
+/* --- 3. APPLE STUDIO CRAFT: THE 4 PHYSICAL PILLARS OF ID --- */
+function AppleStudioCraftSection() {
+  const { openLightbox } = useLightbox();
+
+  const craftPillars = [
+    {
+      id: "p1_2",
+      num: "01",
+      pillar: "Analog Ideation & Horology",
+      headline: "Mechanical Chronograph & Rapid Sketching",
+      desc: "Fast analog exploration: knurled watch pushers, mechanical dial depth, origami chair folds, and technical backpack ergonomics.",
+      tag: "Hand Ideation"
+    },
+    {
+      id: "p47_2",
+      num: "02",
+      pillar: "Footwear Anatomy & Teardown",
+      headline: "Nike Air Force 1 Deconstruction",
+      desc: "Anatomical dissection of footwear architecture: PU leather upper, foxing, soft tongue padding, toe spring, and rubber outsole.",
+      tag: "Biomechanical Study"
+    },
+    {
+      id: "p51_12",
+      num: "03",
+      pillar: "Makerspace Prototyping & CNC",
+      headline: "3-Axis CNC Router & Foam Turning",
+      desc: "Hands-on realization at Strate Makerspace: toolpath generation, high-density foam milling, SLA 3D printing, and 1:1 scale heel builds.",
+      tag: "Physical Machining"
+    },
+    {
+      id: "p50_2",
+      num: "04",
+      pillar: "Generative AI & CMF Surfacing",
+      headline: "Vizcom AI Conceptual Passes",
+      desc: "Translating hand sketches into raytraced conceptual passes: exploring stealth matte finishes, zero-gravity reflections, and prompt tuning.",
+      tag: "Digital Surfacing"
+    }
+  ];
+
+  return (
+    <section id="studio-craft" className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-28 border-t border-black/[0.08] scroll-mt-20">
+      
+      {/* Section Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="space-y-4 max-w-3xl">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#FF3B1D] uppercase tracking-widest">
+            <StarburstIcon className="w-3.5 h-3.5" />
+            <span>METHODOLOGY & PROTOTYPING PILLARS</span>
+          </div>
+          <h2 className="text-4xl sm:text-6xl font-black font-display tracking-tight uppercase text-black leading-[0.98]">
+            Engineered for Reality.
+          </h2>
+          <p className="font-sans text-lg sm:text-xl text-neutral-600 font-light leading-relaxed">
+            Industrial design doesn't end in CAD. It requires rapid analog sketching, physical teardown dissection, 3-axis CNC router machining, and generative CMF exploration.
+          </p>
+        </div>
+
+        <Link
+          to="/playground"
+          className="apple-fluid-glass-btn inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-full text-black hover:text-[#FF3B1D] shadow-xs shrink-0 cursor-pointer"
+        >
+          <span>Explore All 20+ Lab Artifacts</span>
+          <ArrowUpRight className="w-4 h-4" />
+        </Link>
+      </div>
+
+      {/* 4-Pillar Apple Squircle Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {craftPillars.map((pillar, idx) => (
+          <div 
+            key={idx}
+            className="waterglass-card rounded-[28px] p-6 flex flex-col justify-between space-y-6 shadow-xs hover:shadow-xl transition-all group"
+          >
+            <div>
+              <div className="flex items-center justify-between font-mono text-xs pb-3 border-b border-black/10 mb-4">
+                <span className="text-[#FF3B1D] font-bold text-xs">
+                  {pillar.num} // {pillar.tag}
+                </span>
+                <span className="text-neutral-400 text-[10px] uppercase font-mono">
+                  {pillar.id}
+                </span>
+              </div>
+
+              {/* Unclipped Image Showcase */}
+              <div 
+                onClick={() => openLightbox({ src: resolveImg(pillar.id), title: pillar.headline, caption: pillar.desc, id: pillar.id })}
+                className="aspect-[4/3] w-full bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl p-3 flex items-center justify-center overflow-hidden mb-5 cursor-pointer group-hover:scale-[1.02] transition-transform duration-300"
+              >
+                <img 
+                  src={resolveImg(pillar.id)} 
+                  alt={pillar.headline}
+                  className="max-h-full max-w-full object-contain drop-shadow-md select-none"
+                  loading="lazy"
+                />
+              </div>
+
+              <span className="font-mono text-[11px] text-[#FF3B1D] font-bold uppercase tracking-wider block mb-1">
+                {pillar.pillar}
+              </span>
+              <h3 className="text-lg font-bold font-display uppercase tracking-tight text-black leading-snug mb-2 group-hover:text-[#FF3B1D] transition-colors">
+                {pillar.headline}
+              </h3>
+              <p className="font-sans text-xs text-neutral-600 font-light leading-relaxed">
+                {pillar.desc}
+              </p>
+            </div>
+
+            <button
+              onClick={() => openLightbox({ src: resolveImg(pillar.id), title: pillar.headline, caption: pillar.desc, id: pillar.id })}
+              className="apple-fluid-glass-btn w-full py-2.5 rounded-full font-mono text-[11px] font-bold uppercase tracking-wider text-center text-black hover:text-[#FF3B1D] cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
+            >
+              <Maximize2 className="w-3 h-3 text-[#FF3B1D]" />
+              <span>Inspect Plate</span>
+            </button>
+          </div>
         ))}
       </div>
 
@@ -1799,297 +1983,299 @@ function StaggeredThumbnailsSection() {
   );
 }
 
-/* --- NEW: APPLE TECH SPECS & CMF COMPARISON MATRIX --- */
-function AppleTechSpecsMatrix() {
-  const comparisonItems = [
-    { label: "Category", fuel: "Consumer Tech", vantage: "Kinematic Cam", friday: "Modular Footwear", misc: "Visual Lab" },
-    { label: "Key Mechanism", fuel: "Tactile Linear Slider", vantage: "Dual-Axis Knuckle Joint", friday: "Modular Heel Release", misc: "Horological Chrono" },
-    { label: "Surface CMF", fuel: "Bead-Blasted Aluminum", vantage: "Matte Space Graphite", friday: "High-Gloss Lacquer", misc: "High-Density Foam" },
-    { label: "Prototyping", fuel: "Functional 1:1 Scale", vantage: "Working Cable Knuckle", friday: "CNC Milled Sole (UK 11)", misc: "Hand Sketches & AI" },
-    { label: "Sprint Duration", fuel: "1-Week Sprint", vantage: "4-Month Industry R&D", friday: "Academic Thesis", misc: "Ongoing Archives" }
+/* --- 4. APPLE VISUAL LAB SHOWCASE (PLAYGROUND EXHIBITION) --- */
+function AppleVisualLabShowcase() {
+  const { openLightbox } = useLightbox();
+  const [selectedCat, setSelectedCat] = useState('All');
+
+  const labArtifacts = [
+    { id: "p1_2", category: "Hand Sketches", title: "Chronograph Watch Hand Sketch", caption: "Mechanical chronograph perspective study with knurled pushers." },
+    { id: "p46_2", category: "Hand Sketches", title: "Industrial Design Ideation Sheets", caption: "Form sketches: technical backpacks, mid-century lounge chairs, and sneakers." },
+    { id: "p47_2", category: "Footwear Teardown", title: "Sneaker Anatomical Analysis", caption: "Lateral, front, and rear teardown analyzing tongue padding and toe spring." },
+    { id: "p48_2", category: "Footwear Teardown", title: "Deconstructed Footwear Layers", caption: "Layered deconstruction of footwear construction and insole tooling." },
+    { id: "p49_2", category: "Footwear Teardown", title: "Nike Air Force 1 Deep Dive", caption: "Deep dive study of AF1: sewed branding, double stitching, and air sole." },
+    { id: "p50_2", category: "Vizcom AI Trials", title: "Vizcom AI: Sketch to Concept", caption: "Translating hand-drawn watch sketch into photoreal generative passes." },
+    { id: "p50_8", category: "Vizcom AI Trials", title: "Vizcom AI: Studio Matte Finish", caption: "High-contrast minimalist studio product render exploring stealth CMF." },
+    { id: "p51_12", category: "Makerspace & Mockups", title: "CNC 3-Axis Foam Sole Toolpath", caption: "High-density polyurethane foam sole milling on industrial CNC router." },
+    { id: "p51_8", category: "Makerspace & Mockups", title: "High-Gloss Clay Heel Form Mockup", caption: "Physical styling clay heel mockups exploring high-gloss lacquer finishes." },
+    { id: "p44_2", category: "Glass Vessel", title: "Acoustic Glass Sound Vessel", caption: "Blown glass double hourglass spheres in copper wire cradle." }
   ];
 
-  return (
-    <section className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-24 border-t border-black/[0.08] bg-[#f8f8fa]">
-      <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
-          // COMPARE INQUIRIES • APPLE SPECIFICATIONS
-        </span>
-        <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-black">
-          Compare Design Inquiries.
-        </h2>
-        <p className="font-sans text-neutral-600 text-base font-light">
-          Side-by-side engineering specifications, mechanical principles, and CMF strategies across all documented portfolio projects.
-        </p>
-      </div>
+  const categories = ['All', 'Hand Sketches', 'Footwear Teardown', 'Vizcom AI Trials', 'Makerspace & Mockups'];
 
-      <div className="overflow-x-auto apple-card bg-white rounded-[28px] p-6 sm:p-10 border border-neutral-200/80 shadow-xs">
-        <table className="w-full text-left font-mono text-xs min-w-[700px]">
-          <thead>
-            <tr className="border-b border-neutral-200 pb-4 text-neutral-500 uppercase text-[11px]">
-              <th className="py-4 font-bold text-black">Specification</th>
-              <th className="py-4 text-[#FF3B1D] font-bold">01 // Fuel</th>
-              <th className="py-4 text-black font-bold">02 // Vantage</th>
-              <th className="py-4 text-black font-bold">03 // Friday</th>
-              <th className="py-4 text-black font-bold">04 // Visual Lab</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
-            {comparisonItems.map((item, idx) => (
-              <tr key={idx} className="hover:bg-neutral-50/50 transition-colors">
-                <td className="py-4 font-bold text-black uppercase text-[11px]">{item.label}</td>
-                <td className="py-4 text-neutral-700 font-sans font-normal">{item.fuel}</td>
-                <td className="py-4 text-neutral-700 font-sans font-normal">{item.vantage}</td>
-                <td className="py-4 text-neutral-700 font-sans font-normal">{item.friday}</td>
-                <td className="py-4 text-neutral-700 font-sans font-normal">{item.misc}</td>
-              </tr>
-            ))}
-            <tr>
-              <td className="py-6 font-bold text-black uppercase text-[11px]">Direct Study</td>
-              <td className="py-6">
-                <Link to="/project/fuel" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-[#FF3B1D] shadow-xs">
-                  <span>Explore Fuel</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </td>
-              <td className="py-6">
-                <Link to="/project/vantage" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-black hover:text-[#FF3B1D] shadow-xs">
-                  <span>Explore Vantage</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </td>
-              <td className="py-6">
-                <Link to="/project/friday" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-black hover:text-[#FF3B1D] shadow-xs">
-                  <span>Explore Friday</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </td>
-              <td className="py-6">
-                <Link to="/project/miscellaneous" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-black hover:text-[#FF3B1D] shadow-xs">
-                  <span>Explore Lab</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
-/* --- 3. KINETIC CAROUSEL SECTION (APPLE 3D STAGE SHOWCASE) --- */
-const CAROUSEL_CARDS = [
-  {
-    id: "lead",
-    badge: "Lead Designer",
-    slug: "fuel",
-    link: "/about",
-    title: "Jinendra Parakh",
-    role: "Lead Industrial Designer // Strate '25",
-    desc: "B.Sc. in Product Design. Hardware ideation, high-fidelity surfacing, and tactile retro-engineering.",
-    imgId: "p11_4",
-    tag: "Design Lead"
-  },
-  {
-    id: "fuel",
-    badge: "Retro-Engineering",
-    slug: "fuel",
-    link: "/project/fuel",
-    title: "Fuel Power Bank",
-    role: "Consumer Tech // 1-Week Sprint",
-    desc: "Audible click mechanical slider with MagSafe magnetic backplate and woven nylon ribbon.",
-    imgId: "p4_2",
-    tag: "01 // Hardware"
-  },
-  {
-    id: "vantage",
-    badge: "Kinematic Cam",
-    slug: "vantage",
-    link: "/project/vantage",
-    title: "Vantage Webcam",
-    role: "Hybrid Workspace // Form Ergonomics",
-    desc: "Dual-axis rotating mount with magnetic privacy shutter and die-cast aluminum knuckle joint.",
-    imgId: "p26_2",
-    tag: "02 // Kinematics"
-  },
-  {
-    id: "friday",
-    badge: "Modular Footwear",
-    slug: "friday",
-    link: "/project/friday",
-    title: "Friday Footwear",
-    role: "Footwear Systems // Biomechanics",
-    desc: "Ergonomic high-heel with modular swappable heel geometries and custom silicone lattice.",
-    imgId: "p41_2",
-    tag: "03 // Footwear"
-  }
-];
-
-function DarkKineticCarouselSection() {
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  const prev = () => setActiveIdx((curr) => (curr === 0 ? CAROUSEL_CARDS.length - 1 : curr - 1));
-  const next = () => setActiveIdx((curr) => (curr === CAROUSEL_CARDS.length - 1 ? 0 : curr + 1));
-
-  const activeCard = CAROUSEL_CARDS[activeIdx];
+  const filtered = selectedCat === 'All' 
+    ? labArtifacts 
+    : labArtifacts.filter(a => a.category === selectedCat);
 
   return (
-    <section className="bg-[#ffffff] text-[#1d1d1f] py-28 px-6 sm:px-10 md:px-14 lg:px-20 border-t border-black/[0.08] overflow-hidden relative">
+    <section id="visual-lab" className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-28 border-t border-black/[0.08] scroll-mt-20">
       
-      {/* Background Kinetic Flare Streak */}
-      <div 
-        aria-hidden="true" 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#FF3B1D]/08 via-[#FF7A00]/05 to-transparent blur-3xl pointer-events-none" 
-      />
-
-      <div className="max-w-[1840px] w-full mx-auto relative z-10">
-        
-        {/* Top Tag Pill */}
-        <div className="apple-fluid-glass-btn inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs text-neutral-800 mb-8 shadow-xs">
-          <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
-          <span className="font-bold uppercase tracking-wider">About team & craft</span>
+      {/* Section Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="space-y-4 max-w-3xl">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#FF3B1D] uppercase tracking-widest">
+            <StarburstIcon className="w-3.5 h-3.5" />
+            <span>EXPERIMENTAL ARCHIVES & SKETCHING LAB</span>
+          </div>
+          <h2 className="text-4xl sm:text-6xl font-black font-display tracking-tight uppercase text-black leading-[0.98]">
+            Visual Lab & Ideation.
+          </h2>
+          <p className="font-sans text-lg sm:text-xl text-neutral-600 font-light leading-relaxed">
+            Raw analog sketches, footwear teardown anatomy, Vizcom generative iterations, and physical makerspace mockups.
+          </p>
         </div>
 
-        {/* Display Headline with Inline Motion Capsule */}
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-black leading-[1.2] max-w-5xl mb-16">
-          We are the talented team and passionate experts <InlineMotionCapsule /> shaping your brand’s digital journey with tactile hardware precision
-        </h2>
+        <Link
+          to="/playground"
+          className="apple-fluid-glass-primary inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full text-white shadow-sm shrink-0 cursor-pointer"
+        >
+          <span>Open Dedicated Visual Lab</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
 
-        {/* 3D Squircle Showcase Stage */}
-        <div className="relative py-8">
-          
-          <div className="max-w-5xl lg:max-w-6xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCard.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="apple-card rounded-[36px] border border-neutral-200/90 shadow-xl p-8 sm:p-12 bg-white relative overflow-hidden"
-              >
-                {/* Top Row: JP Logo & Tag */}
-                <div className="flex items-center justify-between pb-6 border-b border-black/[0.06]">
-                  <div className="flex items-center gap-2">
-                    <span className="font-display font-black text-2xl uppercase tracking-tighter text-black">JP</span>
-                    <span className="text-[10px] font-mono font-bold text-[#FF3B1D] align-super">®</span>
-                  </div>
-                  <span className="apple-fluid-glass-btn font-mono text-xs font-bold uppercase tracking-widest text-neutral-800 px-4 py-1.5 rounded-full shadow-xs">
-                    {activeCard.badge}
-                  </span>
-                </div>
+      {/* Category Filter Chips */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-8">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCat(cat)}
+            className={`font-mono text-xs uppercase tracking-wider px-5 py-2 rounded-full cursor-pointer transition-all shadow-xs shrink-0 ${
+              selectedCat === cat
+                ? 'apple-fluid-glass-primary font-bold text-white'
+                : 'apple-fluid-glass-btn text-neutral-700 hover:text-black font-medium'
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
-                {/* Center Cinematic Hardware Render with Aspect Ratio Matching */}
-                <div className="relative my-8 aspect-[16/10] sm:aspect-[16/9] max-h-[460px] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#f8f8fa] to-[#ececf0] p-6 border border-neutral-200/80 shadow-inner">
-                  <div className="absolute inset-x-0 h-24 bg-gradient-to-r from-transparent via-[#FF3B1D]/20 to-transparent blur-2xl animate-pulse pointer-events-none" />
-                  <img
-                    src={resolveImg(activeCard.imgId)}
-                    alt={activeCard.title}
-                    className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)]"
-                  />
-                </div>
-
-                {/* Bottom Row: Metadata & Open Action */}
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 border-t border-black/[0.06]">
-                  <div className="space-y-1">
-                    <span className="font-mono text-xs text-[#FF3B1D] font-bold uppercase tracking-widest block">
-                      {activeCard.tag}
-                    </span>
-                    <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-black">
-                      {activeCard.title}
-                    </h3>
-                    <p className="font-mono text-xs text-neutral-500">
-                      {activeCard.role}
-                    </p>
-                    <p className="font-sans text-xs text-neutral-600 font-light max-w-lg pt-1">
-                      {activeCard.desc}
-                    </p>
-                  </div>
-
-                  <Link
-                    to={activeCard.link}
-                    className="apple-fluid-glass-primary inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-sm shrink-0 cursor-pointer"
-                  >
-                    <span>Inspect Inquiry</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Carousel Controls: Circular Prev / Next Buttons */}
-          <div className="flex items-center justify-center gap-4 mt-10">
-            <button
-              onClick={prev}
-              aria-label="Previous Kinetic Card"
-              className="apple-fluid-glass-btn w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xs text-black"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            {/* Indicator Dots */}
-            <div className="flex items-center gap-2 px-3">
-              {CAROUSEL_CARDS.map((c, idx) => (
-                <button
-                  key={c.id}
-                  onClick={() => setActiveIdx(idx)}
-                  aria-label={`Go to ${c.title}`}
-                  className={`transition-all rounded-full ${
-                    activeIdx === idx 
-                      ? 'w-8 h-2 bg-[#FF3B1D]' 
-                      : 'w-2 h-2 bg-neutral-300 hover:bg-neutral-500'
-                  }`}
-                />
-              ))}
+      {/* Kinetic Masonry Grid with Zero Crop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filtered.map((item, idx) => (
+          <div
+            key={idx}
+            onClick={() => openLightbox({ src: resolveImg(item.id), ...item }, filtered)}
+            className="waterglass-card rounded-[24px] p-5 flex flex-col justify-between space-y-4 shadow-xs hover:shadow-xl transition-all cursor-pointer group"
+          >
+            <div className="aspect-[4/3] w-full bg-[#f8f8fa] border border-neutral-200/80 rounded-xl p-3 flex items-center justify-center overflow-hidden">
+              <img 
+                src={resolveImg(item.id)} 
+                alt={item.title}
+                className="max-h-full max-w-full object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
             </div>
 
-            <button
-              onClick={next}
-              aria-label="Next Kinetic Card"
-              className="apple-fluid-glass-btn w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xs text-black"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+            <div className="space-y-1 font-mono text-xs">
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="text-[#FF3B1D] font-bold uppercase">{item.category}</span>
+                <span className="text-neutral-400 uppercase">{item.id}</span>
+              </div>
+              <h4 className="font-bold text-black font-display uppercase text-sm leading-snug group-hover:text-[#FF3B1D] transition-colors">
+                {item.title}
+              </h4>
+              <p className="font-sans text-xs text-neutral-600 font-light line-clamp-2 leading-relaxed">
+                {item.caption}
+              </p>
+            </div>
           </div>
-
-        </div>
-
+        ))}
       </div>
 
     </section>
   );
 }
 
-/* --- HOME PAGE (APPLE PRO WHITE ARCHITECTURE) --- */
+/* --- 5. APPLE FLOATING ISLAND DOCK (VISIONOS BOTTOM NAVIGATION) --- */
+function AppleFloatingIslandDock() {
+  const [visible, setVisible] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setVisible(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (!visible || location.pathname !== '/') return null;
+
+  return (
+    <nav 
+      aria-label="Floating Portfolio Navigation Dock"
+      className="fixed bottom-6 inset-x-0 z-50 flex justify-center pointer-events-none px-4"
+    >
+      <div className="waterglass-dock p-2 rounded-full flex items-center gap-1.5 shadow-2xl pointer-events-auto border border-white/90 max-w-full overflow-x-auto no-scrollbar font-mono text-xs">
+        <button
+          onClick={scrollToTop}
+          className="waterglass-pill px-3 py-1.5 rounded-full text-black hover:text-[#FF3B1D] font-bold flex items-center gap-1 cursor-pointer"
+          title="Top"
+        >
+          <ArrowUp className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Top</span>
+        </button>
+
+        <span className="text-neutral-300 mx-1">|</span>
+
+        {[
+          { id: 'vantage', label: '01. Vantage' },
+          { id: 'fuel', label: '02. Fuel' },
+          { id: 'friday', label: '03. Friday' },
+          { id: 'glass-vessel', label: '04. Vessel' },
+          { id: 'studio-craft', label: 'Craft' },
+          { id: 'visual-lab', label: 'Lab' }
+        ].map((item) => (
+          <button
+            key={item.id}
+            onClick={() => scrollTo(item.id)}
+            className="waterglass-pill px-3 py-1.5 rounded-full text-neutral-700 hover:text-black font-semibold cursor-pointer shrink-0 text-[11px]"
+          >
+            {item.label}
+          </button>
+        ))}
+
+        <Link
+          to="/about"
+          className="waterglass-pill px-3 py-1.5 rounded-full text-neutral-700 hover:text-black font-semibold cursor-pointer shrink-0 text-[11px] hidden md:inline-flex"
+        >
+          About
+        </Link>
+      </div>
+    </nav>
+  );
+}
+
+/* --- HOME PAGE (APPLE MASTERPIECE KEYNOTE ARCHITECTURE) --- */
 function HomePage() {
+  const fuelProject = JINENDRA_PROJECTS.find(p => p.slug === 'fuel');
+  const vantageProject = JINENDRA_PROJECTS.find(p => p.slug === 'vantage');
+  const fridayProject = JINENDRA_PROJECTS.find(p => p.slug === 'friday');
+  const glassVesselProject = JINENDRA_PROJECTS.find(p => p.slug === 'glass-vessel');
+
   return (
     <div className="min-h-screen bg-[#ffffff]">
       
       {/* 1. HERO KEYNOTE REVEAL */}
-      <HeroKineticSection />
+      <AppleKeynoteHero />
 
-      {/* 2. STAGGERED THUMBNAILS GRID */}
-      <StaggeredThumbnailsSection />
+      {/* 2. 4 MASTER INQUIRIES KEYNOTE CHAPTERS */}
+      <div id="inquiries">
+        {/* VANTAGE */}
+        {vantageProject && (
+          <AppleProjectChapter 
+            project={vantageProject} 
+            index={0}
+            taglineOverride="Articulated 360° modular webcam architecture designed to eliminate workspace clutter, video angle fatigue, and multi-device friction with twist-and-pull magnetic docking."
+            hotspots={[
+              { x: "48%", y: "22%", title: "Sliding Privacy Shutter & Ring Fill Light", detail: "Integrated capacitive ring fill light with physical sliding shutter for privacy." },
+              { x: "65%", y: "42%", title: "Articulated Boom Arm", detail: "323mm boom arm with 360° dual-axis rotation and 300mm vertical slot travel." },
+              { x: "38%", y: "76%", title: "Twist-and-Pull Magnetic Dock", detail: "Pogo-pin data and power connection for instant decoupling between stand and monitor clamp." }
+            ]}
+            specsHighlights={[
+              { label: "STAND & BOOM DIMENSIONS", value: "400mm / 323mm Arm", desc: "300mm vertical slot travel with counterweighted monitor clamp." },
+              { label: "ARTICULATION RADIUS", value: "360° Dual-Axis", desc: "Full spherical pan and tilt with zero cable snagging." },
+              { label: "CMF STRATEGY", value: "Space Gray Anodized", desc: "Bead-blasted aluminum alloy extrusions and non-marring silicone." },
+              { label: "ELECTRICAL INTERFACE", value: "Magnetic Pogo-Pin", desc: "High-speed USB-C data and power through magnetic detents." }
+            ]}
+          />
+        )}
 
-      {/* 3. APPLE TECH SPECS & CMF COMPARISON MATRIX */}
-      <AppleTechSpecsMatrix />
+        {/* FUEL */}
+        {fuelProject && (
+          <AppleProjectChapter 
+            project={fuelProject} 
+            index={1}
+            taglineOverride="A wireless power bank inspired by the golden era of handheld gaming, marrying soft flowing lines with sharp, tactile mechanical switch detents."
+            hotspots={[
+              { x: "32%", y: "28%", title: "Tactile Power Switch", detail: "Mechanical linear slider with spring-loaded audible detent click." },
+              { x: "50%", y: "38%", title: "Segment LED Readout", detail: "Integrated digital charge percentage for instantaneous status." },
+              { x: "65%", y: "55%", title: "MagSafe Wireless Interface", detail: "Inductive charging coil compatible with magnetic backplates." },
+              { x: "82%", y: "74%", title: "Woven Nylon Ribbon", detail: "Heavy-duty lanyard with cast metal carabiner loop." }
+            ]}
+            specsHighlights={[
+              { label: "SPRINT DURATION", value: "1-Week Studio", desc: "Rapid concept ideation, surface modeling, and 1:1 physical mockups." },
+              { label: "SURFACE RADII", value: "R15 / R5.5 Fillets", desc: "Continuous ergonomic palm curvature and sharp chamfer transitions." },
+              { label: "PRIMARY CMF", value: "Bead-Blasted Al", desc: "Anodized aluminum alloy shell with saturated polycarbonate." },
+              { label: "TACTILE DETENT", value: "Spring Mechanical", desc: "Audible click switch providing physical engagement feedback." }
+            ]}
+          />
+        )}
 
-      {/* 4. KINETIC CAROUSEL */}
-      <DarkKineticCarouselSection />
+        {/* FRIDAY */}
+        {fridayProject && (
+          <AppleProjectChapter 
+            project={fridayProject} 
+            index={2}
+            taglineOverride="Biomechanical ergonomic high-heel boot engineered for trans women and drag queens, balancing authoritative silhouette with 1:1 CNC machined UK 11 foot support."
+            hotspots={[
+              { x: "30%", y: "30%", title: "Authoritative Silhouette", detail: "Aggressive angular upper collar providing ankle lock and stance authority." },
+              { x: "52%", y: "55%", title: "Monogram Release Lacing", detail: "6-step illustrated user ceremony from monogram pull to custom dialed fit." },
+              { x: "72%", y: "82%", title: "CNC Milled Sole Platform", detail: "Custom sole tooling carved from high-density polyurethane for UK 11 male foot ergonomics." }
+            ]}
+            specsHighlights={[
+              { label: "TARGET SIZING", value: "UK 11 / EU 45", desc: "Engineered specifically for larger male foot skeletal geometry." },
+              { label: "SOLE TOOLING", value: "CNC 3-Axis Foam", desc: "High-density polyurethane sole machined at Strate Makerspace." },
+              { label: "WEARABILITY RITUAL", value: "6-Step Ceremony", desc: "Illustrated user journey from monogram release to dialed fit." },
+              { label: "FINISH CMF", value: "High-Gloss Lacquer", desc: "Automotive high-gloss red and black lacquer with matte inner lining." }
+            ]}
+          />
+        )}
 
-      {/* QUICK LINKS SECTION (APPLE PRO BENTO CARDS) */}
-      <section className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-28 border-t border-black/[0.08]">
+        {/* GLASS VESSEL */}
+        {glassVesselProject && (
+          <AppleProjectChapter 
+            project={glassVesselProject} 
+            index={3}
+            taglineOverride="An acoustic investigation exploring harmonic resonance, hand-blown borosilicate double spheres, and delicate intertwined copper wire suspension."
+            hotspots={[
+              { x: "50%", y: "25%", title: "Hand-Blown Double Hourglass", detail: "Borosilicate glass blown into resonant double acoustic chambers." },
+              { x: "48%", y: "52%", title: "Acoustic Diffuser Core", detail: "Central acoustic interface dispersing sound waves omnidirectionally." },
+              { x: "68%", y: "78%", title: "Copper Wire Suspension Cradle", detail: "Hand-twisted copper wire cradle suspending the fragile vessel." }
+            ]}
+            specsHighlights={[
+              { label: "PRIMARY MATERIAL", value: "Borosilicate Glass", desc: "Thermal-shock resistant glass hand-blown by master artisans." },
+              { label: "SUSPENSION CRADLE", value: "Intertwined Copper", desc: "Continuous woven copper wire cage providing zero-dampening suspension." },
+              { label: "ACOUSTIC INTENT", value: "Omnidirectional", desc: "Dual chamber diffusion enhancing mid-frequency clarity." },
+              { label: "SCALE", value: "1:1 Studio Model", desc: "Full-scale physical build exploring fragility and structural tension." }
+            ]}
+          />
+        )}
+      </div>
+
+      {/* 3. APPLE STUDIO CRAFT: THE 4 PHYSICAL PILLARS */}
+      <AppleStudioCraftSection />
+
+      {/* 4. APPLE VISUAL LAB SHOWCASE */}
+      <AppleVisualLabShowcase />
+
+      {/* 5. VISIONOS FLOATING DOCK */}
+      <AppleFloatingIslandDock />
+
+      {/* QUICK LINKS BENTO FOOTER */}
+      <section className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-24 border-t border-black/[0.08]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           <Link 
             to="/playground"
-            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl"
+            className="p-8 waterglass-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 shadow-xs hover:shadow-xl cursor-pointer"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
-                02 // VISUAL LAB
+                02 // EXPERIMENTAL LAB
               </span>
               <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
                 Playground & Sketches
@@ -2106,11 +2292,11 @@ function HomePage() {
 
           <Link 
             to="/about"
-            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl"
+            className="p-8 waterglass-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 shadow-xs hover:shadow-xl cursor-pointer"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
-                03 // BACKGROUND
+                03 // BACKGROUND & PHILOSOPHY
               </span>
               <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
                 About Jinendra Parakh
@@ -2127,7 +2313,7 @@ function HomePage() {
 
           <Link 
             to="/experience"
-            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl"
+            className="p-8 waterglass-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 shadow-xs hover:shadow-xl cursor-pointer"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
