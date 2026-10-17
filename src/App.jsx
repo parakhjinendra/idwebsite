@@ -190,18 +190,18 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#EAEAE7] flex items-center justify-center p-6 font-mono text-xs">
-          <div className="bg-white p-8 max-w-lg shadow-sm rounded-sm">
-            <span className="bg-[#FF3B1D] text-white px-2 py-0.5 uppercase font-bold text-[10px]">
+        <div className="min-h-screen bg-black text-[#f5f5f7] flex items-center justify-center p-6 font-mono text-xs">
+          <div className="apple-card p-8 max-w-lg rounded-2xl shadow-2xl border border-white/10">
+            <span className="bg-[#FF3B1D] text-white px-2.5 py-1 uppercase font-bold text-[10px] rounded-full">
               Notice
             </span>
-            <h2 className="text-xl font-bold font-display uppercase tracking-tight mt-3 mb-2">Something went wrong</h2>
-            <p className="text-neutral-600 mb-6 font-mono">{this.state.error?.toString()}</p>
+            <h2 className="text-xl font-bold font-display uppercase tracking-tight text-white mt-4 mb-2">Something went wrong</h2>
+            <p className="text-neutral-400 mb-6 font-mono">{this.state.error?.toString()}</p>
             <button 
               onClick={() => window.location.href = '/'}
-              className="bg-black text-white px-5 py-2.5 uppercase font-bold tracking-wider hover:bg-[#FF3B1D] transition-colors"
+              className="bg-white text-black hover:bg-[#FF3B1D] hover:text-white px-6 py-2.5 rounded-full uppercase font-bold tracking-wider transition-all duration-300"
             >
-              Return to Home
+              Return to Works
             </button>
           </div>
         </div>
@@ -446,9 +446,9 @@ function ProjectImage({
 
   if (!src) {
     return (
-      <div className={`bg-[#DFDFDB]/60 flex flex-col items-center justify-center text-center p-6 w-full h-full min-h-[180px] font-mono rounded-sm ${className}`}>
-        <ImageIcon className="w-6 h-6 text-neutral-400 mb-2 stroke-1" />
-        <span className="text-[10px] text-neutral-500 font-bold tracking-wider uppercase">
+      <div className={`bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center text-center p-6 w-full h-full min-h-[180px] font-mono rounded-xl ${className}`}>
+        <ImageIcon className="w-6 h-6 text-neutral-500 mb-2 stroke-1" />
+        <span className="text-[10px] text-neutral-400 font-bold tracking-wider uppercase">
           {id ? `Fig. ${id}` : "Visual Plate"}
         </span>
       </div>
@@ -461,8 +461,8 @@ function ProjectImage({
       className={`relative flex items-center justify-center ${allowExpand ? 'cursor-zoom-in group/img' : ''} ${className}`}
     >
       {withLoader && !isLoaded && (
-        <div className="absolute inset-0 bg-[#DFDFDC] animate-pulse flex items-center justify-center rounded-sm">
-          <div className="w-5 h-5 border-2 border-neutral-300 border-t-[#FF3B1D] rounded-full animate-spin" />
+        <div className="absolute inset-0 bg-[#0c0c0e] animate-pulse flex items-center justify-center rounded-xl">
+          <div className="w-5 h-5 border-2 border-white/20 border-t-[#FF3B1D] rounded-full animate-spin" />
         </div>
       )}
       <img 
@@ -1134,7 +1134,7 @@ const JINENDRA_PROJECTS = [
   }
 ];
 
-/* --- NAVIGATION BAR (CLEAN, BORDERLESS, REFINED SWISS/BRUTALIST + MIRKO STYLE CLOSE BUTTON) --- */
+/* --- APPLE GLOBAL NAVIGATION BAR (ULTRA-THIN FROSTED GLASS & SF PRO TYPOGRAPHY) --- */
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -1146,7 +1146,7 @@ function Navbar() {
   const currentSlug = isProjectPage ? location.pathname.split('/project/')[1] : null;
   const currentProject = isProjectPage ? JINENDRA_PROJECTS.find(p => p.slug === currentSlug) : null;
 
-  // Listen for Escape key to close project and return to home
+  // Listen for Escape key to close project and return to home (Apple fluid dismissal)
   useEffect(() => {
     if (!isProjectPage) return;
     const handleKeyDown = (e) => {
@@ -1160,105 +1160,115 @@ function Navbar() {
   }, [isProjectPage, navigate]);
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#EAEAE7]/95 backdrop-blur-md transition-all border-b border-neutral-300/60">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-[#000000]/80 backdrop-blur-2xl transition-all border-b border-white/[0.08]">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-14 sm:h-16 flex items-center justify-between">
         
-        {/* Brand Logo & Project Indicator (Kinetic Studio JP monogram) */}
+        {/* Brand Logo & Project Indicator (Apple Monogram JP) */}
         <Link 
           to="/" 
           onClick={closeMenu}
-          className="flex items-center gap-3 group"
+          className="flex items-center gap-2.5 group"
         >
-          <div className="flex items-center gap-1 font-display font-black text-2xl uppercase tracking-tighter text-black">
+          <div className="flex items-center gap-1 font-display font-black text-xl tracking-tight text-white group-hover:opacity-80 transition-opacity">
             <span>JP</span>
-            <span className="text-[11px] font-mono font-bold text-[#FF3B1D] align-super">®</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D] mb-2" />
           </div>
-          <div className="hidden sm:flex flex-col border-l border-neutral-300 pl-3">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold font-display tracking-tight text-black uppercase leading-none">
+          <div className="hidden sm:flex flex-col border-l border-white/10 pl-2.5">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-semibold tracking-tight text-[#f5f5f7] uppercase leading-none">
                 Jinendra Parakh
               </span>
               {isProjectPage && currentProject && (
-                <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase">
+                <span className="font-mono text-[11px] font-bold text-[#FF3B1D]">
                   / {currentProject.indexCode}
                 </span>
               )}
             </div>
-            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-neutral-500 font-medium mt-0.5">
+            <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#86868b] font-medium mt-0.5">
               {isProjectPage && currentProject 
                 ? currentProject.subtitle 
-                : "Kinetic Studio // Portfolio 2025"}
+                : "Industrial Design • 2025"}
             </span>
           </div>
         </Link>
         
         {/* Context-Aware Navigation Controls */}
         {isProjectPage ? (
-          /* Project Mode: Dedicated Mirko Romanelli Style Close Action */
-          <div className="flex items-center gap-4">
+          /* Project Mode: Apple Floating Close Action */
+          <div className="flex items-center gap-3">
             <Link 
               to="/" 
-              className="group flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest bg-black text-white hover:bg-[#FF3B1D] px-4 py-2 rounded-full transition-all duration-200 shadow-sm cursor-pointer"
+              className="group flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider bg-white/[0.08] hover:bg-white text-white hover:text-black border border-white/15 px-4 py-1.5 rounded-full transition-all duration-200 shadow-sm cursor-pointer"
               title="Close Project (Esc)"
             >
-              <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
+              <X className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform duration-200" />
               <span>Close</span>
+              <kbd className="hidden sm:inline text-[9px] px-1 py-0.2 bg-white/20 rounded font-mono text-white/80">Esc</kbd>
             </Link>
           </div>
         ) : (
-          /* Standard Site Navigation Links (with active dot indicator from Image 1) */
-          <div className="hidden md:flex items-center gap-8 font-mono text-xs font-medium uppercase tracking-wider text-neutral-600">
+          /* Standard Apple Global Nav Links */
+          <div className="hidden md:flex items-center gap-7 text-xs font-medium tracking-tight text-[#86868b]">
             <Link 
               to="/" 
-              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/' ? 'text-black font-bold' : ''}`}
+              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/' ? 'text-[#f5f5f7] font-semibold' : ''}`}
             >
-              <span>Home</span>
+              <span>Overview</span>
               {location.pathname === '/' && (
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#FF3B1D] rounded-full" />
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#FF3B1D] rounded-full" />
               )}
             </Link>
             <a 
               href="/#inquiries" 
-              className="relative transition-colors hover:text-black py-1"
+              className="relative transition-colors hover:text-[#f5f5f7] py-1"
             >
-              <span>Work</span>
+              <span>Inquiries</span>
             </a>
             <Link 
               to="/playground" 
-              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/playground' ? 'text-black font-bold' : ''}`}
+              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/playground' ? 'text-[#f5f5f7] font-semibold' : ''}`}
             >
               <span>Visual Lab</span>
               {location.pathname === '/playground' && (
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#FF3B1D] rounded-full" />
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#FF3B1D] rounded-full" />
               )}
             </Link>
             <Link 
               to="/about" 
-              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/about' ? 'text-black font-bold' : ''}`}
+              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/about' ? 'text-[#f5f5f7] font-semibold' : ''}`}
             >
               <span>About</span>
               {location.pathname === '/about' && (
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#FF3B1D] rounded-full" />
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#FF3B1D] rounded-full" />
+              )}
+            </Link>
+            <Link 
+              to="/experience" 
+              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/experience' ? 'text-[#f5f5f7] font-semibold' : ''}`}
+            >
+              <span>Experience</span>
+              {location.pathname === '/experience' && (
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#FF3B1D] rounded-full" />
               )}
             </Link>
             
-            {/* Pill CTA Button (Image 1 style: Contact us) */}
-            <div className="flex items-center gap-3 pl-4 border-l border-neutral-300">
+            {/* Apple Action Pill Controls */}
+            <div className="flex items-center gap-3 pl-3 border-l border-white/10">
               <a 
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center gap-1.5 text-neutral-600 hover:text-black transition-colors"
+                className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10 px-3.5 py-1.5 rounded-full transition-all text-xs font-medium"
                 title="Download Resume"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-3 h-3" />
                 <span>Resume</span>
               </a>
               <a 
                 href="mailto:parakhjinendra@gmail.com"
-                className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-[#FF3B1D] transition-colors shadow-sm font-bold"
+                className="flex items-center gap-1.5 bg-white text-black px-4 py-1.5 rounded-full hover:bg-neutral-200 transition-colors shadow-sm font-semibold text-xs"
               >
-                <span>Contact us</span>
+                <span>Connect</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
               </a>
             </div>
@@ -1271,9 +1281,9 @@ function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle navigation"
-              className="p-2 text-black hover:text-[#FF3B1D] transition-colors cursor-pointer"
+              className="p-2 text-[#f5f5f7] hover:text-[#FF3B1D] transition-colors cursor-pointer"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         )}
@@ -1286,24 +1296,24 @@ function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#EAEAE7] px-6 pt-4 pb-8 border-b border-neutral-300"
+            className="md:hidden bg-[#000000]/95 backdrop-blur-2xl px-6 pt-4 pb-8 border-b border-white/10"
           >
-            <div className="flex flex-col space-y-4 font-mono text-xs font-bold uppercase tracking-wider text-black">
-              <Link to="/" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
-                <span>01. Selected Works</span>
+            <div className="flex flex-col space-y-4 font-mono text-xs font-bold uppercase tracking-wider text-white">
+              <Link to="/" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
+                <span>01. Overview & Works</span>
                 <span className="text-[#FF3B1D]">4 Inquiries</span>
               </Link>
-              <Link to="/playground" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+              <Link to="/playground" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
                 <span>02. Visual Lab & Sketches</span>
                 <span className="text-[#FF3B1D]">Playground</span>
               </Link>
-              <Link to="/about" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+              <Link to="/about" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
                 <span>03. About Jinendra</span>
-                <span className="text-neutral-500">Strate School</span>
+                <span className="text-neutral-400">Strate School</span>
               </Link>
-              <Link to="/experience" onClick={closeMenu} className="py-2.5 border-b border-neutral-300/60 flex justify-between">
+              <Link to="/experience" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
                 <span>04. Professional Experience</span>
-                <span className="text-neutral-500">Ticket / Spandigit</span>
+                <span className="text-neutral-400">Ticket / Spandigit</span>
               </Link>
               
               <div className="grid grid-cols-2 gap-3 pt-4">
@@ -1311,7 +1321,7 @@ function Navbar() {
                   href="/Jinendra_Parakh_Resume.pdf" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="text-center block bg-black text-white py-3 rounded-full hover:bg-[#FF3B1D] transition-colors"
+                  className="text-center block bg-white/10 border border-white/15 text-white py-3 rounded-full hover:bg-white hover:text-black transition-colors"
                 >
                   Resume (PDF)
                 </a>
@@ -1319,7 +1329,7 @@ function Navbar() {
                   href="/Jinendra_Parakh_Portfolio.pdf" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="text-center block bg-[#FF3B1D] text-white py-3 rounded-full hover:bg-black transition-colors"
+                  className="text-center block bg-[#FF3B1D] text-white py-3 rounded-full hover:bg-white hover:text-black transition-colors"
                 >
                   Full 53p Deck
                 </a>
@@ -1332,40 +1342,48 @@ function Navbar() {
   );
 }
 
-/* --- FOOTER (PAGE 53 LET'S CONNECT — CLEAN SWISS AESTHETIC) --- */
+/* --- APPLE PRO FOOTER (PAGE 53 LET'S CONNECT — TITANIUM MINIMALIST SYSTEM) --- */
 function Footer() {
   return (
-    <footer className="bg-[#0E0E10] text-[#EBEBE8] pt-24 pb-16 px-6 md:px-12 font-mono">
+    <footer className="bg-[#000000] text-[#f5f5f7] pt-28 pb-16 px-6 md:px-12 border-t border-white/[0.08] relative">
       <div className="max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-neutral-800">
+        
+        {/* Top Feature Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
           
           <div className="lg:col-span-7 space-y-6">
-            <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest block">
-              // ‘BUILDING DESIRES’
+            <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest font-mono block">
+              // ‘BUILDING DESIRES’ • INDUSTRIAL DESIGN
             </span>
-            <h3 className="text-3xl md:text-5xl font-black font-display tracking-tight text-white leading-tight uppercase">
+            <h3 className="text-3xl md:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight uppercase">
               Every object has a story to tell and an experience to create.
             </h3>
-            <p className="text-neutral-400 text-sm md:text-base font-sans font-light leading-relaxed max-w-xl">
-              I am Jinendra Parakh, a product designer on a mission to change the way we look at things. B.Sc. in Product Design from Strate School of Design, Bangalore.
+            <p className="text-[#86868b] text-base md:text-lg font-sans font-light leading-relaxed max-w-xl">
+              I am Jinendra Parakh, an industrial designer on a mission to change the way we look at things. B.Sc. in Product Design from Strate School of Design, Bangalore.
             </p>
+            <div className="flex items-center gap-2.5 pt-2">
+              <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-emerald-400 font-mono uppercase text-xs tracking-wider font-semibold">
+                Available for Full-Time Industrial Design Roles
+              </span>
+            </div>
           </div>
 
           <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
-            <div className="space-y-3 text-xs">
-              <span className="text-neutral-500 uppercase tracking-widest block font-bold text-[10px]">
-                LET’S CONNECT // DIRECT CONTACT
+            <div className="space-y-4 font-mono text-xs">
+              <span className="text-[#86868b] uppercase tracking-widest block font-bold text-[10px]">
+                DIRECT INQUIRY // CONTACT
               </span>
               <a 
                 href="mailto:parakhjinendra@gmail.com" 
-                className="flex items-center gap-2.5 text-white hover:text-[#FF3B1D] transition-colors text-sm font-semibold"
+                className="flex items-center gap-3 text-white hover:text-[#FF3B1D] transition-colors text-sm font-semibold"
               >
                 <Mail className="w-4 h-4 text-[#FF3B1D]" />
                 <span>parakhjinendra@gmail.com</span>
               </a>
               <a 
                 href="tel:+919850889899" 
-                className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
+                className="flex items-center gap-3 text-[#a1a1a6] hover:text-white transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#FF3B1D]" />
                 <span>+91 9850889899</span>
@@ -1374,7 +1392,7 @@ function Footer() {
                 href="https://www.linkedin.com/in/jinendra-parakh-7b643a228" 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
+                className="flex items-center gap-3 text-[#a1a1a6] hover:text-white transition-colors"
               >
                 <LinkedinIcon className="w-4 h-4 text-[#FF3B1D]" />
                 <span>Jinendra Parakh (LinkedIn)</span>
@@ -1383,37 +1401,31 @@ function Footer() {
                 href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
+                className="flex items-center gap-3 text-[#a1a1a6] hover:text-white transition-colors"
               >
                 <BehanceIcon className="w-4 h-4 text-[#FF3B1D]" />
                 <span>Behance Design Portfolio</span>
               </a>
-              <span className="block text-neutral-500 pt-1">
+              <span className="block text-[#6e6e73] pt-1">
                 Bangalore / Pune / Nashik / Jalgaon, Maharashtra
               </span>
-              <div className="pt-2 flex items-center gap-2">
-                <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                <span className="text-emerald-400 uppercase text-[10px] tracking-wider font-bold">
-                  Available for Industrial Design Roles
-                </span>
-              </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 text-xs">
+            <div className="flex flex-wrap gap-4 font-mono text-xs">
               <a 
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 bg-white text-black px-5 py-2.5 rounded-full font-bold hover:bg-[#FF3B1D] hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 bg-white text-black px-5 py-2.5 rounded-full font-bold hover:bg-[#FF3B1D] hover:text-white transition-colors shadow-sm"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Resume PDF</span>
+                <span>Resume (PDF)</span>
               </a>
               <a 
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 bg-[#FF3B1D] text-white px-5 py-2.5 rounded-full font-bold hover:bg-white hover:text-black transition-colors"
+                className="inline-flex items-center gap-1.5 bg-white/10 text-white border border-white/15 px-5 py-2.5 rounded-full font-bold hover:bg-white hover:text-black transition-colors"
               >
                 <span>Full 53-Page Deck</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -1423,7 +1435,8 @@ function Footer() {
 
         </div>
 
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-neutral-500 text-[11px]">
+        {/* Bottom Legal / Metadata Line */}
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[#86868b] text-[11px] font-mono">
           <div>
             © {new Date().getFullYear()} JINENDRA PARAKH. ALL RIGHTS RESERVED.
           </div>
@@ -1432,6 +1445,7 @@ function Footer() {
             <span className="text-[#FF3B1D]">PRODUCT DESIGN 2025</span>
           </div>
         </div>
+
       </div>
     </footer>
   );
@@ -1457,50 +1471,64 @@ function InlineMotionCapsule({ className = "" }) {
 }
 
 /* --- 1. HERO KINETIC SECTION (IMAGE 1 RECREATION) --- */
+/* --- 1. HERO KINETIC SECTION (APPLE KEYNOTE HARDWARE REVEAL) --- */
 function HeroKineticSection() {
+  const [activeHotspot, setActiveHotspot] = useState(null);
+
+  const hotspots = [
+    { id: 1, x: "32%", y: "30%", title: "Tactile Power Switch", detail: "Mechanical linear slider with spring-loaded audible detent click." },
+    { id: 2, x: "72%", y: "24%", title: "Segment LED Readout", detail: "Integrated digital charge percentage for instantaneous readout." },
+    { id: 3, x: "48%", y: "54%", title: "Magnetic Wireless Pad", detail: "MagSafe-compatible inductive charging coil interface." },
+    { id: 4, x: "20%", y: "78%", title: "Woven Nylon Ribbon", detail: "Heavy-duty nylon lanyard with cast metal carabiner loop." }
+  ];
+
   return (
-    <section className="relative overflow-hidden pt-8 sm:pt-14 pb-0">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+    <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 bg-[#000000]">
+      {/* Volumetric Radial Rim Lighting */}
+      <div 
+        aria-hidden="true" 
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF3B1D]/15 via-[#FF7A00]/08 to-transparent blur-3xl pointer-events-none" 
+      />
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
-        {/* Top Context Metadata Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-neutral-300/60 mb-12">
+        {/* Top Context Eyebrow Line */}
+        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-[#86868b] pb-6 border-b border-white/[0.08] mb-14">
           <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
-            <span className="font-bold text-black">KINETIC STUDIO // JINENDRA PARAKH</span>
+            <span className="w-2 h-2 rounded-full bg-[#FF3B1D] animate-pulse" />
+            <span className="font-bold text-white">APPLE DESIGN PHILOSOPHY // JINENDRA PARAKH</span>
           </div>
           <div className="flex items-center gap-6">
-            <span className="hidden sm:inline text-neutral-400">BANGALORE / PUNE / NASHIK</span>
-            <span className="text-black font-semibold">STRATE SCHOOL OF DESIGN '25</span>
+            <span className="hidden sm:inline text-[#6e6e73]">BANGALORE / PUNE / NASHIK</span>
+            <span className="text-white font-semibold">STRATE SCHOOL OF DESIGN '25</span>
           </div>
         </div>
 
         {/* Hero 2-Column Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Column: Display Typography & CTA */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest">
+          {/* Left Column: Display Typography & Keynote CTA */}
+          <div className="lg:col-span-7 space-y-7">
+            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#FF3B1D] uppercase tracking-widest">
               <StarburstIcon className="w-3.5 h-3.5" />
-              <span>‘BUILDING DESIRES’ // HARDWARE INQUIRY</span>
+              <span>‘BUILDING DESIRES’ • HARDWARE INQUIRY</span>
             </div>
 
-            <h1 className="text-5xl sm:text-7xl md:text-[84px] lg:text-[94px] font-black font-display tracking-tight leading-[0.96] uppercase text-black">
-              Redefine <br />
-              <span className="text-neutral-400 font-light lowercase">product desires</span>
+            <h1 className="text-5xl sm:text-7xl md:text-[84px] lg:text-[96px] font-black font-display tracking-tight leading-[0.94] uppercase text-white">
+              Building desires. <br />
+              <span className="apple-headline-gradient font-light normal-case">Designed to be felt.</span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl font-sans text-neutral-600 font-light leading-relaxed max-w-xl pt-2">
-              Our kinetic studio shapes bold physical journeys with adaptive motion systems flowing across endless layers of future.
+            <p className="text-base sm:text-lg md:text-xl font-sans text-[#86868b] font-light leading-relaxed max-w-xl">
+              Industrial design inquiry of Jinendra Parakh. Exploring tactile retro-engineering, kinematic mechanisms, and modular ergonomics with extreme intentionality.
             </p>
 
-            <div className="pt-4 flex flex-wrap items-center gap-4">
+            <div className="pt-2 flex flex-wrap items-center gap-4 font-mono text-xs">
               <a 
                 href="#inquiries" 
-                className="inline-flex items-center gap-3 bg-white text-black font-mono text-xs font-bold uppercase tracking-wider py-2 pl-2 pr-6 rounded-full shadow-md hover:shadow-xl hover:bg-neutral-50 transition-all cursor-pointer group border border-black/5"
+                className="inline-flex items-center gap-3 bg-white text-black font-bold uppercase tracking-wider py-3 px-6 rounded-full shadow-lg hover:bg-neutral-200 transition-all cursor-pointer group"
               >
-                <span className="w-9 h-7 rounded-full bg-gradient-to-r from-[#FF3B1D] via-[#FF7A00] to-[#E02404] flex items-center justify-center text-white shadow-inner">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff]" />
-                </span>
+                <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
                 <span>Explore Inquiries</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
@@ -1509,62 +1537,141 @@ function HeroKineticSection() {
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-neutral-600 hover:text-black py-2.5 px-4 rounded-full border border-neutral-300 hover:border-black transition-colors"
+                className="inline-flex items-center gap-2 font-bold uppercase tracking-wider text-white hover:text-black hover:bg-white py-3 px-5 rounded-full border border-white/20 transition-all bg-white/[0.05]"
               >
                 <span>53-Page Deck</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
+
+              <div className="p-3 bg-white/[0.05] border border-white/10 rounded-full flex items-center gap-2 px-4">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider">
+                  Open for ID Roles
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Floating Squircle Preview Card (Directly opens /project/fuel) */}
+          {/* Right Column: Floating Apple Squircle Card with Interactive Hotspots */}
           <div className="lg:col-span-5">
-            <Link 
-              to="/project/fuel" 
-              className="group block relative bg-[#121214] text-white p-7 md:p-8 rounded-[32px] shadow-2xl border border-white/10 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(255,59,29,0.18)] transition-all duration-300 cursor-pointer"
-            >
+            <div className="group relative apple-card rounded-[32px] p-7 md:p-8 shadow-2xl overflow-hidden">
+              
               {/* Card Header */}
-              <div className="flex items-center justify-between font-mono text-xs text-neutral-400 pb-3 border-b border-white/10">
-                <span className="uppercase tracking-widest text-[11px] font-bold text-white/80">case 01</span>
+              <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
+                  <span className="uppercase tracking-widest text-[11px] font-bold text-white/90">case 01 // FLAGSHIP HARDWARE</span>
+                </div>
                 <StarburstIcon className="w-4 h-4 text-[#FF3B1D] group-hover:rotate-90 transition-transform duration-500" />
               </div>
 
-              {/* Central Kinetic Motion Visual with Fiery Glow Streak */}
-              <div className="relative my-6 h-56 sm:h-64 flex items-center justify-center overflow-hidden rounded-2xl bg-neutral-900/90 p-4">
-                {/* Dynamic Fire Streak / Light Flare */}
-                <div className="absolute inset-x-0 h-16 bg-gradient-to-r from-transparent via-[#FF3B1D]/50 to-transparent blur-2xl animate-pulse" />
-                <img 
-                  src={resolveImg('p4_2')} 
-                  alt="Fuel Power Bank" 
-                  className="relative z-10 max-h-48 sm:max-h-52 w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform duration-500 ease-out" 
-                />
+              {/* Central Cinematic Hardware Stage with Interactive Hotspots */}
+              <div className="relative my-6 h-60 sm:h-72 flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-neutral-900/90 to-black p-4">
+                {/* Ambient Glow */}
+                <div className="absolute inset-x-0 h-20 bg-gradient-to-r from-transparent via-[#FF3B1D]/35 to-transparent blur-2xl" />
+                
+                <Link to="/project/fuel" className="block relative z-10 cursor-pointer">
+                  <img 
+                    src={resolveImg('p4_2')} 
+                    alt="Fuel Power Bank" 
+                    className="max-h-52 sm:max-h-60 w-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] group-hover:scale-105 transition-transform duration-500 ease-out" 
+                  />
+                </Link>
+
+                {/* Apple Interactive Hotspot Pins */}
+                {hotspots.map((h) => (
+                  <button
+                    key={h.id}
+                    onClick={() => setActiveHotspot(activeHotspot === h.id ? null : h.id)}
+                    style={{ left: h.x, top: h.y }}
+                    aria-label={h.title}
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer group/pin"
+                  >
+                    <span className="absolute inset-0 rounded-full bg-[#FF3B1D]/40 animate-ping" />
+                    <span className="relative w-2.5 h-2.5 rounded-full bg-[#FF3B1D] border-2 border-white shadow-[0_0_8px_#FF3B1D] group-hover/pin:scale-125 transition-transform" />
+                  </button>
+                ))}
+
+                {/* Hotspot Floating Detail Callout Modal */}
+                <AnimatePresence>
+                  {activeHotspot && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute bottom-4 inset-x-4 z-30 p-4 rounded-xl bg-black/90 backdrop-blur-xl border border-white/20 font-mono shadow-2xl text-left"
+                    >
+                      <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/10">
+                        <span className="text-[#FF3B1D] font-bold text-xs uppercase">
+                          {hotspots.find(h => h.id === activeHotspot)?.title}
+                        </span>
+                        <button 
+                          onClick={() => setActiveHotspot(null)}
+                          className="text-white/60 hover:text-white text-xs font-bold"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <p className="font-sans text-xs text-neutral-300 font-light">
+                        {hotspots.find(h => h.id === activeHotspot)?.detail}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Card Meta & Action */}
-              <div className="space-y-1">
+              <div className="space-y-2 pt-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-display font-bold text-xl uppercase tracking-tight text-white group-hover:text-[#FF3B1D] transition-colors">
+                  <h3 className="font-display font-bold text-2xl uppercase tracking-tight text-white group-hover:text-[#FF3B1D] transition-colors">
                     Fuel Power Bank
                   </h3>
-                  <span className="text-xs font-mono font-bold text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <Link 
+                    to="/project/fuel"
+                    className="text-xs font-mono font-bold text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                  >
                     <span>Inspect</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
+                  </Link>
                 </div>
-                <p className="font-mono text-xs text-neutral-400 font-light leading-relaxed">
+                <p className="font-mono text-xs text-[#86868b] font-light leading-relaxed">
                   Modern & tactile retro-engineering with audible click slider and woven nylon ribbon.
                 </p>
               </div>
-            </Link>
+            </div>
           </div>
 
         </div>
 
+        {/* Apple Bento Metrics Strip */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-10 border-t border-white/[0.08] font-mono text-xs">
+          <div className="p-5 apple-card rounded-2xl">
+            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">SPRINT DURATION</span>
+            <span className="text-lg font-bold text-white block">1-Week Sprint</span>
+            <span className="text-[#6e6e73] text-[11px] font-light">Rapid form ideation & CAD</span>
+          </div>
+          <div className="p-5 apple-card rounded-2xl">
+            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">PROTOTYPE SCALE</span>
+            <span className="text-lg font-bold text-white block">1:1 Physical Scale</span>
+            <span className="text-[#6e6e73] text-[11px] font-light">Makerspace CNC & 3D print</span>
+          </div>
+          <div className="p-5 apple-card rounded-2xl">
+            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">SURFACE CURVATURE</span>
+            <span className="text-lg font-bold text-[#FF3B1D] block">R15 / R5.5 Fillets</span>
+            <span className="text-[#6e6e73] text-[11px] font-light">Continuous ergonomic radii</span>
+          </div>
+          <div className="p-5 apple-card rounded-2xl">
+            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">PRIMARY CMF</span>
+            <span className="text-lg font-bold text-white block">Bead-Blasted Al</span>
+            <span className="text-[#6e6e73] text-[11px] font-light">+ Saturated Polycarbonate</span>
+          </div>
+        </div>
+
       </div>
 
-      {/* Giant Typographic Watermark 'kinetic' Across Bottom (as in Image 1) */}
-      <div className="relative overflow-hidden w-full pt-10 pb-0 select-none pointer-events-none">
-        <div className="font-display font-black text-[18vw] leading-none tracking-tighter uppercase text-white drop-shadow-sm text-center">
+      {/* Subtle Bottom Watermark */}
+      <div className="relative overflow-hidden w-full pt-16 pb-0 select-none pointer-events-none">
+        <div className="font-display font-black text-[18vw] leading-none tracking-tighter uppercase text-white/[0.04] text-center">
           kinetic
         </div>
       </div>
@@ -1572,7 +1679,7 @@ function HeroKineticSection() {
   );
 }
 
-/* --- 2. STAGGERED THUMBNAILS SECTION (IMAGE 2 RECREATION) --- */
+/* --- 2. STAGGERED THUMBNAILS SECTION (APPLE PRO LINEUP BENTO GRID) --- */
 const STAGGERED_PROJECTS = [
   {
     slug: "fuel",
@@ -1580,7 +1687,6 @@ const STAGGERED_PROJECTS = [
     tag: "01 // Tech",
     title: "Fuel Power Bank",
     desc: "Tactile retro-engineering with audible mechanical slider switch & woven nylon ribbon.",
-    bgClass: "bg-[#121214] text-white border border-white/10",
     pillClass: "bg-white text-black",
     starburstClass: "text-[#FF3B1D]",
     imgId: "p4_2",
@@ -1592,9 +1698,8 @@ const STAGGERED_PROJECTS = [
     tag: "02 // Kinematics",
     title: "Vantage Webcam",
     desc: "Ergonomic dual-axis camera for hybrid professional workspace and privacy.",
-    bgClass: "bg-gradient-to-br from-[#FF3B1D] via-[#E52A0B] to-[#991402] text-white shadow-xl shadow-orange-600/20",
     pillClass: "bg-white text-black",
-    starburstClass: "text-white",
+    starburstClass: "text-[#FF3B1D]",
     imgId: "p13_2",
     stagger: "md:translate-y-16"
   },
@@ -1604,7 +1709,6 @@ const STAGGERED_PROJECTS = [
     tag: "03 // Luxury",
     title: "Friday Footwear",
     desc: "Biomechanical ergonomic modular footwear engineering with swappable components.",
-    bgClass: "bg-[#18181B] text-white border border-white/10",
     pillClass: "bg-white text-black",
     starburstClass: "text-[#FF3B1D]",
     imgId: "p31_2",
@@ -1616,8 +1720,7 @@ const STAGGERED_PROJECTS = [
     tag: "04 // Visual Lab",
     title: "Visual Lab & Chrono",
     desc: "Horological chronographs, sneaker ideation, and rapid foam prototypes.",
-    bgClass: "bg-[#E2E2DF] text-black border border-neutral-300 shadow-sm",
-    pillClass: "bg-black text-white",
+    pillClass: "bg-white text-black",
     starburstClass: "text-[#FF3B1D]",
     imgId: "p1_2",
     stagger: "md:translate-y-16"
@@ -1626,16 +1729,16 @@ const STAGGERED_PROJECTS = [
 
 function StaggeredThumbnailsSection() {
   return (
-    <section id="inquiries" className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-neutral-300/60">
+    <section id="inquiries" className="max-w-[1400px] mx-auto px-6 md:px-12 py-28 border-t border-white/[0.08]">
       
       {/* Top Inquiry Tag */}
-      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-neutral-300 shadow-sm font-mono text-xs text-black mb-8">
+      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-sm font-mono text-xs text-white mb-8">
         <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
-        <span className="font-bold uppercase tracking-wider">About inquiry</span>
+        <span className="font-bold uppercase tracking-wider">About inquiry • Pro Lineup</span>
       </div>
 
-      {/* Main Display Headline with 2 Inline Motion Capsules (Image 2) */}
-      <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-black leading-[1.2] max-w-5xl mb-20">
+      {/* Main Display Headline with 2 Inline Motion Capsules */}
+      <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-white leading-[1.2] max-w-5xl mb-20">
         Kinetic Studio – is an ID inquiry of bold <InlineMotionCapsule /> creators that delivers the power of tactile hardware with <InlineMotionCapsule /> cutting-edge strategy
       </h2>
 
@@ -1645,14 +1748,14 @@ function StaggeredThumbnailsSection() {
           <Link
             key={card.slug}
             to={`/project/${card.slug}`}
-            className={`group relative block rounded-[32px] p-7 md:p-8 min-h-[490px] md:min-h-[540px] flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer ${card.bgClass} ${card.stagger}`}
+            className={`group relative block rounded-[32px] p-7 md:p-8 min-h-[500px] md:min-h-[550px] flex flex-col justify-between apple-card hover:-translate-y-2 cursor-pointer ${card.stagger}`}
           >
             {/* Top Badge & Tag */}
-            <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-current/10">
+            <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-white/10">
               <span className={`font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm ${card.pillClass}`}>
                 {card.badge}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-widest opacity-60 font-semibold">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-[#86868b] font-semibold">
                 {card.tag}
               </span>
             </div>
@@ -1662,23 +1765,23 @@ function StaggeredThumbnailsSection() {
               <img 
                 src={resolveImg(card.imgId)} 
                 alt={card.title} 
-                className="max-h-[220px] max-w-full w-auto h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500 ease-out" 
+                className="max-h-[220px] max-w-full w-auto h-auto object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 ease-out" 
               />
             </div>
 
             {/* Bottom Meta & Starburst */}
-            <div className="pt-4 border-t border-current/10 space-y-2">
+            <div className="pt-4 border-t border-white/10 space-y-2">
               <div className="flex items-center justify-between">
                 <StarburstIcon className={`w-4 h-4 ${card.starburstClass} group-hover:rotate-90 transition-transform duration-500`} />
-                <span className="font-mono text-[11px] font-bold uppercase tracking-widest opacity-80 group-hover:opacity-100 flex items-center gap-1">
-                  <span>Open</span>
+                <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span>Inspect</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-              <h3 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight leading-tight">
+              <h3 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight leading-tight text-white group-hover:text-[#FF3B1D] transition-colors">
                 {card.title}
               </h3>
-              <p className="font-sans text-xs font-light opacity-75 leading-relaxed line-clamp-2">
+              <p className="font-sans text-xs font-light text-[#86868b] leading-relaxed line-clamp-2">
                 {card.desc}
               </p>
             </div>
@@ -1690,7 +1793,86 @@ function StaggeredThumbnailsSection() {
   );
 }
 
-/* --- 3. DARK KINETIC CAROUSEL SECTION (IMAGE 3 RECREATION) --- */
+/* --- NEW: APPLE TECH SPECS & CMF COMPARISON MATRIX --- */
+function AppleTechSpecsMatrix() {
+  const comparisonItems = [
+    { label: "Category", fuel: "Consumer Tech", vantage: "Kinematic Cam", friday: "Modular Footwear", misc: "Visual Lab" },
+    { label: "Key Mechanism", fuel: "Tactile Linear Slider", vantage: "Dual-Axis Knuckle Joint", friday: "Modular Heel Release", misc: "Horological Chrono" },
+    { label: "Surface CMF", fuel: "Bead-Blasted Aluminum", vantage: "Matte Space Graphite", friday: "High-Gloss Lacquer", misc: "High-Density Foam" },
+    { label: "Prototyping", fuel: "Functional 1:1 Scale", vantage: "Working Cable Knuckle", friday: "CNC Milled Sole (UK 11)", misc: "Hand Sketches & AI" },
+    { label: "Sprint Duration", fuel: "1-Week Sprint", vantage: "4-Month Industry R&D", friday: "Academic Thesis", misc: "Ongoing Archives" }
+  ];
+
+  return (
+    <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-white/[0.08]">
+      <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+          // COMPARE INQUIRIES • APPLE SPECIFICATIONS
+        </span>
+        <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white">
+          Compare Design Inquiries.
+        </h2>
+        <p className="font-sans text-[#86868b] text-base font-light">
+          Side-by-side engineering specifications, mechanical principles, and CMF strategies across all documented portfolio projects.
+        </p>
+      </div>
+
+      <div className="overflow-x-auto apple-card rounded-[28px] p-6 sm:p-10">
+        <table className="w-full text-left font-mono text-xs min-w-[700px]">
+          <thead>
+            <tr className="border-b border-white/10 pb-4 text-[#86868b] uppercase text-[11px]">
+              <th className="py-4 font-bold text-white">Specification</th>
+              <th className="py-4 text-[#FF3B1D] font-bold">01 // Fuel</th>
+              <th className="py-4 text-white font-bold">02 // Vantage</th>
+              <th className="py-4 text-white font-bold">03 // Friday</th>
+              <th className="py-4 text-white font-bold">04 // Visual Lab</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/[0.06]">
+            {comparisonItems.map((item, idx) => (
+              <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
+                <td className="py-4 font-bold text-white uppercase text-[11px]">{item.label}</td>
+                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.fuel}</td>
+                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.vantage}</td>
+                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.friday}</td>
+                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.misc}</td>
+              </tr>
+            ))}
+            <tr>
+              <td className="py-6 font-bold text-white uppercase text-[11px]">Direct Study</td>
+              <td className="py-6">
+                <Link to="/project/fuel" className="text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                  <span>Explore Fuel</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </td>
+              <td className="py-6">
+                <Link to="/project/vantage" className="text-white hover:text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                  <span>Explore Vantage</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </td>
+              <td className="py-6">
+                <Link to="/project/friday" className="text-white hover:text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                  <span>Explore Friday</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </td>
+              <td className="py-6">
+                <Link to="/project/miscellaneous" className="text-white hover:text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                  <span>Explore Lab</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+/* --- 3. DARK KINETIC CAROUSEL SECTION (APPLE 3D STAGE SHOWCASE) --- */
 const CAROUSEL_CARDS = [
   {
     id: "lead",
@@ -1747,12 +1929,12 @@ function DarkKineticCarouselSection() {
   const activeCard = CAROUSEL_CARDS[activeIdx];
 
   return (
-    <section className="bg-[#050505] text-white py-28 px-6 md:px-12 border-t border-neutral-900 overflow-hidden relative">
+    <section className="bg-[#000000] text-white py-28 px-6 md:px-12 border-t border-white/[0.08] overflow-hidden relative">
       
       {/* Background Kinetic Flare Streak */}
       <div 
         aria-hidden="true" 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#FF3B1D]/20 via-[#FF7A00]/15 to-transparent blur-3xl pointer-events-none" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#FF3B1D]/15 via-[#FF7A00]/10 to-transparent blur-3xl pointer-events-none" 
       />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
@@ -1779,7 +1961,7 @@ function DarkKineticCarouselSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-[#121214] rounded-[36px] border-2 border-white/85 shadow-[0_0_60px_rgba(255,59,29,0.18)] p-8 sm:p-12 relative overflow-hidden"
+                className="apple-card rounded-[36px] border-2 border-white/85 shadow-[0_0_60px_rgba(255,59,29,0.18)] p-8 sm:p-12 relative overflow-hidden"
               >
                 {/* Top Row: JP Logo & Tag */}
                 <div className="flex items-center justify-between pb-6 border-b border-white/10">
@@ -1811,10 +1993,10 @@ function DarkKineticCarouselSection() {
                     <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-white">
                       {activeCard.title}
                     </h3>
-                    <p className="font-mono text-xs text-neutral-400">
+                    <p className="font-mono text-xs text-[#86868b]">
                       {activeCard.role}
                     </p>
-                    <p className="font-sans text-xs text-neutral-400 font-light max-w-lg pt-1">
+                    <p className="font-sans text-xs text-[#86868b] font-light max-w-lg pt-1">
                       {activeCard.desc}
                     </p>
                   </div>
@@ -1874,40 +2056,43 @@ function DarkKineticCarouselSection() {
   );
 }
 
-/* --- HOME PAGE (EXACT KINETIC STUDIO MOODBOARD ARCHITECTURE) --- */
+/* --- HOME PAGE (APPLE PRO DARK TITANIUM ARCHITECTURE) --- */
 function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#000000]">
       
-      {/* 1. HERO KINETIC SECTION (IMAGE 1) */}
+      {/* 1. HERO KEYNOTE REVEAL */}
       <HeroKineticSection />
 
-      {/* 2. STAGGERED THUMBNAILS GRID (IMAGE 2) */}
+      {/* 2. STAGGERED THUMBNAILS GRID */}
       <StaggeredThumbnailsSection />
 
-      {/* 3. DARK KINETIC CAROUSEL (IMAGE 3) */}
+      {/* 3. APPLE TECH SPECS & CMF COMPARISON MATRIX */}
+      <AppleTechSpecsMatrix />
+
+      {/* 4. DARK KINETIC CAROUSEL */}
       <DarkKineticCarouselSection />
 
-      {/* QUICK LINKS SECTION (PLAYGROUND & DOSSIERS) */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-neutral-300">
+      {/* QUICK LINKS SECTION (APPLE PRO BENTO CARDS) */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-28 border-t border-white/[0.08]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           <Link 
             to="/playground"
-            className="p-8 bg-white/70 backdrop-blur-sm rounded-sm hover:bg-white transition-all group flex flex-col justify-between space-y-6"
+            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
                 02 // VISUAL LAB
               </span>
-              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-white mb-3">
                 Playground & Sketches
               </h4>
-              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
+              <p className="font-sans text-[#86868b] text-sm leading-relaxed font-light">
                 Interactive masonry gallery of horological sketches, Nike AF1 anatomical teardown, Vizcom AI iterations, and makerspace foam prototypes.
               </p>
             </div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-black group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#FF3B1D] flex items-center gap-1.5">
               <span>Open Visual Lab</span>
               <ArrowUpRight className="w-4 h-4" />
             </span>
@@ -1915,20 +2100,20 @@ function HomePage() {
 
           <Link 
             to="/about"
-            className="p-8 bg-white/70 backdrop-blur-sm rounded-sm hover:bg-white transition-all group flex flex-col justify-between space-y-6"
+            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
                 03 // BACKGROUND
               </span>
-              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-white mb-3">
                 About Jinendra Parakh
               </h4>
-              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
+              <p className="font-sans text-[#86868b] text-sm leading-relaxed font-light">
                 Education at Strate School of Design, Bangalore. Prototyping hard skills, CAD tool competencies (Rhinoceros, Fusion 360, KeyShot), and 'Building Desires' philosophy.
               </p>
             </div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-black group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#FF3B1D] flex items-center gap-1.5">
               <span>Read Full Dossier</span>
               <ArrowUpRight className="w-4 h-4" />
             </span>
@@ -1936,20 +2121,20 @@ function HomePage() {
 
           <Link 
             to="/experience"
-            className="p-8 bg-white/70 backdrop-blur-sm rounded-sm hover:bg-white transition-all group flex flex-col justify-between space-y-6"
+            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
                 04 // TRACK RECORD
               </span>
-              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-white mb-3">
                 Professional Experience
               </h4>
-              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
+              <p className="font-sans text-[#86868b] text-sm leading-relaxed font-light">
                 Industry experience at Ticket Design, Pune (Water Dispensers, Medical DVT Devices), A&T Video Networks camera design, and Spandigit Social.
               </p>
             </div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-black group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#FF3B1D] flex items-center gap-1.5">
               <span>View Experience</span>
               <ArrowUpRight className="w-4 h-4" />
             </span>
@@ -2032,30 +2217,30 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
     <div className="w-full select-none my-6">
       
       {/* Slider Top Metadata Bar */}
-      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-neutral-500 pb-3 border-b border-neutral-300 mb-4">
+      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-[#86868b] pb-3 border-b border-white/[0.08] mb-4">
         <div className="flex items-center gap-2 sm:gap-3">
-          <span className="w-2.5 h-2.5 bg-[#FF3B1D] rounded-full inline-block" />
-          <span className="font-bold text-black">
+          <span className="w-2 h-2 bg-[#FF3B1D] rounded-full inline-block animate-pulse" />
+          <span className="font-bold text-white">
             PLATE 0{currentIndex + 1} / 0{total}
           </span>
-          <span className="text-neutral-400">|</span>
+          <span className="text-white/20">|</span>
           <span className="text-[#FF3B1D] font-bold">
             {currentPlate.page || `PAGE 0${currentIndex + 4}`}
           </span>
           {currentPlate.category && (
-            <span className="text-neutral-500 hidden sm:inline">
+            <span className="text-[#86868b] hidden sm:inline">
               // {currentPlate.category}
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="hidden md:inline text-[11px] text-neutral-400">
+          <span className="hidden md:inline text-[11px] text-[#6e6e73]">
             DRAG / ARROWS TO SLIDE
           </span>
           <button
             onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
-            className="flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-black hover:text-white rounded-full font-mono text-[11px] font-bold text-neutral-700 transition-colors shadow-sm cursor-pointer ml-2"
+            className="flex items-center gap-1.5 px-3 py-1 bg-white/[0.08] hover:bg-white text-white hover:text-black rounded-full font-mono text-[11px] font-bold transition-all border border-white/10 shadow-sm cursor-pointer ml-2"
             title="Expand Fullscreen (Zoom)"
           >
             <Maximize2 className="w-3.5 h-3.5" />
@@ -2065,13 +2250,13 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
       </div>
 
       {/* Main Slide Presentation Stage with Drag and Spring Transition */}
-      <div className="relative w-full min-h-[360px] sm:min-h-[480px] md:min-h-[580px] lg:min-h-[640px] bg-[#DFDFDC]/80 rounded-sm overflow-hidden flex items-center justify-center p-4 sm:p-8 md:p-12 shadow-sm group">
+      <div className="relative w-full min-h-[360px] sm:min-h-[480px] md:min-h-[580px] lg:min-h-[640px] apple-card rounded-[32px] overflow-hidden flex items-center justify-center p-4 sm:p-8 md:p-12 shadow-2xl group">
         
         {/* Previous Button */}
         <button
           onClick={goToPrev}
           aria-label="Previous slide"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/85 hover:bg-[#FF3B1D] text-black hover:text-white backdrop-blur-md flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer group/btn"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-xl border border-white/15 flex items-center justify-center shadow-2xl transition-all duration-200 cursor-pointer group/btn"
         >
           <ChevronLeft className="w-6 h-6 group-hover/btn:-translate-x-0.5 transition-transform" />
         </button>
@@ -2080,7 +2265,7 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
         <button
           onClick={goToNext}
           aria-label="Next slide"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/85 hover:bg-[#FF3B1D] text-black hover:text-white backdrop-blur-md flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer group/btn"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-xl border border-white/15 flex items-center justify-center shadow-2xl transition-all duration-200 cursor-pointer group/btn"
         >
           <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-0.5 transition-transform" />
         </button>
@@ -2112,17 +2297,17 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
                 src={imgSrc}
                 alt={currentPlate.title || "Project plate"}
                 onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
-                className="max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] max-w-full w-auto h-auto object-contain select-none drop-shadow-md mx-auto hover:scale-[1.01] transition-transform duration-300"
+                className="max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] max-w-full w-auto h-auto object-contain select-none drop-shadow-2xl mx-auto hover:scale-[1.01] transition-transform duration-300"
                 draggable={false}
               />
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Quick Zoom Pill (mirko style on hover) */}
+        {/* Quick Zoom Pill */}
         <button
           onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
-          className="absolute bottom-4 right-4 z-20 bg-black/85 backdrop-blur-sm text-white font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-md cursor-pointer hover:bg-[#FF3B1D]"
+          className="absolute bottom-4 right-4 z-20 bg-black/85 backdrop-blur-md text-white font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg cursor-pointer hover:bg-[#FF3B1D] border border-white/10"
         >
           <Maximize2 className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:text-white" />
           <span>Full Resolution</span>
@@ -2130,27 +2315,27 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
       </div>
 
       {/* Slide Caption & Technical Context */}
-      <div className="pt-4 pb-2 border-b border-neutral-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
+      <div className="pt-4 pb-2 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="bg-black text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
+            <span className="bg-white/10 text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm border border-white/10">
               PLATE 0{currentIndex + 1}
             </span>
             <span className="bg-[#FF3B1D] text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
               {currentPlate.page || `Page 0${currentIndex + 4}`}
             </span>
-            <h3 className="font-display font-black text-lg md:text-xl uppercase tracking-tight text-black">
+            <h3 className="font-display font-black text-lg md:text-xl uppercase tracking-tight text-white">
               {currentPlate.title}
             </h3>
           </div>
-          <p className="font-sans text-xs md:text-sm text-neutral-600 font-light max-w-3xl leading-relaxed">
+          <p className="font-sans text-xs md:text-sm text-[#86868b] font-light max-w-3xl leading-relaxed">
             {currentPlate.caption}
           </p>
         </div>
 
         {/* Progress Fraction */}
         <div className="flex items-center gap-3 shrink-0">
-          <span className="text-xs font-bold text-neutral-400">
+          <span className="text-xs font-bold text-[#86868b]">
             {String(currentIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </span>
         </div>
@@ -2162,14 +2347,14 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
           <button
             key={pIdx}
             onClick={() => goToSlide(pIdx)}
-            className={`group relative shrink-0 transition-all cursor-pointer rounded-sm overflow-hidden ${
+            className={`group relative shrink-0 transition-all cursor-pointer rounded-lg overflow-hidden border ${
               pIdx === currentIndex
-                ? 'ring-2 ring-[#FF3B1D] scale-105'
-                : 'opacity-60 hover:opacity-100'
+                ? 'border-[#FF3B1D] ring-2 ring-[#FF3B1D]/40 scale-105'
+                : 'border-white/10 opacity-50 hover:opacity-100'
             }`}
             title={`Slide 0${pIdx + 1}: ${plate.title}`}
           >
-            <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#DFDFDC] p-1 flex items-center justify-center">
+            <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#141416] p-1 flex items-center justify-center">
               <img
                 src={resolveImg(plate.id)}
                 alt={plate.title}
@@ -2178,7 +2363,7 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
               />
             </div>
             <div className={`absolute bottom-0 inset-x-0 h-1 ${
-              pIdx === currentIndex ? 'bg-[#FF3B1D]' : 'bg-transparent group-hover:bg-neutral-400'
+              pIdx === currentIndex ? 'bg-[#FF3B1D]' : 'bg-transparent group-hover:bg-neutral-600'
             }`} />
           </button>
         ))}
@@ -2188,7 +2373,7 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
   );
 }
 
-/* --- DOCKED FIXED BOTTOM BAR (MIRKO ROMANELLI STYLE PROJECT NAVIGATION) --- */
+/* --- DOCKED FIXED BOTTOM BAR (APPLE FROSTED GLASS PROJECT NAVIGATION) --- */
 function ProjectBottomBar({ project }) {
   const currentIndex = JINENDRA_PROJECTS.findIndex(p => p.slug === project.slug);
   const total = JINENDRA_PROJECTS.length;
@@ -2202,22 +2387,22 @@ function ProjectBottomBar({ project }) {
   return (
     <aside 
       aria-label="Project Navigation Bar"
-      className="fixed bottom-0 inset-x-0 z-40 bg-[#EAEAE7]/95 backdrop-blur-md border-t border-neutral-300 py-3.5 px-6 md:px-12 shadow-lg font-mono text-xs"
+      className="fixed bottom-0 inset-x-0 z-40 bg-[#000000]/85 backdrop-blur-2xl border-t border-white/[0.08] py-3.5 px-6 md:px-12 shadow-2xl font-mono text-xs"
     >
       <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
         
         {/* Previous Project Link */}
         <Link 
           to={`/project/${prevProject.slug}`}
-          className="group flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
+          className="group flex items-center gap-2 text-[#f5f5f7] hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
         >
           <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="hidden sm:inline text-neutral-400 font-normal">PREV //</span>
+          <span className="hidden sm:inline text-[#86868b] font-normal">PREV //</span>
           <span>{prevProject.title}</span>
         </Link>
 
         {/* Center Metadata & Back to Top */}
-        <div className="hidden md:flex items-center gap-4 text-neutral-500 uppercase tracking-widest text-[11px]">
+        <div className="hidden md:flex items-center gap-4 text-[#86868b] uppercase tracking-widest text-[11px]">
           <span className="text-[#FF3B1D] font-bold">{project.indexCode}</span>
           <span>•</span>
           <span>{project.duration}</span>
@@ -2226,7 +2411,7 @@ function ProjectBottomBar({ project }) {
           <span>•</span>
           <button 
             onClick={scrollToTop} 
-            className="text-black hover:text-[#FF3B1D] font-bold underline flex items-center gap-1 cursor-pointer"
+            className="text-white hover:text-[#FF3B1D] font-bold underline flex items-center gap-1 cursor-pointer"
           >
             <span>Top</span>
             <ArrowUp className="w-3 h-3" />
@@ -2236,10 +2421,10 @@ function ProjectBottomBar({ project }) {
         {/* Next Project Link */}
         <Link 
           to={`/project/${nextProject.slug}`}
-          className="group flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
+          className="group flex items-center gap-2 text-[#f5f5f7] hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
         >
           <span>{nextProject.title}</span>
-          <span className="hidden sm:inline text-neutral-400 font-normal">// NEXT</span>
+          <span className="hidden sm:inline text-[#86868b] font-normal">// NEXT</span>
           <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
 
@@ -2273,55 +2458,55 @@ function ProjectDetailPage() {
   const galleryContext = project.gallery ? project.gallery.map(g => ({ ...g, src: resolveImg(g.id) })) : [];
 
   return (
-    <article className="min-h-screen pb-44">
+    <article className="min-h-screen pb-44 bg-[#000000] text-[#f5f5f7]">
       
       {/* Header */}
-      <header id="overview" className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 border-b border-neutral-300">
+      <header id="overview" className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 border-b border-white/[0.08]">
         
         <button 
           onClick={() => navigate(-1)} 
-          className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-[#86868b] hover:text-white mb-8 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Works
         </button>
         
         <div className="flex flex-wrap items-center gap-3 mb-6 font-mono text-xs">
-          <span className="bg-[#FF3B1D] text-white px-3 py-1 font-bold uppercase tracking-widest rounded-full">
+          <span className="bg-[#FF3B1D] text-white px-3 py-1 font-bold uppercase tracking-widest rounded-full shadow-sm">
             {project.indexCode}
           </span>
-          <span className="bg-white/80 text-neutral-700 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
+          <span className="bg-white/10 text-white border border-white/10 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
             {project.duration}
           </span>
-          <span className="bg-neutral-200/80 text-neutral-700 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
+          <span className="bg-white/[0.06] text-white/80 border border-white/10 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
             {project.projectType}
           </span>
         </div>
 
-        <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display uppercase tracking-tight text-black leading-none mb-4">
+        <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display uppercase tracking-tight text-white leading-none mb-4 apple-headline-gradient">
           {project.title}
         </h1>
 
-        <p className="font-mono text-sm md:text-base font-bold text-neutral-600 uppercase tracking-wider mb-6">
+        <p className="font-mono text-sm md:text-base font-bold text-[#86868b] uppercase tracking-wider mb-6">
           {project.subtitle}
         </p>
 
-        <p className="font-sans text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl">
+        <p className="font-sans text-xl md:text-2xl text-[#a1a1a6] font-light leading-relaxed max-w-3xl">
           {project.tagline}
         </p>
 
         {project.collaborators && (
-          <div className="mt-6 pt-4 border-t border-neutral-300 font-mono text-xs text-neutral-500">
+          <div className="mt-6 pt-4 border-t border-white/10 font-mono text-xs text-[#86868b]">
             <span className="text-[#FF3B1D] font-bold uppercase tracking-widest mr-2">// COLLABORATORS:</span>
             <span>{project.collaborators}</span>
           </div>
         )}
 
         {project.heroMetrics && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-neutral-300 font-mono text-xs">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-white/[0.08] font-mono text-xs">
             {project.heroMetrics.map((m, idx) => (
               <div key={idx} className="border-l-2 border-[#FF3B1D] pl-4 py-1">
-                <span className="text-neutral-400 uppercase tracking-widest block text-[10px] font-bold mb-1">{m.label}</span>
-                <span className="text-base font-bold text-black">{m.val}</span>
+                <span className="text-[#86868b] uppercase tracking-widest block text-[10px] font-bold mb-1">{m.label}</span>
+                <span className="text-base font-bold text-white">{m.val}</span>
               </div>
             ))}
           </div>
@@ -2335,36 +2520,36 @@ function ProjectDetailPage() {
       </section>
 
       {/* STICKY QUICK NAVIGATION BAR */}
-      <nav className="sticky top-20 z-40 bg-[#EAEAE7]/95 backdrop-blur-md py-3.5 border-y border-neutral-300/60 my-6 shadow-sm">
+      <nav className="sticky top-16 z-40 bg-[#000000]/85 backdrop-blur-2xl py-3 border-y border-white/[0.08] my-6 shadow-sm">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between overflow-x-auto no-scrollbar gap-4 text-xs font-mono font-bold uppercase tracking-wider">
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <a href="#overview" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+            <a href="#overview" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
               01. Overview
             </a>
-            <a href="#problem" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+            <a href="#problem" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
               02. Brief & Problem
             </a>
             {project.inspirationTitle && (
-              <a href="#inspiration" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+              <a href="#inspiration" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
                 03. Inspiration
               </a>
             )}
             {(project.features || project.identifiedProblems || project.wearableGuide || project.makerspaceBuild) && (
-              <a href="#anatomy" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+              <a href="#anatomy" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
                 04. Anatomy & Craft
               </a>
             )}
-            <a href="#plates" className="px-3.5 py-1.5 rounded-full bg-[#FF3B1D] text-white hover:bg-black transition-colors">
+            <a href="#plates" className="px-3.5 py-1.5 rounded-full bg-[#FF3B1D] text-white hover:bg-white hover:text-black transition-colors">
               05. Plates ({project.gallery.length})
             </a>
             {project.specs && (
-              <a href="#specifications" className="px-3.5 py-1.5 rounded-full hover:bg-black hover:text-white transition-colors text-neutral-600 bg-white/60">
+              <a href="#specifications" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
                 06. Specifications
               </a>
             )}
           </div>
 
-          <div className="hidden lg:flex items-center gap-3 shrink-0 text-[11px] text-neutral-500">
+          <div className="hidden lg:flex items-center gap-3 shrink-0 text-[11px] text-[#86868b]">
             <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
             <span>{project.indexCode}</span>
           </div>
@@ -2380,25 +2565,25 @@ function ProjectDetailPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-8 border-t border-neutral-300"
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-8 border-t border-white/[0.08]"
         >
           <div className="md:col-span-5 space-y-3">
             <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block">
               // THE PROBLEM & INQUIRY
             </span>
-            <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+            <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
               Market Challenge
             </h3>
           </div>
           <div className="md:col-span-7 space-y-6">
-            <p className="font-sans text-lg text-neutral-700 font-normal leading-relaxed">
+            <p className="font-sans text-lg text-[#a1a1a6] font-normal leading-relaxed">
               {project.problem}
             </p>
-            <div className="p-6 bg-white/80 backdrop-blur-sm rounded-sm border-l-4 border-[#FF3B1D]">
+            <div className="p-6 apple-card rounded-2xl border-l-4 border-[#FF3B1D]">
               <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#FF3B1D] block mb-1">
                 DESIGN BRIEF
               </span>
-              <p className="font-sans text-sm text-neutral-800 font-medium leading-relaxed">
+              <p className="font-sans text-sm text-[#f5f5f7] font-medium leading-relaxed">
                 {project.brief}
               </p>
             </div>
@@ -2412,27 +2597,27 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // MARKET RESEARCH
                 </span>
-                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-black">
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-white">
                   {project.marketResearch.headline}
                 </h3>
               </div>
-              <span className="font-mono text-xs text-neutral-500 font-bold uppercase tracking-wider bg-white/70 px-4 py-2 rounded-full">
+              <span className="font-mono text-xs text-white font-bold uppercase tracking-wider bg-white/10 border border-white/10 px-4 py-2 rounded-full">
                 {project.marketResearch.cagr}
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
               {project.marketResearch.drivers.map((d, dIdx) => (
-                <div key={dIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-l-2 border-[#FF3B1D]">
+                <div key={dIdx} className="p-6 apple-card rounded-2xl space-y-2 border-l-2 border-[#FF3B1D]">
                   <span className="font-bold text-[#FF3B1D] uppercase text-xs block">{d.label}</span>
-                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{d.text}</p>
+                  <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{d.text}</p>
                 </div>
               ))}
             </div>
@@ -2446,27 +2631,27 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // USER FRICTION & DEFICIENCIES
                 </span>
-                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
                   Identified Problems
                 </h3>
               </div>
-              <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
+              <span className="font-mono text-xs text-[#86868b] uppercase tracking-widest">
                 Page 15 // Ethnographic Study
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
               {project.identifiedProblems.map((prob, pIdx) => (
-                <div key={pIdx} className="bg-white/70 hover:bg-white transition-all backdrop-blur-sm rounded-sm p-4 space-y-3 shadow-sm flex flex-col justify-between group">
+                <div key={pIdx} className="apple-card rounded-2xl p-4 space-y-3 shadow-lg flex flex-col justify-between group">
                   {prob.imageId && (
-                    <div className="w-full h-44 bg-[#DFDFDC]/60 rounded-sm p-2 flex items-center justify-center overflow-hidden">
+                    <div className="w-full h-44 bg-[#141416] rounded-xl p-2 flex items-center justify-center overflow-hidden border border-white/5">
                       <ProjectImage 
                         id={prob.imageId}
                         altText={prob.title}
@@ -2478,8 +2663,8 @@ function ProjectDetailPage() {
                     </div>
                   )}
                   <div className="space-y-1.5">
-                    <span className="font-bold text-black uppercase text-xs block font-display tracking-tight">{prob.title}</span>
-                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{prob.desc}</p>
+                    <span className="font-bold text-white uppercase text-xs block font-display tracking-tight">{prob.title}</span>
+                    <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{prob.desc}</p>
                   </div>
                 </div>
               ))}
@@ -2494,22 +2679,22 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                 // THE STORY & HISTORICAL RECLAMATION
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
                 The Fun of Re-telling History
               </h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 font-mono text-xs">
               {project.historicalTimeline.map((item, tIdx) => (
-                <div key={tIdx} className="p-5 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-t-2 border-[#FF3B1D]">
+                <div key={tIdx} className="p-5 apple-card rounded-2xl space-y-2 border-t-2 border-[#FF3B1D]">
                   <span className="font-bold text-[#FF3B1D] text-[11px] block">{item.epoch}</span>
-                  <p className="font-sans text-neutral-700 text-xs font-light leading-relaxed">{item.text}</p>
+                  <p className="font-sans text-[#a1a1a6] text-xs font-light leading-relaxed">{item.text}</p>
                 </div>
               ))}
             </div>
@@ -2524,26 +2709,26 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-neutral-300 items-center"
+            className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-white/[0.08] items-center"
           >
             <div className="md:col-span-5 space-y-4">
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block">
                 // DESIGN INSPIRATION
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
                 {project.inspirationTitle}
               </h3>
               {project.inspirationSubtitle && (
-                <p className="font-mono text-xs font-bold text-neutral-500 uppercase tracking-wider">
+                <p className="font-mono text-xs font-bold text-[#86868b] uppercase tracking-wider">
                   {project.inspirationSubtitle}
                 </p>
               )}
-              <p className="font-sans text-base text-neutral-600 font-light leading-relaxed">
+              <p className="font-sans text-base text-[#a1a1a6] font-light leading-relaxed">
                 {project.inspirationDesc}
               </p>
             </div>
             <div className="md:col-span-7">
-              <div className="w-full min-h-[300px] md:min-h-[420px] max-h-[540px] bg-[#DFDFDC]/60 p-4 sm:p-8 rounded-sm flex items-center justify-center overflow-hidden">
+              <div className="w-full min-h-[300px] md:min-h-[420px] max-h-[540px] apple-card rounded-2xl p-4 sm:p-8 flex items-center justify-center overflow-hidden">
                 <ProjectImage 
                   id={project.inspirationImg} 
                   altText={project.inspirationTitle}
@@ -2557,7 +2742,7 @@ function ProjectDetailPage() {
           </motion.section>
         )}
 
-        {/* Functional Features Callout (e.g. Fuel Dual Layout or Standard Grid) */}
+        {/* Functional Features Callout */}
         {project.features && (
           <motion.section 
             id="anatomy"
@@ -2565,31 +2750,31 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // INTERACTION & TACTILITY
                 </span>
-                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
                   Functional Anatomy & Callouts
                 </h3>
               </div>
-              <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
+              <span className="font-mono text-xs text-[#86868b] uppercase tracking-widest">
                 Page 08 // Retro-Engineering Mechanics
               </span>
             </div>
 
             {project.slug === 'fuel' ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div className="lg:col-span-7 bg-[#DFDFDC]/60 p-6 sm:p-10 rounded-sm flex items-center justify-center">
+                <div className="lg:col-span-7 apple-card rounded-2xl p-6 sm:p-10 flex items-center justify-center">
                   <ProjectImage 
                     id="p8_2"
                     altText="Fuel Functional Anatomy Overview"
                     caption="Plate: Functional Anatomy Overview of Fuel Power Bank"
                     className="w-full flex items-center justify-center"
-                    imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-md"
+                    imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-2xl"
                     gallery={galleryContext}
                   />
                 </div>
@@ -2598,10 +2783,10 @@ function ProjectDetailPage() {
                   {project.features.map((feat, fIdx) => (
                     <div 
                       key={fIdx} 
-                      className="p-4 bg-white/70 hover:bg-white transition-all backdrop-blur-sm rounded-sm flex items-center gap-4 shadow-sm group"
+                      className="p-4 apple-card rounded-xl flex items-center gap-4 group"
                     >
                       {feat.imageId && (
-                        <div className="w-16 h-16 shrink-0 bg-[#E5E5E2] rounded-full overflow-hidden p-1 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+                        <div className="w-16 h-16 shrink-0 bg-[#161618] border border-white/10 rounded-full overflow-hidden p-1 flex items-center justify-center group-hover:scale-105 transition-transform">
                           <ProjectImage 
                             id={feat.imageId}
                             altText={feat.title}
@@ -2614,8 +2799,8 @@ function ProjectDetailPage() {
                       )}
                       <div className="space-y-0.5">
                         <span className="text-[10px] text-[#FF3B1D] font-bold uppercase tracking-wider block">{feat.tag}</span>
-                        <h4 className="text-sm font-bold font-display uppercase text-black">{feat.title}</h4>
-                        <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{feat.desc}</p>
+                        <h4 className="text-sm font-bold font-display uppercase text-white">{feat.title}</h4>
+                        <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{feat.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -2624,10 +2809,10 @@ function ProjectDetailPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
                 {project.features.map((feat, fIdx) => (
-                  <div key={fIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-l-2 border-[#FF3B1D]">
-                    <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">{feat.tag}</span>
-                    <h4 className="text-base font-bold font-display uppercase text-black">{feat.title}</h4>
-                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{feat.desc}</p>
+                  <div key={fIdx} className="p-6 apple-card rounded-2xl space-y-2 border-l-2 border-[#FF3B1D]">
+                    <span className="text-[10px] text-[#86868b] font-bold uppercase tracking-wider block">{feat.tag}</span>
+                    <h4 className="text-base font-bold font-display uppercase text-white">{feat.title}</h4>
+                    <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{feat.desc}</p>
                   </div>
                 ))}
               </div>
@@ -2643,23 +2828,23 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                 // ERGONOMICS & DEPLOYMENT
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
                 Just Plug In, Position, and Perfect
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
               {project.userSteps.map((s, sIdx) => (
-                <div key={sIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-3">
+                <div key={sIdx} className="p-6 apple-card rounded-2xl space-y-3">
                   <span className="text-2xl font-black font-display text-[#FF3B1D] block">{s.step}</span>
-                  <h4 className="text-base font-bold font-display uppercase text-black">{s.title}</h4>
-                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{s.desc}</p>
+                  <h4 className="text-base font-bold font-display uppercase text-white">{s.title}</h4>
+                  <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -2674,23 +2859,23 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                 // USER CEREMONY
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
                 Step into the Story: The Wearable Guide
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
               {project.wearableGuide.map((wg, wgIdx) => (
-                <div key={wgIdx} className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-2 border-l-2 border-[#FF3B1D]">
+                <div key={wgIdx} className="p-6 apple-card rounded-2xl space-y-2 border-l-2 border-[#FF3B1D]">
                   <span className="text-[#FF3B1D] font-black font-display text-lg block">{wg.step}</span>
-                  <h4 className="text-base font-bold font-display uppercase text-black">{wg.title}</h4>
-                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{wg.desc}</p>
+                  <h4 className="text-base font-bold font-display uppercase text-white">{wg.title}</h4>
+                  <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{wg.desc}</p>
                 </div>
               ))}
             </div>
@@ -2704,26 +2889,26 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-neutral-300 space-y-8"
+            className="pt-12 border-t border-white/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // PHYSICAL FABRICATION & PROTOTYPING
                 </span>
-                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-black">
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-white">
                   1:1 Scale Prototype Build (UK 11)
                 </h3>
               </div>
-              <span className="font-mono text-xs text-neutral-500 font-bold uppercase tracking-wider bg-white/70 px-4 py-2 rounded-full">
+              <span className="font-mono text-xs text-white font-bold uppercase tracking-wider bg-white/10 border border-white/10 px-4 py-2 rounded-full">
                 Strate Makerspace Facility
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
               {project.makerspaceBuild.map((step, sIdx) => (
-                <div key={sIdx} className="bg-white/70 hover:bg-white transition-all backdrop-blur-sm rounded-sm p-4 space-y-3 shadow-sm flex flex-col justify-between group">
-                  <div className="w-full h-48 bg-[#DFDFDC]/60 rounded-sm p-3 flex items-center justify-center overflow-hidden">
+                <div key={sIdx} className="apple-card rounded-2xl p-4 space-y-3 shadow-lg flex flex-col justify-between group">
+                  <div className="w-full h-48 bg-[#141416] rounded-xl p-3 flex items-center justify-center overflow-hidden border border-white/5">
                     <ProjectImage 
                       id={step.id}
                       altText={step.title}
@@ -2735,8 +2920,8 @@ function ProjectDetailPage() {
                   </div>
                   <div className="space-y-1">
                     <span className="text-[10px] text-[#FF3B1D] font-bold uppercase tracking-wider block">Stage 0{sIdx + 1}</span>
-                    <h4 className="font-bold text-black font-display uppercase text-xs leading-snug">{step.title}</h4>
-                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{step.caption}</p>
+                    <h4 className="font-bold text-white font-display uppercase text-xs leading-snug">{step.title}</h4>
+                    <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{step.caption}</p>
                   </div>
                 </div>
               ))}
@@ -2745,12 +2930,12 @@ function ProjectDetailPage() {
         )}
 
         {/* COMPLETE GALLERY OF ALL PLATES (ZERO CROPPING — EVERY SKETCH, CAD & RENDER 100% UNCLIPPED) */}
-        <section id="plates" className="space-y-16 pt-12 border-t border-neutral-300">
-          <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-neutral-300">
+        <section id="plates" className="space-y-16 pt-12 border-t border-white/[0.08]">
+          <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-white/[0.08]">
             <span className="font-bold text-[#FF3B1D] uppercase tracking-widest">
               // PROCESS, CAD & VISUALIZATIONS
             </span>
-            <span className="text-neutral-500 uppercase">{project.gallery.length} Plates Documented</span>
+            <span className="text-[#86868b] uppercase">{project.gallery.length} Plates Documented</span>
           </div>
 
           <div className="space-y-24">
@@ -2764,36 +2949,36 @@ function ProjectDetailPage() {
                 className="space-y-4"
               >
                 {/* Visual Canvas: Responsive, Generous, Centered, Never Cropped */}
-                <div className="w-full min-h-[300px] md:min-h-[500px] max-h-[85vh] bg-[#DFDFDC]/50 p-4 sm:p-8 rounded-sm flex items-center justify-center overflow-hidden">
+                <div className="w-full min-h-[300px] md:min-h-[500px] max-h-[85vh] apple-card rounded-[28px] p-4 sm:p-8 flex items-center justify-center overflow-hidden">
                   <ProjectImage 
                     id={g.id} 
                     altText={g.title || g.caption} 
                     caption={`Plate 0${gIdx + 1}: ${g.title} — ${g.caption}`}
                     className="w-full h-full flex items-center justify-center"
-                    imgClassName="max-h-[80vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-sm"
+                    imgClassName="max-h-[80vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-2xl"
                     gallery={galleryContext}
                   />
                 </div>
 
                 {/* Plate Technical Metadata & Caption */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs pt-1 border-b border-neutral-300/40 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs pt-1 border-b border-white/10 pb-3">
                   <div className="flex items-center gap-3">
-                    <span className="bg-black text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
+                    <span className="bg-white/10 text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm border border-white/10">
                       Plate 0{gIdx + 1}
                     </span>
                     <span className="bg-[#FF3B1D] text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
                       {g.page || `Page 0${gIdx + 1}`}
                     </span>
-                    <span className="font-bold text-black uppercase tracking-wider text-xs">
+                    <span className="font-bold text-white uppercase tracking-wider text-xs">
                       {g.title}
                     </span>
                     {g.category && (
-                      <span className="text-neutral-400 text-[10px] uppercase hidden md:inline">
+                      <span className="text-[#86868b] text-[10px] uppercase hidden md:inline">
                         // {g.category}
                       </span>
                     )}
                   </div>
-                  <span className="text-neutral-500 text-[11px] font-sans font-light">
+                  <span className="text-[#86868b] text-[11px] font-sans font-light">
                     {g.caption}
                   </span>
                 </div>
@@ -2810,7 +2995,7 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="p-8 md:p-12 bg-[#0E0E10] text-white rounded-sm font-mono text-xs shadow-sm"
+            className="p-8 md:p-12 apple-card rounded-[28px] font-mono text-xs shadow-2xl"
           >
             <div className="text-[#FF3B1D] font-bold mb-6 uppercase tracking-widest text-sm flex items-center gap-2">
               <span className="w-2 h-2 bg-[#FF3B1D]" />
@@ -2818,9 +3003,9 @@ function ProjectDetailPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {Object.entries(project.specs).map(([key, val], sIdx) => (
-                <div key={sIdx} className="border-l border-neutral-800 pl-4">
-                  <span className="text-neutral-400 block mb-1 uppercase font-bold text-[10px]">{key}</span>
-                  <span className="text-neutral-200 font-light leading-relaxed block">{val}</span>
+                <div key={sIdx} className="border-l border-white/10 pl-4">
+                  <span className="text-[#86868b] block mb-1 uppercase font-bold text-[10px]">{key}</span>
+                  <span className="text-white font-light leading-relaxed block">{val}</span>
                 </div>
               ))}
             </div>
@@ -2828,14 +3013,14 @@ function ProjectDetailPage() {
         )}
 
         {/* Bottom Pagination */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-12 border-t border-neutral-300 font-mono text-xs font-bold uppercase tracking-wider">
-          <Link to="/" className="text-black hover:text-[#FF3B1D] flex items-center gap-2 transition-colors">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-12 border-t border-white/[0.08] font-mono text-xs font-bold uppercase tracking-wider">
+          <Link to="/" className="text-white hover:text-[#FF3B1D] flex items-center gap-2 transition-colors">
             ← Return to Works
           </Link>
           <div className="flex items-center gap-3">
             <Link 
               to="/playground"
-              className="bg-neutral-200 text-black px-5 py-2.5 rounded-full hover:bg-neutral-300 transition-colors"
+              className="bg-white/10 border border-white/15 text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-colors"
             >
               Visual Lab →
             </Link>
@@ -2843,7 +3028,7 @@ function ProjectDetailPage() {
               href="/Jinendra_Parakh_Portfolio.pdf" 
               target="_blank" 
               rel="noreferrer" 
-              className="flex items-center gap-2 bg-[#FF3B1D] text-white px-5 py-2.5 rounded-full hover:bg-black transition-colors"
+              className="flex items-center gap-2 bg-[#FF3B1D] text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-colors shadow-sm"
             >
               <span>Download 53p Deck (PDF)</span>
               <Download className="w-3.5 h-3.5" />
@@ -2853,7 +3038,7 @@ function ProjectDetailPage() {
 
       </div>
 
-      {/* Docked Project Bottom Bar (Mirko Romanelli Style Project-to-Project Navigation) */}
+      {/* Docked Project Bottom Bar */}
       <ProjectBottomBar project={project} />
     </article>
   );
@@ -2909,23 +3094,23 @@ function PlaygroundPage() {
     : items.filter(it => it.category === activeCategory);
 
   return (
-    <div className="min-h-screen pb-32">
+    <div className="min-h-screen bg-black text-[#f5f5f7] pb-32">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
         
         {/* Navigation Breadcrumb */}
-        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors">
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-400 hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
         </Link>
 
         {/* Header */}
-        <div className="pb-12 border-b border-neutral-300 mb-12">
+        <div className="pb-12 border-b border-white/[0.08] mb-12">
           <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
             // EXPERIMENTAL LAB & ARCHIVES
           </span>
-          <h1 className="text-5xl sm:text-7xl font-black font-display uppercase tracking-tight text-black mb-4">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-white mb-4">
             Visual Lab & Sketches
           </h1>
-          <p className="font-sans text-xl text-neutral-600 font-light max-w-2xl leading-relaxed">
+          <p className="font-sans text-lg sm:text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
             Continuous creative explorations spanning horological hand sketching, generative AI workflows, footwear anatomical teardowns, and physical workshop model-making.
           </p>
         </div>
@@ -2936,23 +3121,23 @@ function PlaygroundPage() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`relative px-4 py-2 rounded-full uppercase tracking-wider font-semibold transition-colors cursor-pointer ${
+              className={`relative px-4 py-2 rounded-full uppercase tracking-wider font-semibold transition-all duration-300 cursor-pointer ${
                 activeCategory === cat 
-                  ? 'bg-black text-white' 
-                  : 'bg-white/80 text-neutral-600 hover:bg-white hover:text-black'
+                  ? 'text-white' 
+                  : 'text-neutral-400 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08]'
               }`}
             >
               {activeCategory === cat && (
                 <motion.span 
                   layoutId="activeFilterPill"
-                  className="absolute inset-0 bg-[#FF3B1D] rounded-full -z-10"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="absolute inset-0 bg-[#FF3B1D] rounded-full -z-10 shadow-[0_0_15px_rgba(255,59,29,0.4)]"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
                 />
               )}
               <span className="relative z-10">{cat}</span>
             </button>
           ))}
-          <span className="ml-auto text-neutral-400 font-mono text-xs hidden sm:inline">
+          <span className="ml-auto text-neutral-500 font-mono text-xs hidden sm:inline">
             {filteredItems.length} Artifacts
           </span>
         </div>
@@ -2975,33 +3160,33 @@ function PlaygroundPage() {
                     viewport={{ once: true, margin: "-40px" }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.5, delay: (idx % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                    className="group bg-white/70 hover:bg-white backdrop-blur-sm rounded-sm p-4 flex flex-col justify-between transition-all shadow-sm hover:shadow-md"
+                    className="group apple-card hover:border-white/30 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl"
                   >
                     {/* Image Container: Ample Padding, Flexible Height, 100% Unclipped */}
-                    <div className="w-full min-h-[240px] max-h-[460px] p-4 bg-[#DFDFDC]/50 rounded-sm flex items-center justify-center overflow-hidden mb-4">
+                    <div className="w-full min-h-[240px] max-h-[460px] p-5 bg-black/60 rounded-xl flex items-center justify-center overflow-hidden mb-4 border border-white/[0.04]">
                       <ProjectImage 
                         id={item.id} 
                         altText={item.title} 
                         caption={`${item.title} — ${item.caption}`}
                         className="w-full h-full flex items-center justify-center"
-                        imgClassName="max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-102 transition-transform duration-500 ease-out"
+                        imgClassName="max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                         gallery={playgroundGallery}
                       />
                     </div>
 
-                    <div className="space-y-1.5 font-mono text-xs">
+                    <div className="space-y-2 font-mono text-xs">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold text-[#FF3B1D] uppercase tracking-wider">
                           {item.category}
                         </span>
-                        <span className="text-[10px] text-neutral-400 uppercase">
+                        <span className="text-[10px] text-neutral-500 uppercase">
                           {item.id}
                         </span>
                       </div>
-                      <h3 className="font-bold text-black font-display uppercase text-sm leading-snug">
+                      <h3 className="font-bold text-white font-display uppercase text-sm leading-snug group-hover:text-white transition-colors">
                         {item.title}
                       </h3>
-                      <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">
+                      <p className="font-sans text-neutral-400 text-xs font-normal leading-relaxed">
                         {item.caption}
                       </p>
                     </div>
@@ -3022,26 +3207,26 @@ function AboutPage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="min-h-screen pb-32">
+    <div className="min-h-screen bg-black text-[#f5f5f7] pb-32">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
         
-        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors">
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-400 hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
         </Link>
 
         {/* Bio Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pb-16 border-b border-neutral-300">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pb-16 border-b border-white/[0.08]">
           
           <div className="lg:col-span-7 space-y-6">
             <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
               // ‘BUILDING DESIRES’
             </span>
 
-            <h1 className="text-5xl sm:text-7xl font-black font-display uppercase tracking-tight text-black leading-none">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-white leading-tight">
               On a mission to change how we look at things.
             </h1>
 
-            <p className="font-sans text-xl text-neutral-600 font-light leading-relaxed">
+            <p className="font-sans text-lg sm:text-xl text-neutral-300 font-light leading-relaxed">
               I believe every object has a story to tell and experience to create. My goal is to blend functionality with aesthetics, creating meaningful solutions that not only solve problems but also build aspirations.
             </p>
 
@@ -3050,7 +3235,7 @@ function AboutPage() {
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="bg-black text-white px-6 py-3 rounded-full hover:bg-[#FF3B1D] transition-colors flex items-center gap-2"
+                className="bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-neutral-200 transition-all flex items-center gap-2 shadow-sm"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download Resume (PDF)</span>
@@ -3060,7 +3245,7 @@ function AboutPage() {
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="bg-[#FF3B1D] text-white px-6 py-3 rounded-full hover:bg-black transition-colors flex items-center gap-2"
+                className="bg-[#FF3B1D] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#e03419] transition-all flex items-center gap-2 shadow-sm"
               >
                 <span>View Full 53-Page Deck</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -3070,7 +3255,7 @@ function AboutPage() {
                 href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
                 target="_blank" 
                 rel="noreferrer"
-                className="bg-white/80 text-black px-6 py-3 rounded-full hover:bg-[#FF3B1D] hover:text-white transition-colors flex items-center gap-2 font-semibold"
+                className="bg-white/[0.08] border border-white/[0.12] text-white px-6 py-3 rounded-full hover:bg-white/[0.15] transition-all flex items-center gap-2 font-semibold"
               >
                 <BehanceIcon className="w-3.5 h-3.5" />
                 <span>Behance Portfolio</span>
@@ -3079,7 +3264,7 @@ function AboutPage() {
           </div>
 
           <div className="lg:col-span-5 space-y-4">
-            <div className="bg-[#DFDFDC]/60 p-6 rounded-sm flex items-center justify-center">
+            <div className="apple-card rounded-2xl p-6 flex items-center justify-center bg-black/60 border border-white/[0.08]">
               <ProjectImage 
                 id="p1_2" 
                 altText="Jinendra Parakh Chronograph Hand Sketch"
@@ -3088,7 +3273,7 @@ function AboutPage() {
                 imgClassName="max-h-[380px] max-w-full w-auto h-auto object-contain mx-auto"
               />
             </div>
-            <div className="flex items-center justify-between font-mono text-[11px] text-neutral-500">
+            <div className="flex items-center justify-between font-mono text-[11px] text-neutral-400">
               <span className="uppercase tracking-wider">Fig. Chronograph Watch Hand Sketch</span>
               <span className="text-[#FF3B1D] font-bold">PORTFOLIO COVER 2025</span>
             </div>
@@ -3101,52 +3286,52 @@ function AboutPage() {
           
           {/* Education Milestones */}
           <div className="lg:col-span-6 space-y-6 font-mono">
-            <h2 className="text-2xl font-black font-display uppercase tracking-tight text-black pb-3 border-b border-neutral-300">
+            <h2 className="text-2xl font-bold font-display uppercase tracking-tight text-white pb-3 border-b border-white/[0.08]">
               Education Milestones
             </h2>
 
             <div className="space-y-6">
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm border-l-2 border-[#FF3B1D]">
+              <div className="p-6 apple-card rounded-2xl border-l-2 border-l-[#FF3B1D]">
                 <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest block mb-1">
                   Product Design // 2021 — 2025
                 </span>
-                <h3 className="text-xl font-bold font-display uppercase text-black">
+                <h3 className="text-xl font-bold font-display uppercase text-white">
                   Bsc, Product Design
                 </h3>
-                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
+                <p className="text-xs text-neutral-400 font-semibold uppercase mt-0.5">
                   Strate School of Design, Bangalore
                 </p>
-                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
+                <p className="font-sans text-xs text-neutral-300 mt-2 font-light leading-relaxed">
                   Specialized in user research, physical rapid prototyping, form semantics, CMF strategy, ergonomic modeling, and manufacturing realization.
                 </p>
               </div>
 
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm border-l-2 border-neutral-400">
-                <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-1">
+              <div className="p-6 apple-card rounded-2xl border-l-2 border-l-white/20">
+                <span className="text-neutral-400 text-xs font-bold uppercase tracking-widest block mb-1">
                   Higher Secondary // PCM
                 </span>
-                <h3 className="text-xl font-bold font-display uppercase text-black">
+                <h3 className="text-xl font-bold font-display uppercase text-white">
                   12th Science, PCM
                 </h3>
-                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
+                <p className="text-xs text-neutral-400 font-semibold uppercase mt-0.5">
                   Matoshri Junior College, Nashik
                 </p>
-                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
+                <p className="font-sans text-xs text-neutral-300 mt-2 font-light leading-relaxed">
                   12th Science (Physics, Chemistry, Mathematics).
                 </p>
               </div>
 
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm border-l-2 border-neutral-400">
-                <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-1">
+              <div className="p-6 apple-card rounded-2xl border-l-2 border-l-white/20">
+                <span className="text-neutral-400 text-xs font-bold uppercase tracking-widest block mb-1">
                   Secondary School
                 </span>
-                <h3 className="text-xl font-bold font-display uppercase text-black">
+                <h3 className="text-xl font-bold font-display uppercase text-white">
                   10th, ICSE
                 </h3>
-                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
+                <p className="text-xs text-neutral-400 font-semibold uppercase mt-0.5">
                   Anubhuti Residential School, Jalgaon
                 </p>
-                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
+                <p className="font-sans text-xs text-neutral-300 mt-2 font-light leading-relaxed">
                   10th ICSE. Active in student delegation at India International Model United Nations (IIMUN).
                 </p>
               </div>
@@ -3155,56 +3340,56 @@ function AboutPage() {
 
           {/* Hard Skills, Soft Skills & Tools (Exact from Resume and Portfolio Page 2) */}
           <div className="lg:col-span-6 space-y-6 font-mono">
-            <h2 className="text-2xl font-black font-display uppercase tracking-tight text-black pb-3 border-b border-neutral-300">
+            <h2 className="text-2xl font-bold font-display uppercase tracking-tight text-white pb-3 border-b border-white/[0.08]">
               Skills & Competencies
             </h2>
 
             <div className="space-y-6">
               
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm">
+              <div className="p-6 apple-card rounded-2xl">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
                   // HARD SKILLS & DOMAINS
                 </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {["Sketching", "3D Modeling", "Rapid Prototyping", "3D Printing", "User Research", "CMF Strategy", "Form Semantics"].map((s, i) => (
-                    <span key={i} className="bg-neutral-100 text-neutral-800 px-3 py-1 font-semibold rounded-full">
+                    <span key={i} className="bg-white/[0.08] border border-white/[0.08] text-neutral-200 px-3 py-1 font-semibold rounded-full">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm">
+              <div className="p-6 apple-card rounded-2xl">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
                   // SOFT SKILLS (PORTFOLIO PAGE 2)
                 </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {["Adaptive", "Team Player", "Empathetic", "Emotional Intelligence", "Design Leadership", "Vendor Coordination"].map((s, i) => (
-                    <span key={i} className="bg-neutral-100 text-neutral-800 px-3 py-1 font-semibold rounded-full">
+                    <span key={i} className="bg-white/[0.08] border border-white/[0.08] text-neutral-200 px-3 py-1 font-semibold rounded-full">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm">
+              <div className="p-6 apple-card rounded-2xl">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
                   // SOFTWARE TOOLBOX (RESUME & PORTFOLIO)
                 </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {["Photoshop", "Illustrator", "Rhinoceros 3D", "Fusion 360", "Keyshot 3D", "Procreate", "Vizcom"].map((s, i) => (
-                    <span key={i} className="bg-neutral-100 text-neutral-800 px-3 py-1 font-semibold rounded-full">
+                    <span key={i} className="bg-white/[0.08] border border-white/[0.08] text-neutral-200 px-3 py-1 font-semibold rounded-full">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-6 bg-white/70 backdrop-blur-sm rounded-sm space-y-3">
+              <div className="p-6 apple-card rounded-2xl space-y-3">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block">
                   // INTERESTS
                 </span>
-                <p className="font-sans text-xs text-neutral-700 leading-relaxed font-light">
+                <p className="font-sans text-xs text-neutral-300 leading-relaxed font-light">
                   Interior Design, Entrepreneurship, Marketing, Table Tennis, Business Case Studies, and Human Psychology.
                 </p>
               </div>
@@ -3287,26 +3472,26 @@ function ExperiencePage() {
   ];
 
   return (
-    <div className="min-h-screen pb-32">
+    <div className="min-h-screen bg-black text-[#f5f5f7] pb-32">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
         
-        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black mb-8 transition-colors">
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-400 hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
         </Link>
 
-        <div className="pb-12 border-b border-neutral-300 mb-16">
+        <div className="pb-12 border-b border-white/[0.08] mb-16">
           <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
             // TRACK RECORD
           </span>
-          <h1 className="text-5xl sm:text-7xl font-black font-display uppercase tracking-tight text-black mb-4">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-white mb-4">
             Professional Experience
           </h1>
-          <p className="font-sans text-xl text-neutral-600 font-light max-w-2xl">
+          <p className="font-sans text-lg sm:text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
             Hands-on work spanning global consultancy at Ticket Design, camera engineering at A&T Video Networks, bungalow spatial execution, and digital market research.
           </p>
         </div>
 
-        <div className="space-y-16">
+        <div className="space-y-12">
           {experiences.map((exp, idx) => (
             <motion.div 
               key={idx}
@@ -3314,38 +3499,38 @@ function ExperiencePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="p-8 md:p-12 bg-white/70 backdrop-blur-sm rounded-sm space-y-6 shadow-sm"
+              className="p-8 md:p-12 apple-card rounded-[28px] space-y-6 shadow-2xl transition-all hover:border-white/20"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-neutral-200 pb-4 font-mono">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-white/[0.08] pb-5 font-mono">
                 <div>
                   <div className="flex items-center gap-3">
-                    <h3 className="text-2xl md:text-3xl font-black font-display uppercase text-black">
+                    <h3 className="text-2xl md:text-3xl font-extrabold font-display uppercase text-white">
                       {exp.company}
                     </h3>
                     {exp.grade && (
-                      <span className="bg-[#FF3B1D] text-white px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-full">
+                      <span className="bg-[#FF3B1D]/20 border border-[#FF3B1D]/40 text-[#FF3B1D] px-3 py-0.5 text-[10px] font-bold uppercase rounded-full">
                         {exp.grade}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs font-bold text-[#FF3B1D] uppercase mt-1">
+                  <p className="text-xs font-bold text-[#FF3B1D] uppercase mt-1 tracking-wider">
                     {exp.role}
                   </p>
                 </div>
-                <span className="text-xs text-neutral-500 font-semibold uppercase">
+                <span className="text-xs text-neutral-400 font-semibold uppercase tracking-wider">
                   {exp.period}
                 </span>
               </div>
 
-              <p className="font-sans text-neutral-700 text-base font-normal leading-relaxed">
+              <p className="font-sans text-neutral-300 text-base font-normal leading-relaxed">
                 {exp.desc}
               </p>
 
-              <ul className="space-y-2.5 font-sans text-sm text-neutral-600 font-light">
+              <ul className="space-y-3 font-sans text-sm text-neutral-400 font-light">
                 {exp.bullets.map((b, bIdx) => (
-                  <li key={bIdx} className="flex items-start gap-2.5">
-                    <span className="text-[#FF3B1D] font-bold">›</span>
-                    <span>{b}</span>
+                  <li key={bIdx} className="flex items-start gap-3">
+                    <span className="text-[#FF3B1D] font-bold text-base leading-none">›</span>
+                    <span className="leading-relaxed">{b}</span>
                   </li>
                 ))}
               </ul>
@@ -3391,7 +3576,7 @@ export default function App() {
     <ErrorBoundary>
       <LightboxContext.Provider value={{ openLightbox, closeLightbox }}>
         <Router>
-          <div className="min-h-screen bg-[#EAEAE7] text-[#0E0E10] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col">
+          <div className="min-h-screen bg-[#000000] text-[#f5f5f7] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col">
             <ScrollProgressBar />
             <CustomCursor />
             <Navbar />
