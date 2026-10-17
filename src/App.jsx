@@ -1159,9 +1159,6 @@ function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isProjectPage, navigate]);
 
-  // Bold dark on landing page & playground; clean white on project pages, about, experience
-  const isDark = location.pathname === '/' || location.pathname === '/playground';
-
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-2xl transition-all duration-300 bg-white/80 border-b border-black/[0.06] text-[#1d1d1f]">
       <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 h-14 sm:h-16 flex items-center justify-between">
@@ -1439,7 +1436,7 @@ function Footer() {
         </div>
 
         {/* Bottom Legal / Metadata Line */}
-        <div className={`pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${isDark ? 'text-[#86868b]' : 'text-neutral-500'} text-[11px] font-mono`}>
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-neutral-500 text-[11px] font-mono">
           <div>
             © {new Date().getFullYear()} JINENDRA PARAKH. ALL RIGHTS RESERVED.
           </div>
