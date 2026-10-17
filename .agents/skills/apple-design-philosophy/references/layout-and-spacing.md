@@ -22,3 +22,4 @@ Before shipping any Apple-grade interface, audit:
 2. **Is negative space intentional?** Does the eye rest comfortably on the primary focal point without distractions?
 3. **Are dividers whisper-quiet?** Never use harsh solid 1px borders. Use `border-white/[0.08]` or `border-black/[0.06]`.
 4. **Is interaction immediate?** Does clicking an element deliver direct, fluid navigation with zero friction?
+

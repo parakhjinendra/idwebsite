@@ -233,7 +233,7 @@ function ScrollToTopButton() {
     <button
       onClick={scrollToTop}
       aria-label="Scroll to top"
-      className="fixed bottom-8 right-8 z-50 p-3.5 rounded-full bg-black text-white hover:bg-[#FF3B1D] transition-all flex items-center justify-center cursor-pointer shadow-lg"
+      className="apple-fluid-glass-btn fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full text-black hover:text-[#FF3B1D] flex items-center justify-center cursor-pointer shadow-xl border border-white/80"
     >
       <ArrowUp className="w-4 h-4" />
     </button>
@@ -311,31 +311,31 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setZoom(z => Math.max(z - 0.25, 0.75))}
-              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+              className="apple-fluid-glass-dark p-2 rounded-full text-white hover:text-[#FF3B1D] transition-colors"
               title="Zoom Out (-)"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
-            <span className="text-[11px] font-mono text-white/60 min-w-[38px] text-center">
+            <span className="text-[11px] font-mono text-white/80 min-w-[38px] text-center font-bold">
               {Math.round(zoom * 100)}%
             </span>
             <button
               onClick={() => setZoom(z => Math.min(z + 0.25, 2.5))}
-              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+              className="apple-fluid-glass-dark p-2 rounded-full text-white hover:text-[#FF3B1D] transition-colors"
               title="Zoom In (+)"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={() => setZoom(1)}
-              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors hidden sm:inline-flex"
+              className="apple-fluid-glass-dark p-2 rounded-full text-white hover:text-[#FF3B1D] transition-colors hidden sm:inline-flex"
               title="Reset Zoom (0)"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-full bg-white/15 hover:bg-[#FF3B1D] text-white transition-colors ml-1 sm:ml-2"
+              className="apple-fluid-glass-primary p-2 rounded-full text-white transition-colors ml-1 sm:ml-2 shadow-sm"
               title="Close (Esc)"
             >
               <X className="w-5 h-5" />
@@ -352,7 +352,7 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
           {hasPrev && (
             <button
               onClick={(e) => { e.stopPropagation(); goToPrev(); }}
-              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-md transition-all shadow-xl group cursor-pointer"
+              className="apple-fluid-glass-dark absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full text-white hover:text-[#FF3B1D] transition-all shadow-xl group cursor-pointer"
               aria-label="Previous plate"
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
@@ -363,7 +363,7 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
           {hasNext && (
             <button
               onClick={(e) => { e.stopPropagation(); goToNext(); }}
-              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-md transition-all shadow-xl group cursor-pointer"
+              className="apple-fluid-glass-dark absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full text-white hover:text-[#FF3B1D] transition-all shadow-xl group cursor-pointer"
               aria-label="Next plate"
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
@@ -1159,9 +1159,12 @@ function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isProjectPage, navigate]);
 
+  // Bold dark on landing page & playground; clean white on project pages, about, experience
+  const isDark = location.pathname === '/' || location.pathname === '/playground';
+
   return (
-    <nav className="sticky top-0 z-50 bg-[#000000]/80 backdrop-blur-2xl transition-all border-b border-white/[0.08]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-14 sm:h-16 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 backdrop-blur-2xl transition-all duration-300 bg-white/80 border-b border-black/[0.06] text-[#1d1d1f]">
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 h-14 sm:h-16 flex items-center justify-between">
         
         {/* Brand Logo & Project Indicator (Apple Monogram JP) */}
         <Link 
@@ -1169,13 +1172,13 @@ function Navbar() {
           onClick={closeMenu}
           className="flex items-center gap-2.5 group"
         >
-          <div className="flex items-center gap-1 font-display font-black text-xl tracking-tight text-white group-hover:opacity-80 transition-opacity">
+          <div className="flex items-center gap-1 font-display font-black text-xl tracking-tight text-black group-hover:opacity-80 transition-opacity">
             <span>JP</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D] mb-2" />
           </div>
-          <div className="hidden sm:flex flex-col border-l border-white/10 pl-2.5">
+          <div className="hidden sm:flex flex-col border-l border-black/10 pl-2.5">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-semibold tracking-tight text-[#f5f5f7] uppercase leading-none">
+              <span className="text-xs font-semibold tracking-tight text-[#1d1d1f] uppercase leading-none">
                 Jinendra Parakh
               </span>
               {isProjectPage && currentProject && (
@@ -1184,7 +1187,7 @@ function Navbar() {
                 </span>
               )}
             </div>
-            <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#86868b] font-medium mt-0.5">
+            <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-neutral-500 font-medium mt-0.5">
               {isProjectPage && currentProject 
                 ? currentProject.subtitle 
                 : "Industrial Design • 2025"}
@@ -1198,20 +1201,20 @@ function Navbar() {
           <div className="flex items-center gap-3">
             <Link 
               to="/" 
-              className="group flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider bg-white/[0.08] hover:bg-white text-white hover:text-black border border-white/15 px-4 py-1.5 rounded-full transition-all duration-200 shadow-sm cursor-pointer"
+              className="group flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider apple-fluid-glass-btn px-4 py-1.5 rounded-full cursor-pointer shadow-xs"
               title="Close Project (Esc)"
             >
               <X className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform duration-200" />
               <span>Close</span>
-              <kbd className="hidden sm:inline text-[9px] px-1 py-0.2 bg-white/20 rounded font-mono text-white/80">Esc</kbd>
+              <kbd className="hidden sm:inline text-[9px] px-1 py-0.2 rounded font-mono bg-black/5 text-black/70">Esc</kbd>
             </Link>
           </div>
         ) : (
           /* Standard Apple Global Nav Links */
-          <div className="hidden md:flex items-center gap-7 text-xs font-medium tracking-tight text-[#86868b]">
+          <div className="hidden md:flex items-center gap-7 text-xs font-medium tracking-tight text-neutral-500">
             <Link 
               to="/" 
-              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/' ? 'text-[#f5f5f7] font-semibold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/' ? 'text-black font-semibold' : ''}`}
             >
               <span>Overview</span>
               {location.pathname === '/' && (
@@ -1220,13 +1223,13 @@ function Navbar() {
             </Link>
             <a 
               href="/#inquiries" 
-              className="relative transition-colors hover:text-[#f5f5f7] py-1"
+              className="relative transition-colors hover:text-black py-1"
             >
               <span>Inquiries</span>
             </a>
             <Link 
               to="/playground" 
-              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/playground' ? 'text-[#f5f5f7] font-semibold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/playground' ? 'text-black font-semibold' : ''}`}
             >
               <span>Visual Lab</span>
               {location.pathname === '/playground' && (
@@ -1235,7 +1238,7 @@ function Navbar() {
             </Link>
             <Link 
               to="/about" 
-              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/about' ? 'text-[#f5f5f7] font-semibold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/about' ? 'text-black font-semibold' : ''}`}
             >
               <span>About</span>
               {location.pathname === '/about' && (
@@ -1244,7 +1247,7 @@ function Navbar() {
             </Link>
             <Link 
               to="/experience" 
-              className={`relative transition-colors hover:text-[#f5f5f7] py-1 ${location.pathname === '/experience' ? 'text-[#f5f5f7] font-semibold' : ''}`}
+              className={`relative transition-colors hover:text-black py-1 ${location.pathname === '/experience' ? 'text-black font-semibold' : ''}`}
             >
               <span>Experience</span>
               {location.pathname === '/experience' && (
@@ -1252,13 +1255,13 @@ function Navbar() {
               )}
             </Link>
             
-            {/* Apple Action Pill Controls */}
-            <div className="flex items-center gap-3 pl-3 border-l border-white/10">
+            {/* Apple Fluid Glass Action Buttons */}
+            <div className="flex items-center gap-3 pl-3 border-l border-black/10">
               <a 
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10 px-3.5 py-1.5 rounded-full transition-all text-xs font-medium"
+                className="apple-fluid-glass-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium cursor-pointer shadow-xs"
                 title="Download Resume"
               >
                 <Download className="w-3 h-3" />
@@ -1266,10 +1269,10 @@ function Navbar() {
               </a>
               <a 
                 href="mailto:parakhjinendra@gmail.com"
-                className="flex items-center gap-1.5 bg-white text-black px-4 py-1.5 rounded-full hover:bg-neutral-200 transition-colors shadow-sm font-semibold text-xs"
+                className="apple-fluid-glass-primary flex items-center gap-1.5 px-4 py-1.5 rounded-full font-semibold text-xs cursor-pointer shadow-sm"
               >
                 <span>Connect</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
               </a>
             </div>
           </div>
@@ -1281,7 +1284,7 @@ function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle navigation"
-              className="p-2 text-[#f5f5f7] hover:text-[#FF3B1D] transition-colors cursor-pointer"
+              className="p-2 text-[#1d1d1f] hover:text-[#FF3B1D] transition-colors cursor-pointer"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -1296,24 +1299,24 @@ function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#000000]/95 backdrop-blur-2xl px-6 pt-4 pb-8 border-b border-white/10"
+            className="md:hidden bg-[#ffffff]/95 border-b border-black/10 text-black backdrop-blur-2xl px-6 pt-4 pb-8"
           >
-            <div className="flex flex-col space-y-4 font-mono text-xs font-bold uppercase tracking-wider text-white">
-              <Link to="/" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
+            <div className="flex flex-col space-y-4 font-mono text-xs font-bold uppercase tracking-wider">
+              <Link to="/" onClick={closeMenu} className="py-2.5 border-b border-black/10 flex justify-between">
                 <span>01. Overview & Works</span>
                 <span className="text-[#FF3B1D]">4 Inquiries</span>
               </Link>
-              <Link to="/playground" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
+              <Link to="/playground" onClick={closeMenu} className="py-2.5 border-b border-black/10 flex justify-between">
                 <span>02. Visual Lab & Sketches</span>
                 <span className="text-[#FF3B1D]">Playground</span>
               </Link>
-              <Link to="/about" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
+              <Link to="/about" onClick={closeMenu} className="py-2.5 border-b border-black/10 flex justify-between">
                 <span>03. About Jinendra</span>
-                <span className="text-neutral-400">Strate School</span>
+                <span className="text-neutral-500">Strate School</span>
               </Link>
-              <Link to="/experience" onClick={closeMenu} className="py-2.5 border-b border-white/10 flex justify-between">
+              <Link to="/experience" onClick={closeMenu} className="py-2.5 border-b border-black/10 flex justify-between">
                 <span>04. Professional Experience</span>
-                <span className="text-neutral-400">Ticket / Spandigit</span>
+                <span className="text-neutral-500">Ticket / Spandigit</span>
               </Link>
               
               <div className="grid grid-cols-2 gap-3 pt-4">
@@ -1321,7 +1324,7 @@ function Navbar() {
                   href="/Jinendra_Parakh_Resume.pdf" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="text-center block bg-white/10 border border-white/15 text-white py-3 rounded-full hover:bg-white hover:text-black transition-colors"
+                  className="apple-fluid-glass-btn text-center block py-3 rounded-full font-bold cursor-pointer"
                 >
                   Resume (PDF)
                 </a>
@@ -1329,7 +1332,7 @@ function Navbar() {
                   href="/Jinendra_Parakh_Portfolio.pdf" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="text-center block bg-[#FF3B1D] text-white py-3 rounded-full hover:bg-white hover:text-black transition-colors"
+                  className="apple-fluid-glass-primary text-center block py-3 rounded-full font-bold cursor-pointer"
                 >
                   Full 53p Deck
                 </a>
@@ -1345,25 +1348,25 @@ function Navbar() {
 /* --- APPLE PRO FOOTER (PAGE 53 LET'S CONNECT — TITANIUM MINIMALIST SYSTEM) --- */
 function Footer() {
   return (
-    <footer className="bg-[#000000] text-[#f5f5f7] pt-28 pb-16 px-6 md:px-12 border-t border-white/[0.08] relative">
-      <div className="max-w-[1400px] mx-auto">
+    <footer className="bg-[#f8f8fa] text-[#1d1d1f] border-t border-black/[0.06] pt-24 pb-16 px-6 sm:px-10 md:px-14 lg:px-20 relative transition-colors duration-300">
+      <div className="max-w-[1840px] w-full mx-auto">
         
         {/* Top Feature Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-neutral-200">
           
           <div className="lg:col-span-7 space-y-6">
             <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest font-mono block">
               // ‘BUILDING DESIRES’ • INDUSTRIAL DESIGN
             </span>
-            <h3 className="text-3xl md:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight uppercase">
+            <h3 className="text-3xl md:text-5xl lg:text-6xl font-black font-display tracking-tight text-black leading-tight uppercase">
               Every object has a story to tell and an experience to create.
             </h3>
-            <p className="text-[#86868b] text-base md:text-lg font-sans font-light leading-relaxed max-w-xl">
+            <p className="text-neutral-600 text-base md:text-lg font-sans font-light leading-relaxed max-w-2xl">
               I am Jinendra Parakh, an industrial designer on a mission to change the way we look at things. B.Sc. in Product Design from Strate School of Design, Bangalore.
             </p>
             <div className="flex items-center gap-2.5 pt-2">
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-emerald-400 font-mono uppercase text-xs tracking-wider font-semibold">
+              <span className="text-emerald-600 font-mono uppercase text-xs tracking-wider font-semibold">
                 Available for Full-Time Industrial Design Roles
               </span>
             </div>
@@ -1371,19 +1374,19 @@ function Footer() {
 
           <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
             <div className="space-y-4 font-mono text-xs">
-              <span className="text-[#86868b] uppercase tracking-widest block font-bold text-[10px]">
+              <span className="text-neutral-500 uppercase tracking-widest block font-bold text-[10px]">
                 DIRECT INQUIRY // CONTACT
               </span>
               <a 
                 href="mailto:parakhjinendra@gmail.com" 
-                className="flex items-center gap-3 text-white hover:text-[#FF3B1D] transition-colors text-sm font-semibold"
+                className="flex items-center gap-3 text-black hover:text-[#FF3B1D] transition-colors text-sm font-semibold"
               >
                 <Mail className="w-4 h-4 text-[#FF3B1D]" />
                 <span>parakhjinendra@gmail.com</span>
               </a>
               <a 
                 href="tel:+919850889899" 
-                className="flex items-center gap-3 text-[#a1a1a6] hover:text-white transition-colors"
+                className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#FF3B1D]" />
                 <span>+91 9850889899</span>
@@ -1391,8 +1394,8 @@ function Footer() {
               <a 
                 href="https://www.linkedin.com/in/jinendra-parakh-7b643a228" 
                 target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-3 text-[#a1a1a6] hover:text-white transition-colors"
+                rel="noreferrer" 
+                className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors"
               >
                 <LinkedinIcon className="w-4 h-4 text-[#FF3B1D]" />
                 <span>Jinendra Parakh (LinkedIn)</span>
@@ -1400,13 +1403,13 @@ function Footer() {
               <a 
                 href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
                 target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-3 text-[#a1a1a6] hover:text-white transition-colors"
+                rel="noreferrer" 
+                className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors"
               >
                 <BehanceIcon className="w-4 h-4 text-[#FF3B1D]" />
                 <span>Behance Design Portfolio</span>
               </a>
-              <span className="block text-[#6e6e73] pt-1">
+              <span className="block text-neutral-400 pt-1">
                 Bangalore / Pune / Nashik / Jalgaon, Maharashtra
               </span>
             </div>
@@ -1416,7 +1419,7 @@ function Footer() {
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 bg-white text-black px-5 py-2.5 rounded-full font-bold hover:bg-[#FF3B1D] hover:text-white transition-colors shadow-sm"
+                className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-bold cursor-pointer shadow-xs"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Resume (PDF)</span>
@@ -1425,7 +1428,7 @@ function Footer() {
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 bg-white/10 text-white border border-white/15 px-5 py-2.5 rounded-full font-bold hover:bg-white hover:text-black transition-colors"
+                className="apple-fluid-glass-primary inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-bold cursor-pointer shadow-sm"
               >
                 <span>Full 53-Page Deck</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -1436,13 +1439,13 @@ function Footer() {
         </div>
 
         {/* Bottom Legal / Metadata Line */}
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[#86868b] text-[11px] font-mono">
+        <div className={`pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${isDark ? 'text-[#86868b]' : 'text-neutral-500'} text-[11px] font-mono`}>
           <div>
             © {new Date().getFullYear()} JINENDRA PARAKH. ALL RIGHTS RESERVED.
           </div>
           <div className="flex items-center gap-6 uppercase tracking-wider text-[10px]">
             <span>STRATE SCHOOL OF DESIGN</span>
-            <span className="text-[#FF3B1D]">PRODUCT DESIGN 2025</span>
+            <span className="text-[#FF3B1D] font-bold">PRODUCT DESIGN 2025</span>
           </div>
         </div>
 
@@ -1476,31 +1479,31 @@ function HeroKineticSection() {
   const [activeHotspot, setActiveHotspot] = useState(null);
 
   const hotspots = [
-    { id: 1, x: "32%", y: "30%", title: "Tactile Power Switch", detail: "Mechanical linear slider with spring-loaded audible detent click." },
-    { id: 2, x: "72%", y: "24%", title: "Segment LED Readout", detail: "Integrated digital charge percentage for instantaneous readout." },
-    { id: 3, x: "48%", y: "54%", title: "Magnetic Wireless Pad", detail: "MagSafe-compatible inductive charging coil interface." },
-    { id: 4, x: "20%", y: "78%", title: "Woven Nylon Ribbon", detail: "Heavy-duty nylon lanyard with cast metal carabiner loop." }
+    { id: 1, x: "30%", y: "28%", title: "Tactile Power Switch", detail: "Mechanical linear slider with spring-loaded audible detent click." },
+    { id: 2, x: "48%", y: "38%", title: "Segment LED Readout", detail: "Integrated digital charge percentage for instantaneous readout." },
+    { id: 3, x: "62%", y: "52%", title: "Magnetic Wireless Pad", detail: "MagSafe-compatible inductive charging coil interface." },
+    { id: 4, x: "82%", y: "74%", title: "Woven Nylon Ribbon", detail: "Heavy-duty nylon lanyard with cast metal carabiner loop." }
   ];
 
   return (
-    <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 bg-[#000000]">
-      {/* Volumetric Radial Rim Lighting */}
+    <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 bg-white text-[#1d1d1f]">
+      {/* Volumetric Radial Ambient Lighting */}
       <div 
         aria-hidden="true" 
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF3B1D]/15 via-[#FF7A00]/08 to-transparent blur-3xl pointer-events-none" 
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF3B1D]/10 via-[#FF7A00]/05 to-transparent blur-3xl pointer-events-none" 
       />
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 relative z-10">
         
         {/* Top Context Eyebrow Line */}
-        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-[#86868b] pb-6 border-b border-white/[0.08] mb-14">
+        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-black/[0.08] mb-14">
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-[#FF3B1D] animate-pulse" />
-            <span className="font-bold text-white">APPLE DESIGN PHILOSOPHY // JINENDRA PARAKH</span>
+            <span className="font-bold text-black">APPLE DESIGN PHILOSOPHY // JINENDRA PARAKH</span>
           </div>
           <div className="flex items-center gap-6">
-            <span className="hidden sm:inline text-[#6e6e73]">BANGALORE / PUNE / NASHIK</span>
-            <span className="text-white font-semibold">STRATE SCHOOL OF DESIGN '25</span>
+            <span className="hidden sm:inline text-neutral-400">BANGALORE / PUNE / NASHIK</span>
+            <span className="text-black font-semibold">STRATE SCHOOL OF DESIGN '25</span>
           </div>
         </div>
 
@@ -1514,21 +1517,21 @@ function HeroKineticSection() {
               <span>‘BUILDING DESIRES’ • HARDWARE INQUIRY</span>
             </div>
 
-            <h1 className="text-5xl sm:text-7xl md:text-[84px] lg:text-[96px] font-black font-display tracking-tight leading-[0.94] uppercase text-white">
+            <h1 className="text-5xl sm:text-7xl md:text-[84px] lg:text-[96px] font-black font-display tracking-tight leading-[0.94] uppercase text-black">
               Building desires. <br />
               <span className="apple-headline-gradient font-light normal-case">Designed to be felt.</span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl font-sans text-[#86868b] font-light leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl font-sans text-neutral-600 font-light leading-relaxed max-w-xl">
               Industrial design inquiry of Jinendra Parakh. Exploring tactile retro-engineering, kinematic mechanisms, and modular ergonomics with extreme intentionality.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4 font-mono text-xs">
               <a 
                 href="#inquiries" 
-                className="inline-flex items-center gap-3 bg-white text-black font-bold uppercase tracking-wider py-3 px-6 rounded-full shadow-lg hover:bg-neutral-200 transition-all cursor-pointer group"
+                className="apple-fluid-glass-primary inline-flex items-center gap-3 font-bold uppercase tracking-wider py-3.5 px-7 rounded-full shadow-md cursor-pointer group"
               >
-                <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
+                <span className="w-2 h-2 rounded-full bg-white shadow-xs" />
                 <span>Explore Inquiries</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
@@ -1537,15 +1540,15 @@ function HeroKineticSection() {
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 font-bold uppercase tracking-wider text-white hover:text-black hover:bg-white py-3 px-5 rounded-full border border-white/20 transition-all bg-white/[0.05]"
+                className="apple-fluid-glass-btn inline-flex items-center gap-2 font-bold uppercase tracking-wider text-black py-3.5 px-6 rounded-full cursor-pointer shadow-xs"
               >
                 <span>53-Page Deck</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <ExternalLink className="w-3.5 h-3.5 text-neutral-500" />
               </a>
 
-              <div className="p-3 bg-white/[0.05] border border-white/10 rounded-full flex items-center gap-2 px-4">
+              <div className="apple-fluid-glass-btn p-3 rounded-full flex items-center gap-2 px-4 shadow-xs">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider">
+                <span className="text-emerald-600 font-bold uppercase text-[10px] tracking-wider">
                   Open for ID Roles
                 </span>
               </div>
@@ -1554,43 +1557,49 @@ function HeroKineticSection() {
 
           {/* Right Column: Floating Apple Squircle Card with Interactive Hotspots */}
           <div className="lg:col-span-5">
-            <div className="group relative apple-card rounded-[32px] p-7 md:p-8 shadow-2xl overflow-hidden">
+            <div className="group relative apple-card rounded-[32px] p-6 sm:p-8 shadow-xl overflow-hidden bg-white border border-neutral-200/80">
               
               {/* Card Header */}
-              <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-white/10">
+              <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-neutral-200/80">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
-                  <span className="uppercase tracking-widest text-[11px] font-bold text-white/90">case 01 // FLAGSHIP HARDWARE</span>
+                  <span className="uppercase tracking-widest text-[11px] font-bold text-neutral-700">case 01 // FLAGSHIP HARDWARE</span>
                 </div>
                 <StarburstIcon className="w-4 h-4 text-[#FF3B1D] group-hover:rotate-90 transition-transform duration-500" />
               </div>
 
-              {/* Central Cinematic Hardware Stage with Interactive Hotspots */}
-              <div className="relative my-6 h-60 sm:h-72 flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-neutral-900/90 to-black p-4">
+              {/* Central Cinematic Hardware Stage with Aspect Ratio Matching Renders */}
+              <div className="relative my-6 aspect-[16/10] sm:aspect-[16/9] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#f8f8fa] to-[#ececf0] p-3 sm:p-5 border border-neutral-200/80 shadow-inner">
                 {/* Ambient Glow */}
-                <div className="absolute inset-x-0 h-20 bg-gradient-to-r from-transparent via-[#FF3B1D]/35 to-transparent blur-2xl" />
+                <div className="absolute inset-x-0 h-24 bg-gradient-to-r from-transparent via-[#FF3B1D]/20 to-transparent blur-2xl pointer-events-none" />
                 
-                <Link to="/project/fuel" className="block relative z-10 cursor-pointer">
-                  <img 
-                    src={resolveImg('p4_2')} 
-                    alt="Fuel Power Bank" 
-                    className="max-h-52 sm:max-h-60 w-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] group-hover:scale-105 transition-transform duration-500 ease-out" 
-                  />
-                </Link>
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <Link to="/project/fuel" className="w-full h-full flex items-center justify-center cursor-pointer">
+                    <img 
+                      src={resolveImg('p11_4')} 
+                      alt="Fuel Power Bank" 
+                      className="w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-500 ease-out" 
+                    />
+                  </Link>
 
-                {/* Apple Interactive Hotspot Pins */}
-                {hotspots.map((h) => (
-                  <button
-                    key={h.id}
-                    onClick={() => setActiveHotspot(activeHotspot === h.id ? null : h.id)}
-                    style={{ left: h.x, top: h.y }}
-                    aria-label={h.title}
-                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer group/pin"
-                  >
-                    <span className="absolute inset-0 rounded-full bg-[#FF3B1D]/40 animate-ping" />
-                    <span className="relative w-2.5 h-2.5 rounded-full bg-[#FF3B1D] border-2 border-white shadow-[0_0_8px_#FF3B1D] group-hover/pin:scale-125 transition-transform" />
-                  </button>
-                ))}
+                  {/* Apple Interactive Hotspot Pins (anchored directly on the hardware) */}
+                  {hotspots.map((h) => (
+                    <button
+                      key={h.id}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setActiveHotspot(activeHotspot === h.id ? null : h.id);
+                      }}
+                      style={{ left: h.x, top: h.y }}
+                      aria-label={h.title}
+                      className="absolute z-20 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer group/pin"
+                    >
+                      <span className="absolute inset-0 rounded-full bg-[#FF3B1D]/30 animate-ping" />
+                      <span className="relative w-2.5 h-2.5 rounded-full bg-[#FF3B1D] border-2 border-white shadow-[0_0_8px_#FF3B1D] group-hover/pin:scale-125 transition-transform" />
+                    </button>
+                  ))}
+                </div>
 
                 {/* Hotspot Floating Detail Callout Modal */}
                 <AnimatePresence>
@@ -1599,20 +1608,20 @@ function HeroKineticSection() {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute bottom-4 inset-x-4 z-30 p-4 rounded-xl bg-black/90 backdrop-blur-xl border border-white/20 font-mono shadow-2xl text-left"
+                      className="absolute bottom-4 inset-x-4 z-30 p-4 rounded-xl bg-white/95 backdrop-blur-2xl border border-neutral-200/90 font-mono shadow-2xl text-left"
                     >
-                      <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/10">
+                      <div className="flex items-center justify-between pb-1 mb-1 border-b border-neutral-200">
                         <span className="text-[#FF3B1D] font-bold text-xs uppercase">
                           {hotspots.find(h => h.id === activeHotspot)?.title}
                         </span>
                         <button 
                           onClick={() => setActiveHotspot(null)}
-                          className="text-white/60 hover:text-white text-xs font-bold"
+                          className="text-neutral-500 hover:text-black text-xs font-bold cursor-pointer"
                         >
                           ✕
                         </button>
                       </div>
-                      <p className="font-sans text-xs text-neutral-300 font-light">
+                      <p className="font-sans text-xs text-neutral-700 font-normal">
                         {hotspots.find(h => h.id === activeHotspot)?.detail}
                       </p>
                     </motion.div>
@@ -1623,7 +1632,7 @@ function HeroKineticSection() {
               {/* Card Meta & Action */}
               <div className="space-y-2 pt-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-display font-bold text-2xl uppercase tracking-tight text-white group-hover:text-[#FF3B1D] transition-colors">
+                  <h3 className="font-display font-bold text-2xl uppercase tracking-tight text-black group-hover:text-[#FF3B1D] transition-colors">
                     Fuel Power Bank
                   </h3>
                   <Link 
@@ -1634,7 +1643,7 @@ function HeroKineticSection() {
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-                <p className="font-mono text-xs text-[#86868b] font-light leading-relaxed">
+                <p className="font-mono text-xs text-neutral-600 font-light leading-relaxed">
                   Modern & tactile retro-engineering with audible click slider and woven nylon ribbon.
                 </p>
               </div>
@@ -1644,26 +1653,26 @@ function HeroKineticSection() {
         </div>
 
         {/* Apple Bento Metrics Strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-10 border-t border-white/[0.08] font-mono text-xs">
-          <div className="p-5 apple-card rounded-2xl">
-            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">SPRINT DURATION</span>
-            <span className="text-lg font-bold text-white block">1-Week Sprint</span>
-            <span className="text-[#6e6e73] text-[11px] font-light">Rapid form ideation & CAD</span>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-10 border-t border-black/[0.08] font-mono text-xs">
+          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
+            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">SPRINT DURATION</span>
+            <span className="text-lg font-bold text-black block">1-Week Sprint</span>
+            <span className="text-neutral-500 text-[11px] font-light">Rapid form ideation & CAD</span>
           </div>
-          <div className="p-5 apple-card rounded-2xl">
-            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">PROTOTYPE SCALE</span>
-            <span className="text-lg font-bold text-white block">1:1 Physical Scale</span>
-            <span className="text-[#6e6e73] text-[11px] font-light">Makerspace CNC & 3D print</span>
+          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
+            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">PROTOTYPE SCALE</span>
+            <span className="text-lg font-bold text-black block">1:1 Physical Scale</span>
+            <span className="text-neutral-500 text-[11px] font-light">Makerspace CNC & 3D print</span>
           </div>
-          <div className="p-5 apple-card rounded-2xl">
-            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">SURFACE CURVATURE</span>
+          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
+            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">SURFACE CURVATURE</span>
             <span className="text-lg font-bold text-[#FF3B1D] block">R15 / R5.5 Fillets</span>
-            <span className="text-[#6e6e73] text-[11px] font-light">Continuous ergonomic radii</span>
+            <span className="text-neutral-500 text-[11px] font-light">Continuous ergonomic radii</span>
           </div>
-          <div className="p-5 apple-card rounded-2xl">
-            <span className="text-[#86868b] uppercase text-[10px] font-bold tracking-widest block mb-1">PRIMARY CMF</span>
-            <span className="text-lg font-bold text-white block">Bead-Blasted Al</span>
-            <span className="text-[#6e6e73] text-[11px] font-light">+ Saturated Polycarbonate</span>
+          <div className="p-5 apple-card bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl shadow-xs">
+            <span className="text-neutral-500 uppercase text-[10px] font-bold tracking-widest block mb-1">PRIMARY CMF</span>
+            <span className="text-lg font-bold text-black block">Bead-Blasted Al</span>
+            <span className="text-neutral-500 text-[11px] font-light">+ Saturated Polycarbonate</span>
           </div>
         </div>
 
@@ -1671,7 +1680,7 @@ function HeroKineticSection() {
 
       {/* Subtle Bottom Watermark */}
       <div className="relative overflow-hidden w-full pt-16 pb-0 select-none pointer-events-none">
-        <div className="font-display font-black text-[18vw] leading-none tracking-tighter uppercase text-white/[0.04] text-center">
+        <div className="font-display font-black text-[18vw] leading-none tracking-tighter uppercase text-black/[0.03] text-center">
           kinetic
         </div>
       </div>
@@ -1729,16 +1738,16 @@ const STAGGERED_PROJECTS = [
 
 function StaggeredThumbnailsSection() {
   return (
-    <section id="inquiries" className="max-w-[1400px] mx-auto px-6 md:px-12 py-28 border-t border-white/[0.08]">
+    <section id="inquiries" className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-28 border-t border-black/[0.08]">
       
       {/* Top Inquiry Tag */}
-      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-sm font-mono text-xs text-white mb-8">
+      <div className="apple-fluid-glass-btn inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs text-neutral-800 mb-8 shadow-xs">
         <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
         <span className="font-bold uppercase tracking-wider">About inquiry • Pro Lineup</span>
       </div>
 
       {/* Main Display Headline with 2 Inline Motion Capsules */}
-      <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-white leading-[1.2] max-w-5xl mb-20">
+      <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-black leading-[1.2] max-w-5xl mb-20">
         Kinetic Studio – is an ID inquiry of bold <InlineMotionCapsule /> creators that delivers the power of tactile hardware with <InlineMotionCapsule /> cutting-edge strategy
       </h2>
 
@@ -1748,14 +1757,14 @@ function StaggeredThumbnailsSection() {
           <Link
             key={card.slug}
             to={`/project/${card.slug}`}
-            className={`group relative block rounded-[32px] p-7 md:p-8 min-h-[500px] md:min-h-[550px] flex flex-col justify-between apple-card hover:-translate-y-2 cursor-pointer ${card.stagger}`}
+            className={`group relative block rounded-[32px] p-7 md:p-8 min-h-[500px] md:min-h-[550px] flex flex-col justify-between apple-card bg-[#f8f8fa] hover:bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl hover:border-neutral-300 transition-all cursor-pointer ${card.stagger}`}
           >
             {/* Top Badge & Tag */}
-            <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-white/10">
-              <span className={`font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm ${card.pillClass}`}>
+            <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-black/[0.06]">
+              <span className="apple-fluid-glass-btn font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-xs text-black">
                 {card.badge}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-widest text-[#86868b] font-semibold">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-neutral-500 font-semibold">
                 {card.tag}
               </span>
             </div>
@@ -1765,12 +1774,12 @@ function StaggeredThumbnailsSection() {
               <img 
                 src={resolveImg(card.imgId)} 
                 alt={card.title} 
-                className="max-h-[220px] max-w-full w-auto h-auto object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 ease-out" 
+                className="max-h-[220px] max-w-full w-auto h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-500 ease-out" 
               />
             </div>
 
             {/* Bottom Meta & Starburst */}
-            <div className="pt-4 border-t border-white/10 space-y-2">
+            <div className="pt-4 border-t border-black/[0.06] space-y-2">
               <div className="flex items-center justify-between">
                 <StarburstIcon className={`w-4 h-4 ${card.starburstClass} group-hover:rotate-90 transition-transform duration-500`} />
                 <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#FF3B1D] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
@@ -1778,10 +1787,10 @@ function StaggeredThumbnailsSection() {
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-              <h3 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight leading-tight text-white group-hover:text-[#FF3B1D] transition-colors">
+              <h3 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight leading-tight text-black group-hover:text-[#FF3B1D] transition-colors">
                 {card.title}
               </h3>
-              <p className="font-sans text-xs font-light text-[#86868b] leading-relaxed line-clamp-2">
+              <p className="font-sans text-xs font-light text-neutral-600 leading-relaxed line-clamp-2">
                 {card.desc}
               </p>
             </div>
@@ -1804,62 +1813,62 @@ function AppleTechSpecsMatrix() {
   ];
 
   return (
-    <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 border-t border-white/[0.08]">
+    <section className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-24 border-t border-black/[0.08] bg-[#f8f8fa]">
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
         <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
           // COMPARE INQUIRIES • APPLE SPECIFICATIONS
         </span>
-        <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white">
+        <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-black">
           Compare Design Inquiries.
         </h2>
-        <p className="font-sans text-[#86868b] text-base font-light">
+        <p className="font-sans text-neutral-600 text-base font-light">
           Side-by-side engineering specifications, mechanical principles, and CMF strategies across all documented portfolio projects.
         </p>
       </div>
 
-      <div className="overflow-x-auto apple-card rounded-[28px] p-6 sm:p-10">
+      <div className="overflow-x-auto apple-card bg-white rounded-[28px] p-6 sm:p-10 border border-neutral-200/80 shadow-xs">
         <table className="w-full text-left font-mono text-xs min-w-[700px]">
           <thead>
-            <tr className="border-b border-white/10 pb-4 text-[#86868b] uppercase text-[11px]">
-              <th className="py-4 font-bold text-white">Specification</th>
+            <tr className="border-b border-neutral-200 pb-4 text-neutral-500 uppercase text-[11px]">
+              <th className="py-4 font-bold text-black">Specification</th>
               <th className="py-4 text-[#FF3B1D] font-bold">01 // Fuel</th>
-              <th className="py-4 text-white font-bold">02 // Vantage</th>
-              <th className="py-4 text-white font-bold">03 // Friday</th>
-              <th className="py-4 text-white font-bold">04 // Visual Lab</th>
+              <th className="py-4 text-black font-bold">02 // Vantage</th>
+              <th className="py-4 text-black font-bold">03 // Friday</th>
+              <th className="py-4 text-black font-bold">04 // Visual Lab</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/[0.06]">
+          <tbody className="divide-y divide-neutral-100">
             {comparisonItems.map((item, idx) => (
-              <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
-                <td className="py-4 font-bold text-white uppercase text-[11px]">{item.label}</td>
-                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.fuel}</td>
-                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.vantage}</td>
-                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.friday}</td>
-                <td className="py-4 text-[#f5f5f7] font-sans font-light">{item.misc}</td>
+              <tr key={idx} className="hover:bg-neutral-50/50 transition-colors">
+                <td className="py-4 font-bold text-black uppercase text-[11px]">{item.label}</td>
+                <td className="py-4 text-neutral-700 font-sans font-normal">{item.fuel}</td>
+                <td className="py-4 text-neutral-700 font-sans font-normal">{item.vantage}</td>
+                <td className="py-4 text-neutral-700 font-sans font-normal">{item.friday}</td>
+                <td className="py-4 text-neutral-700 font-sans font-normal">{item.misc}</td>
               </tr>
             ))}
             <tr>
-              <td className="py-6 font-bold text-white uppercase text-[11px]">Direct Study</td>
+              <td className="py-6 font-bold text-black uppercase text-[11px]">Direct Study</td>
               <td className="py-6">
-                <Link to="/project/fuel" className="text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                <Link to="/project/fuel" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-[#FF3B1D] shadow-xs">
                   <span>Explore Fuel</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
               </td>
               <td className="py-6">
-                <Link to="/project/vantage" className="text-white hover:text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                <Link to="/project/vantage" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-black hover:text-[#FF3B1D] shadow-xs">
                   <span>Explore Vantage</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
               </td>
               <td className="py-6">
-                <Link to="/project/friday" className="text-white hover:text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                <Link to="/project/friday" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-black hover:text-[#FF3B1D] shadow-xs">
                   <span>Explore Friday</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
               </td>
               <td className="py-6">
-                <Link to="/project/miscellaneous" className="text-white hover:text-[#FF3B1D] font-bold hover:underline flex items-center gap-1">
+                <Link to="/project/miscellaneous" className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-black hover:text-[#FF3B1D] shadow-xs">
                   <span>Explore Lab</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
@@ -1872,7 +1881,7 @@ function AppleTechSpecsMatrix() {
   );
 }
 
-/* --- 3. DARK KINETIC CAROUSEL SECTION (APPLE 3D STAGE SHOWCASE) --- */
+/* --- 3. KINETIC CAROUSEL SECTION (APPLE 3D STAGE SHOWCASE) --- */
 const CAROUSEL_CARDS = [
   {
     id: "lead",
@@ -1929,31 +1938,31 @@ function DarkKineticCarouselSection() {
   const activeCard = CAROUSEL_CARDS[activeIdx];
 
   return (
-    <section className="bg-[#000000] text-white py-28 px-6 md:px-12 border-t border-white/[0.08] overflow-hidden relative">
+    <section className="bg-[#ffffff] text-[#1d1d1f] py-28 px-6 sm:px-10 md:px-14 lg:px-20 border-t border-black/[0.08] overflow-hidden relative">
       
       {/* Background Kinetic Flare Streak */}
       <div 
         aria-hidden="true" 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#FF3B1D]/15 via-[#FF7A00]/10 to-transparent blur-3xl pointer-events-none" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#FF3B1D]/08 via-[#FF7A00]/05 to-transparent blur-3xl pointer-events-none" 
       />
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
+      <div className="max-w-[1840px] w-full mx-auto relative z-10">
         
         {/* Top Tag Pill */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 font-mono text-xs text-white mb-8">
+        <div className="apple-fluid-glass-btn inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs text-neutral-800 mb-8 shadow-xs">
           <StarburstIcon className="w-3.5 h-3.5 text-[#FF3B1D]" />
           <span className="font-bold uppercase tracking-wider">About team & craft</span>
         </div>
 
         {/* Display Headline with Inline Motion Capsule */}
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-white leading-[1.2] max-w-5xl mb-16">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-light font-display tracking-tight text-black leading-[1.2] max-w-5xl mb-16">
           We are the talented team and passionate experts <InlineMotionCapsule /> shaping your brand’s digital journey with tactile hardware precision
         </h2>
 
         {/* 3D Squircle Showcase Stage */}
         <div className="relative py-8">
           
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl lg:max-w-6xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeCard.id}
@@ -1961,49 +1970,49 @@ function DarkKineticCarouselSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="apple-card rounded-[36px] border-2 border-white/85 shadow-[0_0_60px_rgba(255,59,29,0.18)] p-8 sm:p-12 relative overflow-hidden"
+                className="apple-card rounded-[36px] border border-neutral-200/90 shadow-xl p-8 sm:p-12 bg-white relative overflow-hidden"
               >
                 {/* Top Row: JP Logo & Tag */}
-                <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                <div className="flex items-center justify-between pb-6 border-b border-black/[0.06]">
                   <div className="flex items-center gap-2">
-                    <span className="font-display font-black text-2xl uppercase tracking-tighter text-white">JP</span>
+                    <span className="font-display font-black text-2xl uppercase tracking-tighter text-black">JP</span>
                     <span className="text-[10px] font-mono font-bold text-[#FF3B1D] align-super">®</span>
                   </div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-widest bg-white/10 text-white px-4 py-1.5 rounded-full border border-white/15">
+                  <span className="apple-fluid-glass-btn font-mono text-xs font-bold uppercase tracking-widest text-neutral-800 px-4 py-1.5 rounded-full shadow-xs">
                     {activeCard.badge}
                   </span>
                 </div>
 
-                {/* Center Cinematic Hardware Render with Speed Trail */}
-                <div className="relative my-8 h-64 sm:h-80 flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-neutral-900 to-black p-6">
-                  <div className="absolute inset-x-0 h-24 bg-gradient-to-r from-transparent via-[#FF3B1D]/40 to-transparent blur-2xl animate-pulse" />
+                {/* Center Cinematic Hardware Render with Aspect Ratio Matching */}
+                <div className="relative my-8 aspect-[16/10] sm:aspect-[16/9] max-h-[460px] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#f8f8fa] to-[#ececf0] p-6 border border-neutral-200/80 shadow-inner">
+                  <div className="absolute inset-x-0 h-24 bg-gradient-to-r from-transparent via-[#FF3B1D]/20 to-transparent blur-2xl animate-pulse pointer-events-none" />
                   <img
                     src={resolveImg(activeCard.imgId)}
                     alt={activeCard.title}
-                    className="relative z-10 max-h-56 sm:max-h-72 max-w-full w-auto h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
+                    className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)]"
                   />
                 </div>
 
                 {/* Bottom Row: Metadata & Open Action */}
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 border-t border-black/[0.06]">
                   <div className="space-y-1">
                     <span className="font-mono text-xs text-[#FF3B1D] font-bold uppercase tracking-widest block">
                       {activeCard.tag}
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-white">
+                    <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-black">
                       {activeCard.title}
                     </h3>
-                    <p className="font-mono text-xs text-[#86868b]">
+                    <p className="font-mono text-xs text-neutral-500">
                       {activeCard.role}
                     </p>
-                    <p className="font-sans text-xs text-[#86868b] font-light max-w-lg pt-1">
+                    <p className="font-sans text-xs text-neutral-600 font-light max-w-lg pt-1">
                       {activeCard.desc}
                     </p>
                   </div>
 
                   <Link
                     to={activeCard.link}
-                    className="inline-flex items-center gap-2 bg-white text-black font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full hover:bg-[#FF3B1D] hover:text-white transition-all shadow-md shrink-0 cursor-pointer"
+                    className="apple-fluid-glass-primary inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-sm shrink-0 cursor-pointer"
                   >
                     <span>Inspect Inquiry</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -2018,7 +2027,7 @@ function DarkKineticCarouselSection() {
             <button
               onClick={prev}
               aria-label="Previous Kinetic Card"
-              className="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer shadow-sm"
+              className="apple-fluid-glass-btn w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xs text-black"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -2033,7 +2042,7 @@ function DarkKineticCarouselSection() {
                   className={`transition-all rounded-full ${
                     activeIdx === idx 
                       ? 'w-8 h-2 bg-[#FF3B1D]' 
-                      : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+                      : 'w-2 h-2 bg-neutral-300 hover:bg-neutral-500'
                   }`}
                 />
               ))}
@@ -2042,7 +2051,7 @@ function DarkKineticCarouselSection() {
             <button
               onClick={next}
               aria-label="Next Kinetic Card"
-              className="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer shadow-sm"
+              className="apple-fluid-glass-btn w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xs text-black"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -2056,10 +2065,10 @@ function DarkKineticCarouselSection() {
   );
 }
 
-/* --- HOME PAGE (APPLE PRO DARK TITANIUM ARCHITECTURE) --- */
+/* --- HOME PAGE (APPLE PRO WHITE ARCHITECTURE) --- */
 function HomePage() {
   return (
-    <div className="min-h-screen bg-[#000000]">
+    <div className="min-h-screen bg-[#ffffff]">
       
       {/* 1. HERO KEYNOTE REVEAL */}
       <HeroKineticSection />
@@ -2070,29 +2079,29 @@ function HomePage() {
       {/* 3. APPLE TECH SPECS & CMF COMPARISON MATRIX */}
       <AppleTechSpecsMatrix />
 
-      {/* 4. DARK KINETIC CAROUSEL */}
+      {/* 4. KINETIC CAROUSEL */}
       <DarkKineticCarouselSection />
 
       {/* QUICK LINKS SECTION (APPLE PRO BENTO CARDS) */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-28 border-t border-white/[0.08]">
+      <section className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-28 border-t border-black/[0.08]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           <Link 
             to="/playground"
-            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6"
+            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
                 02 // VISUAL LAB
               </span>
-              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-white mb-3">
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
                 Playground & Sketches
               </h4>
-              <p className="font-sans text-[#86868b] text-sm leading-relaxed font-light">
+              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
                 Interactive masonry gallery of horological sketches, Nike AF1 anatomical teardown, Vizcom AI iterations, and makerspace foam prototypes.
               </p>
             </div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+            <span className="apple-fluid-glass-btn px-5 py-2.5 rounded-full inline-flex items-center gap-1.5 font-mono text-xs font-bold text-black group-hover:text-[#FF3B1D] transition-colors shadow-xs w-fit">
               <span>Open Visual Lab</span>
               <ArrowUpRight className="w-4 h-4" />
             </span>
@@ -2100,20 +2109,20 @@ function HomePage() {
 
           <Link 
             to="/about"
-            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6"
+            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
                 03 // BACKGROUND
               </span>
-              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-white mb-3">
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
                 About Jinendra Parakh
               </h4>
-              <p className="font-sans text-[#86868b] text-sm leading-relaxed font-light">
+              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
                 Education at Strate School of Design, Bangalore. Prototyping hard skills, CAD tool competencies (Rhinoceros, Fusion 360, KeyShot), and 'Building Desires' philosophy.
               </p>
             </div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+            <span className="apple-fluid-glass-btn px-5 py-2.5 rounded-full inline-flex items-center gap-1.5 font-mono text-xs font-bold text-black group-hover:text-[#FF3B1D] transition-colors shadow-xs w-fit">
               <span>Read Full Dossier</span>
               <ArrowUpRight className="w-4 h-4" />
             </span>
@@ -2121,20 +2130,20 @@ function HomePage() {
 
           <Link 
             to="/experience"
-            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6"
+            className="p-8 apple-card rounded-[28px] hover:-translate-y-1.5 transition-all group flex flex-col justify-between space-y-6 bg-white border border-neutral-200/80 shadow-xs hover:shadow-xl"
           >
             <div>
               <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
                 04 // TRACK RECORD
               </span>
-              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-white mb-3">
+              <h4 className="text-2xl font-black font-display uppercase tracking-tight text-black mb-3">
                 Professional Experience
               </h4>
-              <p className="font-sans text-[#86868b] text-sm leading-relaxed font-light">
+              <p className="font-sans text-neutral-600 text-sm leading-relaxed font-light">
                 Industry experience at Ticket Design, Pune (Water Dispensers, Medical DVT Devices), A&T Video Networks camera design, and Spandigit Social.
               </p>
             </div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#FF3B1D] flex items-center gap-1.5">
+            <span className="apple-fluid-glass-btn px-5 py-2.5 rounded-full inline-flex items-center gap-1.5 font-mono text-xs font-bold text-black group-hover:text-[#FF3B1D] transition-colors shadow-xs w-fit">
               <span>View Experience</span>
               <ArrowUpRight className="w-4 h-4" />
             </span>
@@ -2217,30 +2226,30 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
     <div className="w-full select-none my-6">
       
       {/* Slider Top Metadata Bar */}
-      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-[#86868b] pb-3 border-b border-white/[0.08] mb-4">
+      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-neutral-500 pb-3 border-b border-neutral-200 mb-4">
         <div className="flex items-center gap-2 sm:gap-3">
           <span className="w-2 h-2 bg-[#FF3B1D] rounded-full inline-block animate-pulse" />
-          <span className="font-bold text-white">
+          <span className="font-bold text-black">
             PLATE 0{currentIndex + 1} / 0{total}
           </span>
-          <span className="text-white/20">|</span>
+          <span className="text-neutral-300">|</span>
           <span className="text-[#FF3B1D] font-bold">
             {currentPlate.page || `PAGE 0${currentIndex + 4}`}
           </span>
           {currentPlate.category && (
-            <span className="text-[#86868b] hidden sm:inline">
+            <span className="text-neutral-500 hidden sm:inline">
               // {currentPlate.category}
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="hidden md:inline text-[11px] text-[#6e6e73]">
+          <span className="hidden md:inline text-[11px] text-neutral-400">
             DRAG / ARROWS TO SLIDE
           </span>
           <button
             onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
-            className="flex items-center gap-1.5 px-3 py-1 bg-white/[0.08] hover:bg-white text-white hover:text-black rounded-full font-mono text-[11px] font-bold transition-all border border-white/10 shadow-sm cursor-pointer ml-2"
+            className="apple-fluid-glass-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-mono text-[11px] font-bold text-black hover:text-[#FF3B1D] cursor-pointer ml-2 shadow-xs"
             title="Expand Fullscreen (Zoom)"
           >
             <Maximize2 className="w-3.5 h-3.5" />
@@ -2250,13 +2259,13 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
       </div>
 
       {/* Main Slide Presentation Stage with Drag and Spring Transition */}
-      <div className="relative w-full min-h-[360px] sm:min-h-[480px] md:min-h-[580px] lg:min-h-[640px] apple-card rounded-[32px] overflow-hidden flex items-center justify-center p-4 sm:p-8 md:p-12 shadow-2xl group">
+      <div className="relative w-full min-h-[360px] sm:min-h-[480px] md:min-h-[580px] lg:min-h-[640px] bg-[#f5f5f7] border border-neutral-200/80 rounded-[32px] overflow-hidden flex items-center justify-center p-4 sm:p-8 md:p-12 shadow-sm group">
         
         {/* Previous Button */}
         <button
           onClick={goToPrev}
           aria-label="Previous slide"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-xl border border-white/15 flex items-center justify-center shadow-2xl transition-all duration-200 cursor-pointer group/btn"
+          className="apple-fluid-glass-btn absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 sm:w-14 sm:h-14 rounded-full text-black hover:text-[#FF3B1D] flex items-center justify-center shadow-xl cursor-pointer group/btn"
         >
           <ChevronLeft className="w-6 h-6 group-hover/btn:-translate-x-0.5 transition-transform" />
         </button>
@@ -2265,7 +2274,7 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
         <button
           onClick={goToNext}
           aria-label="Next slide"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white backdrop-blur-xl border border-white/15 flex items-center justify-center shadow-2xl transition-all duration-200 cursor-pointer group/btn"
+          className="apple-fluid-glass-btn absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 sm:w-14 sm:h-14 rounded-full text-black hover:text-[#FF3B1D] flex items-center justify-center shadow-xl cursor-pointer group/btn"
         >
           <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-0.5 transition-transform" />
         </button>
@@ -2297,7 +2306,7 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
                 src={imgSrc}
                 alt={currentPlate.title || "Project plate"}
                 onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
-                className="max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] max-w-full w-auto h-auto object-contain select-none drop-shadow-2xl mx-auto hover:scale-[1.01] transition-transform duration-300"
+                className="max-h-[52vh] sm:max-h-[60vh] md:max-h-[66vh] max-w-full w-auto h-auto object-contain select-none drop-shadow-xl mx-auto hover:scale-[1.01] transition-transform duration-300"
                 draggable={false}
               />
             </motion.div>
@@ -2307,35 +2316,35 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
         {/* Quick Zoom Pill */}
         <button
           onClick={() => openLightbox({ src: imgSrc, ...currentPlate }, gallery)}
-          className="absolute bottom-4 right-4 z-20 bg-black/85 backdrop-blur-md text-white font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg cursor-pointer hover:bg-[#FF3B1D] border border-white/10"
+          className="apple-fluid-glass-btn absolute bottom-4 right-4 z-20 text-black hover:text-[#FF3B1D] font-mono text-[11px] font-bold px-4 py-2 rounded-full uppercase tracking-wider flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg cursor-pointer"
         >
-          <Maximize2 className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:text-white" />
+          <Maximize2 className="w-3.5 h-3.5 text-[#FF3B1D]" />
           <span>Full Resolution</span>
         </button>
       </div>
 
       {/* Slide Caption & Technical Context */}
-      <div className="pt-4 pb-2 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
+      <div className="pt-4 pb-2 border-b border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="bg-white/10 text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm border border-white/10">
+            <span className="bg-neutral-100 text-neutral-800 px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm border border-neutral-200">
               PLATE 0{currentIndex + 1}
             </span>
             <span className="bg-[#FF3B1D] text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
               {currentPlate.page || `Page 0${currentIndex + 4}`}
             </span>
-            <h3 className="font-display font-black text-lg md:text-xl uppercase tracking-tight text-white">
+            <h3 className="font-display font-black text-lg md:text-xl uppercase tracking-tight text-black">
               {currentPlate.title}
             </h3>
           </div>
-          <p className="font-sans text-xs md:text-sm text-[#86868b] font-light max-w-3xl leading-relaxed">
+          <p className="font-sans text-xs md:text-sm text-neutral-600 font-light max-w-3xl leading-relaxed">
             {currentPlate.caption}
           </p>
         </div>
 
         {/* Progress Fraction */}
         <div className="flex items-center gap-3 shrink-0">
-          <span className="text-xs font-bold text-[#86868b]">
+          <span className="text-xs font-bold text-neutral-500">
             {String(currentIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </span>
         </div>
@@ -2350,11 +2359,11 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
             className={`group relative shrink-0 transition-all cursor-pointer rounded-lg overflow-hidden border ${
               pIdx === currentIndex
                 ? 'border-[#FF3B1D] ring-2 ring-[#FF3B1D]/40 scale-105'
-                : 'border-white/10 opacity-50 hover:opacity-100'
+                : 'border-neutral-200 opacity-60 hover:opacity-100'
             }`}
             title={`Slide 0${pIdx + 1}: ${plate.title}`}
           >
-            <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#141416] p-1 flex items-center justify-center">
+            <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#f0f0f2] p-1 flex items-center justify-center">
               <img
                 src={resolveImg(plate.id)}
                 alt={plate.title}
@@ -2363,7 +2372,7 @@ function ProjectHorizontalSlider({ project, gallery = [] }) {
               />
             </div>
             <div className={`absolute bottom-0 inset-x-0 h-1 ${
-              pIdx === currentIndex ? 'bg-[#FF3B1D]' : 'bg-transparent group-hover:bg-neutral-600'
+              pIdx === currentIndex ? 'bg-[#FF3B1D]' : 'bg-transparent group-hover:bg-neutral-400'
             }`} />
           </button>
         ))}
@@ -2387,22 +2396,22 @@ function ProjectBottomBar({ project }) {
   return (
     <aside 
       aria-label="Project Navigation Bar"
-      className="fixed bottom-0 inset-x-0 z-40 bg-[#000000]/85 backdrop-blur-2xl border-t border-white/[0.08] py-3.5 px-6 md:px-12 shadow-2xl font-mono text-xs"
+      className="fixed bottom-0 inset-x-0 z-40 bg-white/75 backdrop-blur-2xl border-t border-black/[0.08] py-3.5 px-6 sm:px-10 md:px-14 lg:px-20 shadow-[0_-8px_24px_rgba(0,0,0,0.04)] font-mono text-xs"
     >
-      <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
+      <div className="max-w-[1840px] w-full mx-auto flex items-center justify-between gap-4">
         
         {/* Previous Project Link */}
         <Link 
           to={`/project/${prevProject.slug}`}
-          className="group flex items-center gap-2 text-[#f5f5f7] hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
+          className="apple-fluid-glass-btn px-4 py-2 rounded-full flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold uppercase tracking-wider shadow-xs"
         >
-          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="hidden sm:inline text-[#86868b] font-normal">PREV //</span>
+          <ChevronLeft className="w-4 h-4" />
+          <span className="hidden sm:inline text-neutral-500 font-normal">PREV //</span>
           <span>{prevProject.title}</span>
         </Link>
 
         {/* Center Metadata & Back to Top */}
-        <div className="hidden md:flex items-center gap-4 text-[#86868b] uppercase tracking-widest text-[11px]">
+        <div className="hidden md:flex items-center gap-4 text-neutral-500 uppercase tracking-widest text-[11px]">
           <span className="text-[#FF3B1D] font-bold">{project.indexCode}</span>
           <span>•</span>
           <span>{project.duration}</span>
@@ -2411,7 +2420,7 @@ function ProjectBottomBar({ project }) {
           <span>•</span>
           <button 
             onClick={scrollToTop} 
-            className="text-white hover:text-[#FF3B1D] font-bold underline flex items-center gap-1 cursor-pointer"
+            className="apple-fluid-glass-btn px-3.5 py-1 rounded-full text-black hover:text-[#FF3B1D] font-bold flex items-center gap-1 cursor-pointer shadow-xs"
           >
             <span>Top</span>
             <ArrowUp className="w-3 h-3" />
@@ -2421,11 +2430,11 @@ function ProjectBottomBar({ project }) {
         {/* Next Project Link */}
         <Link 
           to={`/project/${nextProject.slug}`}
-          className="group flex items-center gap-2 text-[#f5f5f7] hover:text-[#FF3B1D] font-bold uppercase tracking-wider transition-colors"
+          className="apple-fluid-glass-btn px-4 py-2 rounded-full flex items-center gap-2 text-black hover:text-[#FF3B1D] font-bold uppercase tracking-wider shadow-xs"
         >
           <span>{nextProject.title}</span>
-          <span className="hidden sm:inline text-[#86868b] font-normal">// NEXT</span>
-          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <span className="hidden sm:inline text-neutral-500 font-normal">// NEXT</span>
+          <ChevronRight className="w-4 h-4" />
         </Link>
 
       </div>
@@ -2446,8 +2455,8 @@ function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <div className="max-w-[1400px] mx-auto px-6 py-32 text-center font-mono">
-        <h2 className="text-2xl font-black font-display uppercase mb-4">Project Not Found</h2>
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-32 text-center font-mono">
+        <h2 className="text-2xl font-black font-display uppercase mb-4 text-black">Project Not Found</h2>
         <Link to="/" className="text-xs font-bold uppercase tracking-widest text-[#FF3B1D] underline">
           ← Return to Works
         </Link>
@@ -2458,55 +2467,55 @@ function ProjectDetailPage() {
   const galleryContext = project.gallery ? project.gallery.map(g => ({ ...g, src: resolveImg(g.id) })) : [];
 
   return (
-    <article className="min-h-screen pb-44 bg-[#000000] text-[#f5f5f7]">
+    <article className="min-h-screen pb-44 bg-white text-[#1d1d1f]">
       
       {/* Header */}
-      <header id="overview" className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 border-b border-white/[0.08]">
+      <header id="overview" className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-16 pb-12 border-b border-black/[0.08]">
         
         <button 
           onClick={() => navigate(-1)} 
-          className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-[#86868b] hover:text-white mb-8 transition-colors cursor-pointer"
+          className="apple-fluid-glass-btn inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-neutral-700 hover:text-black mb-8 px-4 py-2 rounded-full shadow-xs cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Works
         </button>
         
         <div className="flex flex-wrap items-center gap-3 mb-6 font-mono text-xs">
-          <span className="bg-[#FF3B1D] text-white px-3 py-1 font-bold uppercase tracking-widest rounded-full shadow-sm">
+          <span className="apple-fluid-glass-primary text-white px-3.5 py-1 font-bold uppercase tracking-widest rounded-full shadow-xs">
             {project.indexCode}
           </span>
-          <span className="bg-white/10 text-white border border-white/10 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
+          <span className="apple-fluid-glass-btn text-black px-3.5 py-1 font-medium uppercase tracking-wider rounded-full shadow-xs">
             {project.duration}
           </span>
-          <span className="bg-white/[0.06] text-white/80 border border-white/10 px-3 py-1 font-medium uppercase tracking-wider rounded-full">
+          <span className="apple-fluid-glass-btn text-neutral-700 px-3.5 py-1 font-medium uppercase tracking-wider rounded-full shadow-xs">
             {project.projectType}
           </span>
         </div>
 
-        <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display uppercase tracking-tight text-white leading-none mb-4 apple-headline-gradient">
+        <h1 className="text-5xl sm:text-7xl md:text-[84px] font-black font-display uppercase tracking-tight text-black leading-none mb-4">
           {project.title}
         </h1>
 
-        <p className="font-mono text-sm md:text-base font-bold text-[#86868b] uppercase tracking-wider mb-6">
+        <p className="font-mono text-sm md:text-base font-bold text-neutral-500 uppercase tracking-wider mb-6">
           {project.subtitle}
         </p>
 
-        <p className="font-sans text-xl md:text-2xl text-[#a1a1a6] font-light leading-relaxed max-w-3xl">
+        <p className="font-sans text-xl md:text-2xl text-neutral-700 font-light leading-relaxed max-w-4xl">
           {project.tagline}
         </p>
 
         {project.collaborators && (
-          <div className="mt-6 pt-4 border-t border-white/10 font-mono text-xs text-[#86868b]">
+          <div className="mt-6 pt-4 border-t border-black/10 font-mono text-xs text-neutral-600">
             <span className="text-[#FF3B1D] font-bold uppercase tracking-widest mr-2">// COLLABORATORS:</span>
             <span>{project.collaborators}</span>
           </div>
         )}
 
         {project.heroMetrics && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-white/[0.08] font-mono text-xs">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-black/[0.08] font-mono text-xs">
             {project.heroMetrics.map((m, idx) => (
               <div key={idx} className="border-l-2 border-[#FF3B1D] pl-4 py-1">
-                <span className="text-[#86868b] uppercase tracking-widest block text-[10px] font-bold mb-1">{m.label}</span>
-                <span className="text-base font-bold text-white">{m.val}</span>
+                <span className="text-neutral-500 uppercase tracking-widest block text-[10px] font-bold mb-1">{m.label}</span>
+                <span className="text-base font-bold text-black">{m.val}</span>
               </div>
             ))}
           </div>
@@ -2515,48 +2524,48 @@ function ProjectDetailPage() {
       </header>
 
       {/* INTERACTIVE HORIZONTAL PROJECT SLIDER (MIRKO ROMANELLI STYLE CAROUSEL) */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 pt-6">
+      <section className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-6">
         <ProjectHorizontalSlider project={project} gallery={project.gallery} />
       </section>
 
       {/* STICKY QUICK NAVIGATION BAR */}
-      <nav className="sticky top-16 z-40 bg-[#000000]/85 backdrop-blur-2xl py-3 border-y border-white/[0.08] my-6 shadow-sm">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between overflow-x-auto no-scrollbar gap-4 text-xs font-mono font-bold uppercase tracking-wider">
+      <nav className="sticky top-16 z-40 bg-white/75 backdrop-blur-2xl py-3 border-y border-black/[0.08] my-6 shadow-xs">
+        <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 flex items-center justify-between overflow-x-auto no-scrollbar gap-4 text-xs font-mono font-bold uppercase tracking-wider">
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <a href="#overview" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
+            <a href="#overview" className="apple-fluid-glass-btn px-4 py-1.5 rounded-full text-neutral-700 hover:text-black">
               01. Overview
             </a>
-            <a href="#problem" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
+            <a href="#problem" className="apple-fluid-glass-btn px-4 py-1.5 rounded-full text-neutral-700 hover:text-black">
               02. Brief & Problem
             </a>
             {project.inspirationTitle && (
-              <a href="#inspiration" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
+              <a href="#inspiration" className="apple-fluid-glass-btn px-4 py-1.5 rounded-full text-neutral-700 hover:text-black">
                 03. Inspiration
               </a>
             )}
             {(project.features || project.identifiedProblems || project.wearableGuide || project.makerspaceBuild) && (
-              <a href="#anatomy" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
+              <a href="#anatomy" className="apple-fluid-glass-btn px-4 py-1.5 rounded-full text-neutral-700 hover:text-black">
                 04. Anatomy & Craft
               </a>
             )}
-            <a href="#plates" className="px-3.5 py-1.5 rounded-full bg-[#FF3B1D] text-white hover:bg-white hover:text-black transition-colors">
+            <a href="#plates" className="apple-fluid-glass-primary px-4 py-1.5 rounded-full text-white font-bold">
               05. Plates ({project.gallery.length})
             </a>
             {project.specs && (
-              <a href="#specifications" className="px-3.5 py-1.5 rounded-full hover:bg-white hover:text-black transition-colors text-[#86868b] bg-white/[0.06] border border-white/10">
+              <a href="#specifications" className="apple-fluid-glass-btn px-4 py-1.5 rounded-full text-neutral-700 hover:text-black">
                 06. Specifications
               </a>
             )}
           </div>
 
-          <div className="hidden lg:flex items-center gap-3 shrink-0 text-[11px] text-[#86868b]">
+          <div className="hidden lg:flex items-center gap-3 shrink-0 text-[11px] text-neutral-500">
             <span className="w-2 h-2 rounded-full bg-[#FF3B1D]" />
             <span>{project.indexCode}</span>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 space-y-24">
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 space-y-24">
         
         {/* The Problem & Brief */}
         <motion.section 
@@ -2565,25 +2574,25 @@ function ProjectDetailPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-8 border-t border-white/[0.08]"
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-8 border-t border-black/[0.08]"
         >
           <div className="md:col-span-5 space-y-3">
             <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block">
               // THE PROBLEM & INQUIRY
             </span>
-            <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+            <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
               Market Challenge
             </h3>
           </div>
           <div className="md:col-span-7 space-y-6">
-            <p className="font-sans text-lg text-[#a1a1a6] font-normal leading-relaxed">
+            <p className="font-sans text-lg text-neutral-700 font-normal leading-relaxed">
               {project.problem}
             </p>
-            <div className="p-6 apple-card rounded-2xl border-l-4 border-[#FF3B1D]">
+            <div className="p-6 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl border-l-4 border-l-[#FF3B1D] shadow-xs">
               <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#FF3B1D] block mb-1">
                 DESIGN BRIEF
               </span>
-              <p className="font-sans text-sm text-[#f5f5f7] font-medium leading-relaxed">
+              <p className="font-sans text-sm text-neutral-800 font-medium leading-relaxed">
                 {project.brief}
               </p>
             </div>
@@ -2597,27 +2606,27 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // MARKET RESEARCH
                 </span>
-                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-white">
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-black">
                   {project.marketResearch.headline}
                 </h3>
               </div>
-              <span className="font-mono text-xs text-white font-bold uppercase tracking-wider bg-white/10 border border-white/10 px-4 py-2 rounded-full">
+              <span className="font-mono text-xs text-black font-bold uppercase tracking-wider bg-black/5 border border-black/10 px-4 py-2 rounded-full">
                 {project.marketResearch.cagr}
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
               {project.marketResearch.drivers.map((d, dIdx) => (
-                <div key={dIdx} className="p-6 apple-card rounded-2xl space-y-2 border-l-2 border-[#FF3B1D]">
+                <div key={dIdx} className="p-6 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl space-y-2 border-l-2 border-l-[#FF3B1D] shadow-xs">
                   <span className="font-bold text-[#FF3B1D] uppercase text-xs block">{d.label}</span>
-                  <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{d.text}</p>
+                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{d.text}</p>
                 </div>
               ))}
             </div>
@@ -2631,27 +2640,27 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // USER FRICTION & DEFICIENCIES
                 </span>
-                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
                   Identified Problems
                 </h3>
               </div>
-              <span className="font-mono text-xs text-[#86868b] uppercase tracking-widest">
+              <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
                 Page 15 // Ethnographic Study
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
               {project.identifiedProblems.map((prob, pIdx) => (
-                <div key={pIdx} className="apple-card rounded-2xl p-4 space-y-3 shadow-lg flex flex-col justify-between group">
+                <div key={pIdx} className="bg-white border border-neutral-200/80 rounded-2xl p-4 space-y-3 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between group">
                   {prob.imageId && (
-                    <div className="w-full h-44 bg-[#141416] rounded-xl p-2 flex items-center justify-center overflow-hidden border border-white/5">
+                    <div className="w-full h-44 bg-[#f5f5f7] rounded-xl p-2 flex items-center justify-center overflow-hidden border border-neutral-200/60">
                       <ProjectImage 
                         id={prob.imageId}
                         altText={prob.title}
@@ -2663,8 +2672,8 @@ function ProjectDetailPage() {
                     </div>
                   )}
                   <div className="space-y-1.5">
-                    <span className="font-bold text-white uppercase text-xs block font-display tracking-tight">{prob.title}</span>
-                    <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{prob.desc}</p>
+                    <span className="font-bold text-black uppercase text-xs block font-display tracking-tight">{prob.title}</span>
+                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{prob.desc}</p>
                   </div>
                 </div>
               ))}
@@ -2679,22 +2688,22 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                 // THE STORY & HISTORICAL RECLAMATION
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
                 The Fun of Re-telling History
               </h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 font-mono text-xs">
               {project.historicalTimeline.map((item, tIdx) => (
-                <div key={tIdx} className="p-5 apple-card rounded-2xl space-y-2 border-t-2 border-[#FF3B1D]">
+                <div key={tIdx} className="p-5 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl space-y-2 border-t-2 border-t-[#FF3B1D] shadow-xs">
                   <span className="font-bold text-[#FF3B1D] text-[11px] block">{item.epoch}</span>
-                  <p className="font-sans text-[#a1a1a6] text-xs font-light leading-relaxed">{item.text}</p>
+                  <p className="font-sans text-neutral-700 text-xs font-light leading-relaxed">{item.text}</p>
                 </div>
               ))}
             </div>
@@ -2709,32 +2718,32 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-white/[0.08] items-center"
+            className="grid grid-cols-1 md:grid-cols-12 gap-12 pt-12 border-t border-black/[0.08] items-center"
           >
             <div className="md:col-span-5 space-y-4">
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block">
                 // DESIGN INSPIRATION
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
                 {project.inspirationTitle}
               </h3>
               {project.inspirationSubtitle && (
-                <p className="font-mono text-xs font-bold text-[#86868b] uppercase tracking-wider">
+                <p className="font-mono text-xs font-bold text-neutral-500 uppercase tracking-wider">
                   {project.inspirationSubtitle}
                 </p>
               )}
-              <p className="font-sans text-base text-[#a1a1a6] font-light leading-relaxed">
+              <p className="font-sans text-base text-neutral-700 font-light leading-relaxed">
                 {project.inspirationDesc}
               </p>
             </div>
             <div className="md:col-span-7">
-              <div className="w-full min-h-[300px] md:min-h-[420px] max-h-[540px] apple-card rounded-2xl p-4 sm:p-8 flex items-center justify-center overflow-hidden">
+              <div className="w-full min-h-[300px] md:min-h-[420px] max-h-[540px] bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl p-4 sm:p-8 flex items-center justify-center overflow-hidden shadow-xs">
                 <ProjectImage 
                   id={project.inspirationImg} 
                   altText={project.inspirationTitle}
                   caption={`${project.inspirationTitle} Inspiration Reference`}
                   className="w-full h-full flex items-center justify-center"
-                  imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto"
+                  imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-md"
                   gallery={galleryContext}
                 />
               </div>
@@ -2750,31 +2759,31 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // INTERACTION & TACTILITY
                 </span>
-                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+                <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
                   Functional Anatomy & Callouts
                 </h3>
               </div>
-              <span className="font-mono text-xs text-[#86868b] uppercase tracking-widest">
+              <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
                 Page 08 // Retro-Engineering Mechanics
               </span>
             </div>
 
             {project.slug === 'fuel' ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div className="lg:col-span-7 apple-card rounded-2xl p-6 sm:p-10 flex items-center justify-center">
+                <div className="lg:col-span-7 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl p-6 sm:p-10 flex items-center justify-center shadow-xs">
                   <ProjectImage 
                     id="p8_2"
                     altText="Fuel Functional Anatomy Overview"
                     caption="Plate: Functional Anatomy Overview of Fuel Power Bank"
                     className="w-full flex items-center justify-center"
-                    imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-2xl"
+                    imgClassName="max-h-[480px] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-xl"
                     gallery={galleryContext}
                   />
                 </div>
@@ -2783,10 +2792,10 @@ function ProjectDetailPage() {
                   {project.features.map((feat, fIdx) => (
                     <div 
                       key={fIdx} 
-                      className="p-4 apple-card rounded-xl flex items-center gap-4 group"
+                      className="p-4 bg-white border border-neutral-200/80 rounded-xl flex items-center gap-4 group shadow-xs hover:shadow-sm transition-shadow"
                     >
                       {feat.imageId && (
-                        <div className="w-16 h-16 shrink-0 bg-[#161618] border border-white/10 rounded-full overflow-hidden p-1 flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <div className="w-16 h-16 shrink-0 bg-[#f5f5f7] border border-neutral-200 rounded-full overflow-hidden p-1 flex items-center justify-center group-hover:scale-105 transition-transform">
                           <ProjectImage 
                             id={feat.imageId}
                             altText={feat.title}
@@ -2799,8 +2808,8 @@ function ProjectDetailPage() {
                       )}
                       <div className="space-y-0.5">
                         <span className="text-[10px] text-[#FF3B1D] font-bold uppercase tracking-wider block">{feat.tag}</span>
-                        <h4 className="text-sm font-bold font-display uppercase text-white">{feat.title}</h4>
-                        <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{feat.desc}</p>
+                        <h4 className="text-sm font-bold font-display uppercase text-black">{feat.title}</h4>
+                        <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{feat.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -2809,10 +2818,10 @@ function ProjectDetailPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
                 {project.features.map((feat, fIdx) => (
-                  <div key={fIdx} className="p-6 apple-card rounded-2xl space-y-2 border-l-2 border-[#FF3B1D]">
-                    <span className="text-[10px] text-[#86868b] font-bold uppercase tracking-wider block">{feat.tag}</span>
-                    <h4 className="text-base font-bold font-display uppercase text-white">{feat.title}</h4>
-                    <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{feat.desc}</p>
+                  <div key={fIdx} className="p-6 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl space-y-2 border-l-2 border-l-[#FF3B1D] shadow-xs">
+                    <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-wider block">{feat.tag}</span>
+                    <h4 className="text-base font-bold font-display uppercase text-black">{feat.title}</h4>
+                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{feat.desc}</p>
                   </div>
                 ))}
               </div>
@@ -2828,23 +2837,23 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                 // ERGONOMICS & DEPLOYMENT
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
                 Just Plug In, Position, and Perfect
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
               {project.userSteps.map((s, sIdx) => (
-                <div key={sIdx} className="p-6 apple-card rounded-2xl space-y-3">
+                <div key={sIdx} className="p-6 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl space-y-3 shadow-xs">
                   <span className="text-2xl font-black font-display text-[#FF3B1D] block">{s.step}</span>
-                  <h4 className="text-base font-bold font-display uppercase text-white">{s.title}</h4>
-                  <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{s.desc}</p>
+                  <h4 className="text-base font-bold font-display uppercase text-black">{s.title}</h4>
+                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -2859,23 +2868,23 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                 // USER CEREMONY
               </span>
-              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-white">
+              <h3 className="text-3xl font-black font-display uppercase tracking-tight text-black">
                 Step into the Story: The Wearable Guide
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
               {project.wearableGuide.map((wg, wgIdx) => (
-                <div key={wgIdx} className="p-6 apple-card rounded-2xl space-y-2 border-l-2 border-[#FF3B1D]">
+                <div key={wgIdx} className="p-6 bg-[#f8f8fa] border border-neutral-200/80 rounded-2xl space-y-2 border-l-2 border-l-[#FF3B1D] shadow-xs">
                   <span className="text-[#FF3B1D] font-black font-display text-lg block">{wg.step}</span>
-                  <h4 className="text-base font-bold font-display uppercase text-white">{wg.title}</h4>
-                  <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{wg.desc}</p>
+                  <h4 className="text-base font-bold font-display uppercase text-black">{wg.title}</h4>
+                  <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{wg.desc}</p>
                 </div>
               ))}
             </div>
@@ -2889,26 +2898,26 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-12 border-t border-white/[0.08] space-y-8"
+            className="pt-12 border-t border-black/[0.08] space-y-8"
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#FF3B1D] font-bold block mb-1">
                   // PHYSICAL FABRICATION & PROTOTYPING
                 </span>
-                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-white">
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-black">
                   1:1 Scale Prototype Build (UK 11)
                 </h3>
               </div>
-              <span className="font-mono text-xs text-white font-bold uppercase tracking-wider bg-white/10 border border-white/10 px-4 py-2 rounded-full">
+              <span className="font-mono text-xs text-black font-bold uppercase tracking-wider bg-black/5 border border-black/10 px-4 py-2 rounded-full">
                 Strate Makerspace Facility
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
               {project.makerspaceBuild.map((step, sIdx) => (
-                <div key={sIdx} className="apple-card rounded-2xl p-4 space-y-3 shadow-lg flex flex-col justify-between group">
-                  <div className="w-full h-48 bg-[#141416] rounded-xl p-3 flex items-center justify-center overflow-hidden border border-white/5">
+                <div key={sIdx} className="bg-white border border-neutral-200/80 rounded-2xl p-4 space-y-3 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between group">
+                  <div className="w-full h-48 bg-[#f5f5f7] rounded-xl p-3 flex items-center justify-center overflow-hidden border border-neutral-200/60">
                     <ProjectImage 
                       id={step.id}
                       altText={step.title}
@@ -2920,8 +2929,8 @@ function ProjectDetailPage() {
                   </div>
                   <div className="space-y-1">
                     <span className="text-[10px] text-[#FF3B1D] font-bold uppercase tracking-wider block">Stage 0{sIdx + 1}</span>
-                    <h4 className="font-bold text-white font-display uppercase text-xs leading-snug">{step.title}</h4>
-                    <p className="font-sans text-[#86868b] text-xs font-light leading-relaxed">{step.caption}</p>
+                    <h4 className="font-bold text-black font-display uppercase text-xs leading-snug">{step.title}</h4>
+                    <p className="font-sans text-neutral-600 text-xs font-light leading-relaxed">{step.caption}</p>
                   </div>
                 </div>
               ))}
@@ -2930,12 +2939,12 @@ function ProjectDetailPage() {
         )}
 
         {/* COMPLETE GALLERY OF ALL PLATES (ZERO CROPPING — EVERY SKETCH, CAD & RENDER 100% UNCLIPPED) */}
-        <section id="plates" className="space-y-16 pt-12 border-t border-white/[0.08]">
-          <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-white/[0.08]">
+        <section id="plates" className="space-y-16 pt-12 border-t border-black/[0.08]">
+          <div className="flex items-center justify-between font-mono text-xs pb-4 border-b border-black/[0.08]">
             <span className="font-bold text-[#FF3B1D] uppercase tracking-widest">
               // PROCESS, CAD & VISUALIZATIONS
             </span>
-            <span className="text-[#86868b] uppercase">{project.gallery.length} Plates Documented</span>
+            <span className="text-neutral-500 uppercase">{project.gallery.length} Plates Documented</span>
           </div>
 
           <div className="space-y-24">
@@ -2949,36 +2958,36 @@ function ProjectDetailPage() {
                 className="space-y-4"
               >
                 {/* Visual Canvas: Responsive, Generous, Centered, Never Cropped */}
-                <div className="w-full min-h-[300px] md:min-h-[500px] max-h-[85vh] apple-card rounded-[28px] p-4 sm:p-8 flex items-center justify-center overflow-hidden">
+                <div className="w-full min-h-[300px] md:min-h-[500px] max-h-[85vh] bg-[#f8f8fa] border border-neutral-200/80 rounded-[28px] p-4 sm:p-8 flex items-center justify-center overflow-hidden shadow-xs">
                   <ProjectImage 
                     id={g.id} 
                     altText={g.title || g.caption} 
                     caption={`Plate 0${gIdx + 1}: ${g.title} — ${g.caption}`}
                     className="w-full h-full flex items-center justify-center"
-                    imgClassName="max-h-[80vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-2xl"
+                    imgClassName="max-h-[80vh] max-w-full w-auto h-auto object-contain mx-auto drop-shadow-xl"
                     gallery={galleryContext}
                   />
                 </div>
 
                 {/* Plate Technical Metadata & Caption */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs pt-1 border-b border-white/10 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs pt-1 border-b border-black/10 pb-3">
                   <div className="flex items-center gap-3">
-                    <span className="bg-white/10 text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm border border-white/10">
+                    <span className="bg-black/5 text-black px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm border border-black/10">
                       Plate 0{gIdx + 1}
                     </span>
                     <span className="bg-[#FF3B1D] text-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm">
                       {g.page || `Page 0${gIdx + 1}`}
                     </span>
-                    <span className="font-bold text-white uppercase tracking-wider text-xs">
+                    <span className="font-bold text-black uppercase tracking-wider text-xs">
                       {g.title}
                     </span>
                     {g.category && (
-                      <span className="text-[#86868b] text-[10px] uppercase hidden md:inline">
+                      <span className="text-neutral-500 text-[10px] uppercase hidden md:inline">
                         // {g.category}
                       </span>
                     )}
                   </div>
-                  <span className="text-[#86868b] text-[11px] font-sans font-light">
+                  <span className="text-neutral-600 text-[11px] font-sans font-light">
                     {g.caption}
                   </span>
                 </div>
@@ -2995,7 +3004,7 @@ function ProjectDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="p-8 md:p-12 apple-card rounded-[28px] font-mono text-xs shadow-2xl"
+            className="p-8 md:p-12 bg-[#f8f8fa] border border-neutral-200/80 rounded-[28px] font-mono text-xs shadow-xs"
           >
             <div className="text-[#FF3B1D] font-bold mb-6 uppercase tracking-widest text-sm flex items-center gap-2">
               <span className="w-2 h-2 bg-[#FF3B1D]" />
@@ -3003,9 +3012,9 @@ function ProjectDetailPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {Object.entries(project.specs).map(([key, val], sIdx) => (
-                <div key={sIdx} className="border-l border-white/10 pl-4">
-                  <span className="text-[#86868b] block mb-1 uppercase font-bold text-[10px]">{key}</span>
-                  <span className="text-white font-light leading-relaxed block">{val}</span>
+                <div key={sIdx} className="border-l border-neutral-300 pl-4">
+                  <span className="text-neutral-500 block mb-1 uppercase font-bold text-[10px]">{key}</span>
+                  <span className="text-black font-medium leading-relaxed block">{val}</span>
                 </div>
               ))}
             </div>
@@ -3013,14 +3022,14 @@ function ProjectDetailPage() {
         )}
 
         {/* Bottom Pagination */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-12 border-t border-white/[0.08] font-mono text-xs font-bold uppercase tracking-wider">
-          <Link to="/" className="text-white hover:text-[#FF3B1D] flex items-center gap-2 transition-colors">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-12 border-t border-black/[0.08] font-mono text-xs font-bold uppercase tracking-wider">
+          <Link to="/" className="apple-fluid-glass-btn text-black hover:text-[#FF3B1D] px-5 py-2.5 rounded-full flex items-center gap-2 shadow-xs">
             ← Return to Works
           </Link>
           <div className="flex items-center gap-3">
             <Link 
-              to="/playground"
-              className="bg-white/10 border border-white/15 text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-colors"
+              to="/playground" 
+              className="apple-fluid-glass-btn text-black hover:text-[#FF3B1D] px-5 py-2.5 rounded-full shadow-xs"
             >
               Visual Lab →
             </Link>
@@ -3028,7 +3037,7 @@ function ProjectDetailPage() {
               href="/Jinendra_Parakh_Portfolio.pdf" 
               target="_blank" 
               rel="noreferrer" 
-              className="flex items-center gap-2 bg-[#FF3B1D] text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-colors shadow-sm"
+              className="apple-fluid-glass-primary flex items-center gap-2 text-white px-6 py-2.5 rounded-full shadow-sm"
             >
               <span>Download 53p Deck (PDF)</span>
               <Download className="w-3.5 h-3.5" />
@@ -3094,28 +3103,28 @@ function PlaygroundPage() {
     : items.filter(it => it.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-black text-[#f5f5f7] pb-32">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
+    <div className="min-h-screen bg-white text-[#1d1d1f] pb-32">
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-16">
         
         {/* Navigation Breadcrumb */}
-        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-400 hover:text-white mb-8 transition-colors">
+        <Link to="/" className="apple-fluid-glass-btn inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-600 hover:text-black mb-8 px-4 py-1.5 rounded-full shadow-xs">
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
         </Link>
 
         {/* Header */}
-        <div className="pb-12 border-b border-white/[0.08] mb-12">
+        <div className="pb-12 border-b border-black/[0.08] mb-12">
           <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
             // EXPERIMENTAL LAB & ARCHIVES
           </span>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-white mb-4">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-black mb-4">
             Visual Lab & Sketches
           </h1>
-          <p className="font-sans text-lg sm:text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
+          <p className="font-sans text-lg sm:text-xl text-neutral-600 font-light max-w-3xl leading-relaxed">
             Continuous creative explorations spanning horological hand sketching, generative AI workflows, footwear anatomical teardowns, and physical workshop model-making.
           </p>
         </div>
 
-        {/* Filter Pills with Layout Animation */}
+        {/* Filter Pills with Fluid Glass Buttons */}
         <div className="flex flex-wrap items-center gap-2 mb-12 font-mono text-xs">
           {categories.map(cat => (
             <button
@@ -3123,17 +3132,10 @@ function PlaygroundPage() {
               onClick={() => setActiveCategory(cat)}
               className={`relative px-4 py-2 rounded-full uppercase tracking-wider font-semibold transition-all duration-300 cursor-pointer ${
                 activeCategory === cat 
-                  ? 'text-white' 
-                  : 'text-neutral-400 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08]'
+                  ? 'apple-fluid-glass-primary text-white shadow-sm' 
+                  : 'apple-fluid-glass-btn text-neutral-600 hover:text-black shadow-xs'
               }`}
             >
-              {activeCategory === cat && (
-                <motion.span 
-                  layoutId="activeFilterPill"
-                  className="absolute inset-0 bg-[#FF3B1D] rounded-full -z-10 shadow-[0_0_15px_rgba(255,59,29,0.4)]"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
               <span className="relative z-10">{cat}</span>
             </button>
           ))}
@@ -3148,7 +3150,7 @@ function PlaygroundPage() {
           return (
             <motion.div 
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
             >
               <AnimatePresence>
                 {filteredItems.map((item, idx) => (
@@ -3160,16 +3162,16 @@ function PlaygroundPage() {
                     viewport={{ once: true, margin: "-40px" }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.5, delay: (idx % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                    className="group apple-card hover:border-white/30 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl"
+                    className="group apple-card bg-white border border-neutral-200/80 hover:border-neutral-300 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xs hover:shadow-xl"
                   >
                     {/* Image Container: Ample Padding, Flexible Height, 100% Unclipped */}
-                    <div className="w-full min-h-[240px] max-h-[460px] p-5 bg-black/60 rounded-xl flex items-center justify-center overflow-hidden mb-4 border border-white/[0.04]">
+                    <div className="w-full min-h-[240px] max-h-[460px] p-5 bg-[#f8f8fa] rounded-xl flex items-center justify-center overflow-hidden mb-4 border border-neutral-200/60 shadow-inner">
                       <ProjectImage 
                         id={item.id} 
                         altText={item.title} 
                         caption={`${item.title} — ${item.caption}`}
                         className="w-full h-full flex items-center justify-center"
-                        imgClassName="max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+                        imgClassName="max-h-[420px] max-w-full w-auto h-auto object-contain mx-auto group-hover:scale-[1.02] transition-transform duration-500 ease-out drop-shadow-[0_10px_20px_rgba(0,0,0,0.08)]"
                         gallery={playgroundGallery}
                       />
                     </div>
@@ -3179,14 +3181,14 @@ function PlaygroundPage() {
                         <span className="text-[10px] font-bold text-[#FF3B1D] uppercase tracking-wider">
                           {item.category}
                         </span>
-                        <span className="text-[10px] text-neutral-500 uppercase">
+                        <span className="text-[10px] text-neutral-400 uppercase">
                           {item.id}
                         </span>
                       </div>
-                      <h3 className="font-bold text-white font-display uppercase text-sm leading-snug group-hover:text-white transition-colors">
+                      <h3 className="font-bold text-black font-display uppercase text-sm leading-snug group-hover:text-[#FF3B1D] transition-colors">
                         {item.title}
                       </h3>
-                      <p className="font-sans text-neutral-400 text-xs font-normal leading-relaxed">
+                      <p className="font-sans text-neutral-600 text-xs font-normal leading-relaxed">
                         {item.caption}
                       </p>
                     </div>
@@ -3207,26 +3209,26 @@ function AboutPage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="min-h-screen bg-black text-[#f5f5f7] pb-32">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
+    <div className="min-h-screen bg-white text-[#1d1d1f] pb-32">
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-16">
         
-        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-400 hover:text-white mb-8 transition-colors">
+        <Link to="/" className="apple-fluid-glass-btn inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-700 hover:text-black mb-8 px-4 py-2 rounded-full shadow-xs cursor-pointer">
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
         </Link>
 
         {/* Bio Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pb-16 border-b border-white/[0.08]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pb-16 border-b border-neutral-200">
           
           <div className="lg:col-span-7 space-y-6">
             <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
               // ‘BUILDING DESIRES’
             </span>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-white leading-tight">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-black leading-tight">
               On a mission to change how we look at things.
             </h1>
 
-            <p className="font-sans text-lg sm:text-xl text-neutral-300 font-light leading-relaxed">
+            <p className="font-sans text-lg sm:text-xl text-neutral-700 font-light leading-relaxed">
               I believe every object has a story to tell and experience to create. My goal is to blend functionality with aesthetics, creating meaningful solutions that not only solve problems but also build aspirations.
             </p>
 
@@ -3235,7 +3237,7 @@ function AboutPage() {
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-neutral-200 transition-all flex items-center gap-2 shadow-sm"
+                className="apple-fluid-glass-dark text-white font-semibold px-6 py-3 rounded-full flex items-center gap-2 shadow-sm cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download Resume (PDF)</span>
@@ -3245,7 +3247,7 @@ function AboutPage() {
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
                 rel="noreferrer"
-                className="bg-[#FF3B1D] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#e03419] transition-all flex items-center gap-2 shadow-sm"
+                className="apple-fluid-glass-primary text-white font-semibold px-6 py-3 rounded-full flex items-center gap-2 shadow-sm cursor-pointer"
               >
                 <span>View Full 53-Page Deck</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -3255,7 +3257,7 @@ function AboutPage() {
                 href="https://www.behance.net/gallery/223719061/Design-Portfolio" 
                 target="_blank" 
                 rel="noreferrer"
-                className="bg-white/[0.08] border border-white/[0.12] text-white px-6 py-3 rounded-full hover:bg-white/[0.15] transition-all flex items-center gap-2 font-semibold"
+                className="apple-fluid-glass-btn text-black hover:text-[#FF3B1D] px-6 py-3 rounded-full flex items-center gap-2 font-semibold shadow-xs cursor-pointer"
               >
                 <BehanceIcon className="w-3.5 h-3.5" />
                 <span>Behance Portfolio</span>
@@ -3264,7 +3266,7 @@ function AboutPage() {
           </div>
 
           <div className="lg:col-span-5 space-y-4">
-            <div className="apple-card rounded-2xl p-6 flex items-center justify-center bg-black/60 border border-white/[0.08]">
+            <div className="bg-[#f5f5f7] border border-neutral-200/80 rounded-2xl p-6 flex items-center justify-center">
               <ProjectImage 
                 id="p1_2" 
                 altText="Jinendra Parakh Chronograph Hand Sketch"
@@ -3273,7 +3275,7 @@ function AboutPage() {
                 imgClassName="max-h-[380px] max-w-full w-auto h-auto object-contain mx-auto"
               />
             </div>
-            <div className="flex items-center justify-between font-mono text-[11px] text-neutral-400">
+            <div className="flex items-center justify-between font-mono text-[11px] text-neutral-500">
               <span className="uppercase tracking-wider">Fig. Chronograph Watch Hand Sketch</span>
               <span className="text-[#FF3B1D] font-bold">PORTFOLIO COVER 2025</span>
             </div>
@@ -3286,52 +3288,52 @@ function AboutPage() {
           
           {/* Education Milestones */}
           <div className="lg:col-span-6 space-y-6 font-mono">
-            <h2 className="text-2xl font-bold font-display uppercase tracking-tight text-white pb-3 border-b border-white/[0.08]">
+            <h2 className="text-2xl font-bold font-display uppercase tracking-tight text-black pb-3 border-b border-neutral-200">
               Education Milestones
             </h2>
 
             <div className="space-y-6">
-              <div className="p-6 apple-card rounded-2xl border-l-2 border-l-[#FF3B1D]">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl border-l-4 border-l-[#FF3B1D]">
                 <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest block mb-1">
                   Product Design // 2021 — 2025
                 </span>
-                <h3 className="text-xl font-bold font-display uppercase text-white">
+                <h3 className="text-xl font-bold font-display uppercase text-black">
                   Bsc, Product Design
                 </h3>
-                <p className="text-xs text-neutral-400 font-semibold uppercase mt-0.5">
+                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
                   Strate School of Design, Bangalore
                 </p>
-                <p className="font-sans text-xs text-neutral-300 mt-2 font-light leading-relaxed">
+                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
                   Specialized in user research, physical rapid prototyping, form semantics, CMF strategy, ergonomic modeling, and manufacturing realization.
                 </p>
               </div>
 
-              <div className="p-6 apple-card rounded-2xl border-l-2 border-l-white/20">
-                <span className="text-neutral-400 text-xs font-bold uppercase tracking-widest block mb-1">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl border-l-4 border-l-neutral-300">
+                <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-1">
                   Higher Secondary // PCM
                 </span>
-                <h3 className="text-xl font-bold font-display uppercase text-white">
+                <h3 className="text-xl font-bold font-display uppercase text-black">
                   12th Science, PCM
                 </h3>
-                <p className="text-xs text-neutral-400 font-semibold uppercase mt-0.5">
+                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
                   Matoshri Junior College, Nashik
                 </p>
-                <p className="font-sans text-xs text-neutral-300 mt-2 font-light leading-relaxed">
+                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
                   12th Science (Physics, Chemistry, Mathematics).
                 </p>
               </div>
 
-              <div className="p-6 apple-card rounded-2xl border-l-2 border-l-white/20">
-                <span className="text-neutral-400 text-xs font-bold uppercase tracking-widest block mb-1">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl border-l-4 border-l-neutral-300">
+                <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-1">
                   Secondary School
                 </span>
-                <h3 className="text-xl font-bold font-display uppercase text-white">
+                <h3 className="text-xl font-bold font-display uppercase text-black">
                   10th, ICSE
                 </h3>
-                <p className="text-xs text-neutral-400 font-semibold uppercase mt-0.5">
+                <p className="text-xs text-neutral-500 font-semibold uppercase mt-0.5">
                   Anubhuti Residential School, Jalgaon
                 </p>
-                <p className="font-sans text-xs text-neutral-300 mt-2 font-light leading-relaxed">
+                <p className="font-sans text-xs text-neutral-600 mt-2 font-light leading-relaxed">
                   10th ICSE. Active in student delegation at India International Model United Nations (IIMUN).
                 </p>
               </div>
@@ -3340,56 +3342,56 @@ function AboutPage() {
 
           {/* Hard Skills, Soft Skills & Tools (Exact from Resume and Portfolio Page 2) */}
           <div className="lg:col-span-6 space-y-6 font-mono">
-            <h2 className="text-2xl font-bold font-display uppercase tracking-tight text-white pb-3 border-b border-white/[0.08]">
+            <h2 className="text-2xl font-bold font-display uppercase tracking-tight text-black pb-3 border-b border-neutral-200">
               Skills & Competencies
             </h2>
 
             <div className="space-y-6">
               
-              <div className="p-6 apple-card rounded-2xl">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
                   // HARD SKILLS & DOMAINS
                 </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {["Sketching", "3D Modeling", "Rapid Prototyping", "3D Printing", "User Research", "CMF Strategy", "Form Semantics"].map((s, i) => (
-                    <span key={i} className="bg-white/[0.08] border border-white/[0.08] text-neutral-200 px-3 py-1 font-semibold rounded-full">
+                    <span key={i} className="bg-neutral-100 border border-neutral-200 text-neutral-800 px-3 py-1 font-semibold rounded-full">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-6 apple-card rounded-2xl">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
                   // SOFT SKILLS (PORTFOLIO PAGE 2)
                 </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {["Adaptive", "Team Player", "Empathetic", "Emotional Intelligence", "Design Leadership", "Vendor Coordination"].map((s, i) => (
-                    <span key={i} className="bg-white/[0.08] border border-white/[0.08] text-neutral-200 px-3 py-1 font-semibold rounded-full">
+                    <span key={i} className="bg-neutral-100 border border-neutral-200 text-neutral-800 px-3 py-1 font-semibold rounded-full">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-6 apple-card rounded-2xl">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block mb-3">
                   // SOFTWARE TOOLBOX (RESUME & PORTFOLIO)
                 </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {["Photoshop", "Illustrator", "Rhinoceros 3D", "Fusion 360", "Keyshot 3D", "Procreate", "Vizcom"].map((s, i) => (
-                    <span key={i} className="bg-white/[0.08] border border-white/[0.08] text-neutral-200 px-3 py-1 font-semibold rounded-full">
+                    <span key={i} className="bg-neutral-100 border border-neutral-200 text-neutral-800 px-3 py-1 font-semibold rounded-full">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-6 apple-card rounded-2xl space-y-3">
+              <div className="p-6 bg-white border border-neutral-200 shadow-sm rounded-2xl space-y-3">
                 <span className="text-xs font-bold text-[#FF3B1D] uppercase tracking-wider block">
                   // INTERESTS
                 </span>
-                <p className="font-sans text-xs text-neutral-300 leading-relaxed font-light">
+                <p className="font-sans text-xs text-neutral-700 leading-relaxed font-light">
                   Interior Design, Entrepreneurship, Marketing, Table Tennis, Business Case Studies, and Human Psychology.
                 </p>
               </div>
@@ -3472,21 +3474,21 @@ function ExperiencePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-[#f5f5f7] pb-32">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16">
+    <div className="min-h-screen bg-white text-[#1d1d1f] pb-32">
+      <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-16">
         
-        <Link to="/" className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-400 hover:text-white mb-8 transition-colors">
+        <Link to="/" className="apple-fluid-glass-btn inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-neutral-700 hover:text-black mb-8 px-4 py-2 rounded-full shadow-xs cursor-pointer">
           <ArrowLeft className="w-3.5 h-3.5" /> Return to Works
         </Link>
 
-        <div className="pb-12 border-b border-white/[0.08] mb-16">
+        <div className="pb-12 border-b border-neutral-200 mb-16">
           <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block mb-2">
             // TRACK RECORD
           </span>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-white mb-4">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-black mb-4">
             Professional Experience
           </h1>
-          <p className="font-sans text-lg sm:text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
+          <p className="font-sans text-lg sm:text-xl text-neutral-600 font-light max-w-3xl leading-relaxed">
             Hands-on work spanning global consultancy at Ticket Design, camera engineering at A&T Video Networks, bungalow spatial execution, and digital market research.
           </p>
         </div>
@@ -3499,16 +3501,16 @@ function ExperiencePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="p-8 md:p-12 apple-card rounded-[28px] space-y-6 shadow-2xl transition-all hover:border-white/20"
+              className="p-8 md:p-12 bg-white border border-neutral-200 shadow-sm rounded-[28px] space-y-6 transition-all hover:border-neutral-400"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-white/[0.08] pb-5 font-mono">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-neutral-200 pb-5 font-mono">
                 <div>
                   <div className="flex items-center gap-3">
-                    <h3 className="text-2xl md:text-3xl font-extrabold font-display uppercase text-white">
+                    <h3 className="text-2xl md:text-3xl font-extrabold font-display uppercase text-black">
                       {exp.company}
                     </h3>
                     {exp.grade && (
-                      <span className="bg-[#FF3B1D]/20 border border-[#FF3B1D]/40 text-[#FF3B1D] px-3 py-0.5 text-[10px] font-bold uppercase rounded-full">
+                      <span className="bg-[#FF3B1D]/10 border border-[#FF3B1D]/30 text-[#FF3B1D] px-3 py-0.5 text-[10px] font-bold uppercase rounded-full">
                         {exp.grade}
                       </span>
                     )}
@@ -3517,16 +3519,16 @@ function ExperiencePage() {
                     {exp.role}
                   </p>
                 </div>
-                <span className="text-xs text-neutral-400 font-semibold uppercase tracking-wider">
+                <span className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">
                   {exp.period}
                 </span>
               </div>
 
-              <p className="font-sans text-neutral-300 text-base font-normal leading-relaxed">
+              <p className="font-sans text-neutral-700 text-base font-normal leading-relaxed">
                 {exp.desc}
               </p>
 
-              <ul className="space-y-3 font-sans text-sm text-neutral-400 font-light">
+              <ul className="space-y-3 font-sans text-sm text-neutral-600 font-light">
                 {exp.bullets.map((b, bIdx) => (
                   <li key={bIdx} className="flex items-start gap-3">
                     <span className="text-[#FF3B1D] font-bold text-base leading-none">›</span>
@@ -3539,6 +3541,34 @@ function ExperiencePage() {
         </div>
 
       </div>
+    </div>
+  );
+}
+
+/* --- APP SHELL TO RENDER UNIFIED PRISTINE APPLE WHITE GALLERY THEME --- */
+function AppShell({ lightboxState, closeLightbox, navigateLightbox }) {
+  return (
+    <div className="min-h-screen bg-[#ffffff] text-[#1d1d1f] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col transition-colors duration-300">
+      <ScrollProgressBar />
+      <CustomCursor />
+      <Navbar />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/project/:slug" element={<ProjectDetailPage />} />
+          <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/experience" element={<ExperiencePage />} />
+        </Routes>
+      </main>
+      <Footer />
+      <ScrollToTopButton />
+      <ImageLightboxModal 
+        activeItem={lightboxState.activeItem}
+        gallery={lightboxState.gallery}
+        onClose={closeLightbox}
+        onNavigate={navigateLightbox}
+      />
     </div>
   );
 }
@@ -3576,28 +3606,11 @@ export default function App() {
     <ErrorBoundary>
       <LightboxContext.Provider value={{ openLightbox, closeLightbox }}>
         <Router>
-          <div className="min-h-screen bg-[#000000] text-[#f5f5f7] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col">
-            <ScrollProgressBar />
-            <CustomCursor />
-            <Navbar />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/project/:slug" element={<ProjectDetailPage />} />
-                <Route path="/playground" element={<PlaygroundPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/experience" element={<ExperiencePage />} />
-              </Routes>
-            </main>
-            <Footer />
-            <ScrollToTopButton />
-            <ImageLightboxModal 
-              activeItem={lightboxState.activeItem}
-              gallery={lightboxState.gallery}
-              onClose={closeLightbox}
-              onNavigate={navigateLightbox}
-            />
-          </div>
+          <AppShell 
+            lightboxState={lightboxState}
+            closeLightbox={closeLightbox}
+            navigateLightbox={navigateLightbox}
+          />
         </Router>
       </LightboxContext.Provider>
     </ErrorBoundary>

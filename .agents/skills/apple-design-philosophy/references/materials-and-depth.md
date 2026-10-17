@@ -43,3 +43,4 @@ Behind hero hardware renders, place radial gradients with large radii and soft f
 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,59,29,0.14),transparent_65%)] pointer-events-none" />
 ```
 This gives the hardware render volumetric presence, making it look tangible rather than pasted on.
+

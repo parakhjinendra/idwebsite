@@ -27,3 +27,4 @@ Large display headlines on Apple keynotes and launch pages use a vertical metall
 * **Em-Dashes**: Preceded and followed by thin non-breaking space, or set as clean typographic dividers.
 * **Quotes**: Styled using typographical smart quotes (`“` `”`), set in soft grey `#86868b` so they do not overpower the textual phrase.
 * **Fractional Digits**: Always set in monospace or tabular figures when displaying numbers, specs, or timestamps.
+

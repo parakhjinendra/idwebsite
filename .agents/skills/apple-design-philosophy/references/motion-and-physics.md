@@ -49,3 +49,4 @@ On Apple product pages, elements respond to the user's scroll position:
 * Interactive pills and buttons gently compress on tap (`scale: 0.975`).
 * Hover states trigger subtle luminance brightening (`hover:brightness-110`) rather than jarring color shifts.
 * Expandable lightboxes scale out smoothly from the center of the clicked thumbnail using shared layout IDs or origin points.
+
