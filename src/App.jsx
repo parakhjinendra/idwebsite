@@ -1165,31 +1165,31 @@ function Navbar() {
     <nav className="sticky top-0 z-50 backdrop-blur-2xl transition-all duration-300 bg-white/80 border-b border-black/[0.06] text-[#1d1d1f]">
       <div className="max-w-[1840px] w-full mx-auto px-6 sm:px-10 md:px-14 lg:px-20 h-14 sm:h-16 flex items-center justify-between">
         
-        {/* Brand Logo & Project Indicator (Apple Monogram JP) */}
+        {/* Brand Logo & Studio Identity (ODD HOURS • oddhours.co.in) */}
         <Link 
           to="/" 
           onClick={closeMenu}
           className="flex items-center gap-2.5 group"
         >
-          <div className="flex items-center gap-1 font-display font-black text-xl tracking-tight text-black group-hover:opacity-80 transition-opacity">
-            <span>JP</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D] mb-2" />
+          <div className="w-8 h-8 rounded-lg bg-[#1d1d1f] text-white flex items-center justify-center font-display font-black text-xs tracking-tighter group-hover:scale-105 transition-transform shadow-xs shrink-0">
+            <span>OH</span>
           </div>
-          <div className="hidden sm:flex flex-col border-l border-black/10 pl-2.5">
+          <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-semibold tracking-tight text-[#1d1d1f] uppercase leading-none">
-                Jinendra Parakh
+              <span className="font-display font-black text-base sm:text-lg tracking-tight text-[#1d1d1f] uppercase leading-none group-hover:opacity-80 transition-opacity">
+                ODD HOURS
               </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
               {isProjectPage && currentProject && (
                 <span className="font-mono text-[11px] font-bold text-[#FF3B1D]">
                   / {currentProject.indexCode}
                 </span>
               )}
             </div>
-            <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-neutral-500 font-medium mt-0.5">
+            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-neutral-500 font-medium mt-0.5">
               {isProjectPage && currentProject 
                 ? currentProject.subtitle 
-                : "Industrial Design • 2025"}
+                : "oddhours.co.in • Jinendra Parakh"}
             </span>
           </div>
         </Link>
@@ -1301,6 +1301,13 @@ function Navbar() {
             className="md:hidden bg-[#ffffff]/95 border-b border-black/10 text-black backdrop-blur-2xl px-6 pt-4 pb-8"
           >
             <div className="flex flex-col space-y-4 font-mono text-xs font-bold uppercase tracking-wider">
+              <div className="pb-3 border-b border-black/10 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded bg-black text-white text-[9px] flex items-center justify-center font-black">OH</div>
+                  <span className="font-display font-black text-sm uppercase text-black">ODD HOURS</span>
+                </div>
+                <span className="text-[10px] text-[#FF3B1D] font-mono">oddhours.co.in</span>
+              </div>
               <Link to="/" onClick={closeMenu} className="py-2.5 border-b border-black/10 flex justify-between">
                 <span>01. Overview & Works</span>
                 <span className="text-[#FF3B1D]">4 Inquiries</span>
@@ -1355,26 +1362,35 @@ function Footer() {
           
           <div className="lg:col-span-7 space-y-6">
             <span className="text-[#FF3B1D] text-xs font-bold uppercase tracking-widest font-mono block">
-              // ‘BUILDING DESIRES’ • INDUSTRIAL DESIGN
+              // ODD HOURS STUDIO • ODDHOURS.CO.IN
             </span>
             <h3 className="text-3xl md:text-5xl lg:text-6xl font-black font-display tracking-tight text-black leading-tight uppercase">
               Every object has a story to tell and an experience to create.
             </h3>
             <p className="text-neutral-600 text-base md:text-lg font-sans font-light leading-relaxed max-w-2xl">
-              I am Jinendra Parakh, an industrial designer on a mission to change the way we look at things. B.Sc. in Product Design from Strate School of Design, Bangalore.
+              ODD HOURS is the independent industrial design practice of Jinendra Parakh. Form semantics, biomechanical ergonomics, and precision physical manufacturing. B.Sc. in Product Design from Strate School of Design, Bangalore.
             </p>
-            <div className="flex items-center gap-2.5 pt-2">
-              <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-emerald-600 font-mono uppercase text-xs tracking-wider font-semibold">
-                Available for Full-Time Industrial Design Roles
-              </span>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-emerald-600 font-mono uppercase text-xs tracking-wider font-semibold">
+                  Available for Full-Time Industrial Design Roles
+                </span>
+              </div>
+              <a 
+                href="https://oddhours.co.in" 
+                className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold text-neutral-800 shadow-xs"
+              >
+                <Globe className="w-3 h-3 text-[#FF3B1D]" />
+                <span>oddhours.co.in</span>
+              </a>
             </div>
           </div>
 
           <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
             <div className="space-y-4 font-mono text-xs">
               <span className="text-neutral-500 uppercase tracking-widest block font-bold text-[10px]">
-                DIRECT INQUIRY // CONTACT
+                ODD HOURS STUDIO // DIRECT INQUIRIES
               </span>
               <a 
                 href="mailto:parakhjinendra@gmail.com" 
@@ -1382,6 +1398,13 @@ function Footer() {
               >
                 <Mail className="w-4 h-4 text-[#FF3B1D]" />
                 <span>parakhjinendra@gmail.com</span>
+              </a>
+              <a 
+                href="https://oddhours.co.in" 
+                className="flex items-center gap-3 text-black hover:text-[#FF3B1D] transition-colors text-sm font-semibold"
+              >
+                <Globe className="w-4 h-4 text-[#FF3B1D]" />
+                <span>oddhours.co.in</span>
               </a>
               <a 
                 href="tel:+919850889899" 
@@ -1409,7 +1432,7 @@ function Footer() {
                 <span>Behance Design Portfolio</span>
               </a>
               <span className="block text-neutral-400 pt-1">
-                Bangalore / Pune / Nashik / Jalgaon, Maharashtra
+                Bangalore / Pune / Nashik / Jalgaon, India
               </span>
             </div>
 
@@ -1417,7 +1440,7 @@ function Footer() {
               <a 
                 href="/Jinendra_Parakh_Resume.pdf" 
                 target="_blank" 
-                rel="noreferrer"
+                rel="noreferrer" 
                 className="apple-fluid-glass-btn inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-bold cursor-pointer shadow-xs"
               >
                 <Download className="w-3.5 h-3.5" />
@@ -1426,7 +1449,7 @@ function Footer() {
               <a 
                 href="/Jinendra_Parakh_Portfolio.pdf" 
                 target="_blank" 
-                rel="noreferrer"
+                rel="noreferrer" 
                 className="apple-fluid-glass-primary inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-bold cursor-pointer shadow-sm"
               >
                 <span>Full 53-Page Deck</span>
@@ -1440,11 +1463,11 @@ function Footer() {
         {/* Bottom Legal / Metadata Line */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-neutral-500 text-[11px] font-mono">
           <div>
-            © {new Date().getFullYear()} JINENDRA PARAKH. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} ODD HOURS STUDIO // JINENDRA PARAKH (ODDHOURS.CO.IN). ALL RIGHTS RESERVED.
           </div>
           <div className="flex items-center gap-6 uppercase tracking-wider text-[10px]">
             <span>STRATE SCHOOL OF DESIGN</span>
-            <span className="text-[#FF3B1D] font-bold">PRODUCT DESIGN 2025</span>
+            <span className="text-[#FF3B1D] font-bold">ODDHOURS.CO.IN • 2025</span>
           </div>
         </div>
 
@@ -1495,16 +1518,16 @@ function AppleKeynoteHero() {
         <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-neutral-500 pb-6 border-b border-black/[0.08] mb-12">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-[#FF3B1D] animate-pulse" />
-            <span className="font-bold text-black">JINENDRA PARAKH // INDUSTRIAL DESIGN</span>
+            <span className="font-bold text-black">ODD HOURS STUDIO // ODDHOURS.CO.IN</span>
             <span className="text-neutral-300 hidden sm:inline">•</span>
-            <span className="hidden sm:inline text-neutral-500">STRATE SCHOOL OF DESIGN '25</span>
+            <span className="hidden sm:inline text-neutral-500">JINENDRA PARAKH • STRATE '25</span>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="apple-fluid-glass-btn py-1 px-3.5 rounded-full flex items-center gap-2 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-emerald-600 font-bold uppercase text-[10px] tracking-wider">
-                Available for Full-Time ID Roles
+                oddhours.co.in • Available for ID Roles
               </span>
             </div>
           </div>
@@ -1514,7 +1537,7 @@ function AppleKeynoteHero() {
         <div className="max-w-5xl space-y-6">
           <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#FF3B1D] uppercase tracking-widest">
             <StarburstIcon className="w-3.5 h-3.5" />
-            <span>‘BUILDING DESIRES’ • PHYSICAL DESIGN PORTFOLIO</span>
+            <span>ODD HOURS STUDIO • ODDHOURS.CO.IN • PHYSICAL DESIGN PRACTICE</span>
           </div>
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-black font-display tracking-[-0.04em] leading-[0.94] uppercase text-black">
@@ -1523,7 +1546,7 @@ function AppleKeynoteHero() {
           </h1>
 
           <p className="font-sans text-lg sm:text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl">
-            I believe every object has a story to tell and an experience to create. Industrial designer specialized in bridging human emotion and mechanical precision through form semantics, 3-axis CNC craft, and DFM rigor.
+            I believe every object has a story to tell and an experience to create. ODD HOURS is the independent industrial design practice of Jinendra Parakh—translating human ergonomics, form semantics, and CNC machining into physical products that endure.
           </p>
 
           {/* Quick-Action Waterglass Button Bar */}
@@ -2120,6 +2143,11 @@ function AppleFloatingIslandDock() {
       className="fixed bottom-6 inset-x-0 z-50 flex justify-center pointer-events-none px-4"
     >
       <div className="waterglass-dock p-2 rounded-full flex items-center gap-1.5 shadow-2xl pointer-events-auto border border-white/90 max-w-full overflow-x-auto no-scrollbar font-mono text-xs">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 text-[11px] font-bold text-black border-r border-black/10 shrink-0">
+          <div className="w-4 h-4 rounded bg-[#1d1d1f] text-white text-[8px] flex items-center justify-center font-black">OH</div>
+          <span>ODD HOURS</span>
+        </div>
+
         <button
           onClick={scrollToTop}
           className="waterglass-pill px-3 py-1.5 rounded-full text-black hover:text-[#FF3B1D] font-bold flex items-center gap-1 cursor-pointer"
@@ -3404,7 +3432,7 @@ function AboutPage() {
           
           <div className="lg:col-span-7 space-y-6">
             <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
-              // ‘BUILDING DESIRES’
+              // ODD HOURS STUDIO • ODDHOURS.CO.IN
             </span>
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display uppercase tracking-tight text-black leading-tight">
@@ -3412,7 +3440,7 @@ function AboutPage() {
             </h1>
 
             <p className="font-sans text-lg sm:text-xl text-neutral-700 font-light leading-relaxed">
-              I believe every object has a story to tell and experience to create. My goal is to blend functionality with aesthetics, creating meaningful solutions that not only solve problems but also build aspirations.
+              I believe every object has a story to tell and an experience to create. ODD HOURS is the independent industrial design practice of Jinendra Parakh. My goal is to blend functionality with aesthetics, creating meaningful physical solutions that solve real human problems and build genuine aspirations.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2 font-mono text-xs">
@@ -3460,10 +3488,60 @@ function AboutPage() {
             </div>
             <div className="flex items-center justify-between font-mono text-[11px] text-neutral-500">
               <span className="uppercase tracking-wider">Fig. Chronograph Watch Hand Sketch</span>
-              <span className="text-[#FF3B1D] font-bold">PORTFOLIO COVER 2025</span>
+              <span className="text-[#FF3B1D] font-bold">ODD HOURS COVER 2025</span>
             </div>
           </div>
 
+        </div>
+
+        {/* The ODD HOURS Manifesto */}
+        <div className="my-16 p-8 sm:p-10 waterglass-card rounded-3xl border border-black/10 bg-gradient-to-br from-white/90 via-[#f8f8fa]/80 to-white/90">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-black/10">
+            <div>
+              <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+                // STUDIO IDENTITY
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-black mt-1">
+                The ODD HOURS Practice (oddhours.co.in)
+              </h2>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs px-3.5 py-1.5 rounded-full bg-black text-white font-semibold flex items-center gap-1.5 shadow-xs">
+                <Globe className="w-3 h-3 text-[#FF3B1D]" />
+                <span>oddhours.co.in</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 font-sans">
+            <div>
+              <h4 className="font-display font-bold text-base uppercase text-black mb-2 flex items-center gap-2">
+                <span className="text-[#FF3B1D] font-mono text-xs">01 //</span>
+                <span>The Odd Hours Rigor</span>
+              </h4>
+              <p className="text-sm text-neutral-600 font-light leading-relaxed">
+                Breakthrough physical products are rarely born during 9-to-5 comfort. They take form during odd hours—late-night foam shaping, 3-axis CNC routing, iterative resin printing, and relentless sketching until the silhouette feels undeniable in the hand.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-display font-bold text-base uppercase text-black mb-2 flex items-center gap-2">
+                <span className="text-[#FF3B1D] font-mono text-xs">02 //</span>
+                <span>Human Biomechanics</span>
+              </h4>
+              <p className="text-sm text-neutral-600 font-light leading-relaxed">
+                A product must honor the human body. From the detent torque of a webcam dial to the palm-swell contours of a gaming console and the dual-density rebound of an outsole, every radius is tuned for human touch.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-display font-bold text-base uppercase text-black mb-2 flex items-center gap-2">
+                <span className="text-[#FF3B1D] font-mono text-xs">03 //</span>
+                <span>DFM & Realization</span>
+              </h4>
+              <p className="text-sm text-neutral-600 font-light leading-relaxed">
+                Concepts mean nothing if they cannot survive manufacturing. ODD HOURS champions design for manufacturing—injection draft angles, uniform wall thicknesses, parting lines, and CNC toolpaths engineered from day one.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Education & Competencies */}
@@ -3730,6 +3808,26 @@ function ExperiencePage() {
 
 /* --- APP SHELL TO RENDER UNIFIED PRISTINE APPLE WHITE GALLERY THEME --- */
 function AppShell({ lightboxState, closeLightbox, navigateLightbox }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      document.title = "ODD HOURS — Jinendra Parakh | Industrial Design (oddhours.co.in)";
+    } else if (location.pathname.startsWith('/project/')) {
+      const slug = location.pathname.split('/project/')[1];
+      const proj = JINENDRA_PROJECTS.find(p => p.slug === slug);
+      document.title = proj 
+        ? `${proj.title} // ODD HOURS (oddhours.co.in)` 
+        : "Project // ODD HOURS (oddhours.co.in)";
+    } else if (location.pathname === '/playground') {
+      document.title = "Visual Lab & Prototyping // ODD HOURS (oddhours.co.in)";
+    } else if (location.pathname === '/about') {
+      document.title = "About ODD HOURS & Jinendra Parakh (oddhours.co.in)";
+    } else if (location.pathname === '/experience') {
+      document.title = "Experience & Track Record // ODD HOURS (oddhours.co.in)";
+    }
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen bg-[#ffffff] text-[#1d1d1f] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col transition-colors duration-300">
       <ScrollProgressBar />
@@ -3762,10 +3860,6 @@ export default function App() {
     activeItem: null,
     gallery: []
   });
-
-  useEffect(() => {
-    document.title = "Jinendra Parakh | Product Design Portfolio 2025";
-  }, []);
 
   const openLightbox = (imgData, galleryList = []) => {
     setLightboxState({
