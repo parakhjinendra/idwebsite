@@ -229,6 +229,22 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* 3D Perspective Stage for Kinetic Project Carousel (Gahan Rao / Apple Stage) */
+.perspective-stage {
+  perspective: 1400px;
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 @media (pointer: fine) {
   body, a, button, input {
     cursor: none !important;
