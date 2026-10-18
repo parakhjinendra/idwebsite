@@ -5,8 +5,6 @@ import {
   Route 
 } from 'react-router-dom';
 import { 
-  ArrowUpRight, 
-  ArrowDown, 
   X, 
   Download, 
   ExternalLink,
@@ -18,7 +16,10 @@ import {
   Globe,
   ChevronRight,
   ChevronLeft,
-  Layers
+  ChevronDown,
+  ArrowDown,
+  Layers,
+  Sparkles
 } from 'lucide-react';
 import { 
   motion, 
@@ -46,8 +47,20 @@ export function resolveImg(idOrPath) {
   return raw;
 }
 
+/* --- THE SIGNATURE IDEO GEOMETRIC ARROW SVG --- */
+export function IdeoArrow({ className = "w-4 h-4", color = "currentColor" }) {
+  return (
+    <svg className={className} viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path 
+        d="M7.805 2.5C7.685 2.38 7.725 2.26 7.905 2.26H9.425C9.525 2.26 9.605 2.3 9.665 2.36L14.505 7.2C14.585 7.28 14.585 7.4 14.505 7.48L9.68501 12.32C9.62501 12.38 9.545 12.42 9.445 12.42H7.905C7.725 12.42 7.685 12.3 7.805 12.18L11.825 8.18H0.845299C0.725299 8.18 0.645302 8.1 0.645302 7.98V6.76C0.645302 6.64 0.725299 6.56 0.845299 6.56H11.865L7.805 2.5Z" 
+        fill={color}
+      />
+    </svg>
+  );
+}
+
 /* =========================================================================
-   AUTHENTIC 53-PAGE PORTFOLIO DATA (EXACT SEQUENTIAL ORDER: NO SHUFFLING)
+   AUTHENTIC 53-PAGE PORTFOLIO DATA (STRICT SEQUENTIAL ORDER: NO SHUFFLING)
    01. Fuel (p.04-12) -> 02. Vantage (p.13-30) -> 03. Friday (p.31-42) -> 04. Miscellaneous (p.43-52)
    ========================================================================= */
 export const PORTFOLIO_PROJECTS = [
@@ -56,16 +69,18 @@ export const PORTFOLIO_PROJECTS = [
     num: "01",
     slug: "fuel",
     title: "Fuel",
+    headline: "Engineering tactile thermodynamic mobility for the everyday commuter.",
     subtitle: "Power bank × Retro-engineering",
-    duration: "1 Week",
-    projectType: "Individual Project",
+    duration: "1 Week Sprint",
+    projectType: "Individual Hardware Inquiry",
+    clientOrContext: "Autonomous Concept Study",
     cmf: "Matte Polycarbonate • VDI 3400 • CNC Aluminum Rim",
     year: "2024",
     coverId: "p10_2",
     slidesCount: 9,
     pagesRange: "p.04 — p.12",
     slides: [
-      { page: 4, id: "p4_2", title: "01 Fuel — Cover", section: "Initiation", desc: "Fuel is a wireless power bank inspired from retro engineering style. It effortlessly marries soft, flowing lines with sharp, edged contrasts." },
+      { page: 4, id: "p4_2", title: "01 Fuel — Cover", section: "Initiation", desc: "Fuel is a wireless power bank inspired by retro engineering style. It effortlessly marries soft, flowing lines with sharp, edged contrasts." },
       { page: 5, id: "p5_2", title: "The Problem & Brief", section: "Initiation", desc: "Power banks often lack aesthetic appeal, clashing with the refined designs of modern smartphones. Bland bricks and disconnected monolithic design." },
       { page: 6, id: "p6_2", title: "Teenage Engineering Inspiration", section: "Concept", desc: "Design philosophy of 'Play everywhere' — technology should be fun and easy to use, inspired by TX-6 audio ergonomics." },
       { page: 7, id: "p7_2", title: "Ideation & Form Exploration", section: "Concept", desc: "Early exploratory sketches investigating exposed frames, morphing glass, and form volume." },
@@ -82,9 +97,11 @@ export const PORTFOLIO_PROJECTS = [
     num: "02",
     slug: "vantage",
     title: "Vantage",
+    headline: "Adaptive 360° kinematic webcam architecture for hybrid collaboration.",
     subtitle: "Adaptive 360° Webcam Architecture",
-    duration: "3 Weeks",
-    projectType: "Individual Project",
+    duration: "3 Weeks Sprint",
+    projectType: "Spatial Interaction Design",
+    clientOrContext: "Hybrid Workspace Systems",
     cmf: "Anodized 6061 Aluminum • Sandblasted 120# • Optical Glass",
     year: "2025",
     coverId: "p2_2",
@@ -117,9 +134,11 @@ export const PORTFOLIO_PROJECTS = [
     num: "03",
     slug: "friday",
     title: "Friday",
+    headline: "Deconstructing masculine footwear rituals in collaboration with Louis Vuitton.",
     subtitle: "Friday Heels × Louis Vuitton",
-    duration: "6 Weeks",
-    projectType: "Team Project",
+    duration: "6 Weeks Sprint",
+    projectType: "Wearable Architecture & CMF",
+    clientOrContext: "Louis Vuitton Collaborative Brief",
     cmf: "Milled High-Density PU • High-Gloss Lacquer • Full-Grain Leather",
     year: "2025",
     coverId: "p31_2",
@@ -146,9 +165,11 @@ export const PORTFOLIO_PROJECTS = [
     num: "04",
     slug: "miscellaneous",
     title: "Miscellaneous",
+    headline: "An exploratory archive of physical prototypes, acoustic glass, and creative detours.",
     subtitle: "Sketches, Prototypes & Detours",
-    duration: "Ongoing",
-    projectType: "Exploration Archive",
+    duration: "Continuous Practice",
+    projectType: "Material & Prototyping Archive",
+    clientOrContext: "Makerspace Inquiries",
     cmf: "Borosilicate Glass • Copper Wire • Polyurethane • Vizcom AI",
     year: "2024–2025",
     coverId: "p44_2",
@@ -179,175 +200,88 @@ export function useLightbox() {
   return useContext(LightboxContext);
 }
 
-/* --- APPLE FLUID CUSTOM CURSOR --- */
-function CustomCursor() {
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
-  const [cursorType, setCursorType] = useState('default'); // 'default' | 'view' | 'pointer'
-  const [isVisible, setIsVisible] = useState(false);
-
-  const springX = useSpring(mousePos.x, { stiffness: 450, damping: 32 });
-  const springY = useSpring(mousePos.y, { stiffness: 450, damping: 32 });
+/* --- LIGHTBOX MODAL --- */
+function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    springX.set(mousePos.x);
-    springY.set(mousePos.y);
-  }, [mousePos, springX, springY]);
-
-  useEffect(() => {
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-
-    const handleMouseMove = (e) => {
-      if (!isVisible) setIsVisible(true);
-      setMousePos({ x: e.clientX, y: e.clientY });
-
-      const target = e.target;
-      if (target.closest('[data-cursor="view"]')) {
-        setCursorType('view');
-      } else if (
-        target.closest('button') || 
-        target.closest('a') || 
-        target.closest('.cursor-pointer') ||
-        target.tagName === 'BUTTON' || 
-        target.tagName === 'A'
-      ) {
-        setCursorType('pointer');
-      } else {
-        setCursorType('default');
-      }
-    };
-
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-    };
-  }, [isVisible]);
-
-  if (!isVisible || typeof window === 'undefined') return null;
-
-  return (
-    <motion.div
-      style={{
-        left: springX,
-        top: springY,
-        translateX: '-50%',
-        translateY: '-50%'
-      }}
-      className="fixed pointer-events-none z-50 flex items-center justify-center transition-all duration-200"
-    >
-      {cursorType === 'view' ? (
-        <motion.div 
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.5, opacity: 0 }}
-          className="w-16 h-16 rounded-full bg-white/90 text-black font-mono text-[10px] font-black uppercase tracking-widest flex items-center justify-center shadow-2xl backdrop-blur-xl border border-white/60"
-        >
-          VIEW
-        </motion.div>
-      ) : cursorType === 'pointer' ? (
-        <motion.div 
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1.4 }}
-          className="w-5 h-5 rounded-full bg-[#FF3B1D]/20 border border-[#FF3B1D] backdrop-blur-xs"
-        />
-      ) : (
-        <div className="w-2.5 h-2.5 rounded-full bg-[#1d1d1f]" />
-      )}
-    </motion.div>
-  );
-}
-
-/* --- LIGHTBOX MODAL: STRICT CHRONOLOGICAL SLIDE INSPECTION --- */
-function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
-  const [scale, setScale] = useState(1);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const startPan = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    setScale(1);
-    setPos({ x: 0, y: 0 });
+    setZoomLevel(1);
   }, [activeItem]);
 
   useEffect(() => {
-    if (!activeItem) return;
-    const handleKey = (e) => {
+    const handleKeyDown = (e) => {
+      if (!activeItem) return;
       if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight' && onNavigate && gallery.length > 1) {
-        const curIdx = gallery.findIndex(item => item.id === activeItem.id || item.src === activeItem.src);
-        if (curIdx !== -1) onNavigate(gallery[(curIdx + 1) % gallery.length]);
+      if (e.key === 'ArrowRight' && gallery.length > 1) {
+        const idx = gallery.findIndex(g => g.id === activeItem.id);
+        const next = gallery[(idx + 1) % gallery.length];
+        onNavigate(next);
       }
-      if (e.key === 'ArrowLeft' && onNavigate && gallery.length > 1) {
-        const curIdx = gallery.findIndex(item => item.id === activeItem.id || item.src === activeItem.src);
-        if (curIdx !== -1) onNavigate(gallery[(curIdx - 1 + gallery.length) % gallery.length]);
+      if (e.key === 'ArrowLeft' && gallery.length > 1) {
+        const idx = gallery.findIndex(g => g.id === activeItem.id);
+        const prev = gallery[(idx - 1 + gallery.length) % gallery.length];
+        onNavigate(prev);
       }
     };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeItem, gallery, onClose, onNavigate]);
 
   if (!activeItem) return null;
 
-  const currentIdx = gallery.findIndex(item => item.id === activeItem.id || item.src === activeItem.src);
-  const imgSrc = activeItem.src || resolveImg(activeItem.id);
+  const currentIdx = gallery.findIndex(g => g.id === activeItem.id);
+  const imgUrl = resolveImg(activeItem.id || activeItem.coverId);
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/92 backdrop-blur-3xl flex flex-col justify-between p-4 sm:p-6 select-none"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      className="fixed inset-0 z-50 bg-[#0E151A]/95 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none animate-fadeIn"
+      onClick={onClose}
     >
-      {/* Top Header */}
-      <div className="flex items-center justify-between text-white font-mono text-xs z-10">
+      {/* Top Header Bar */}
+      <div className="flex items-center justify-between text-white z-10 w-full max-w-7xl mx-auto pb-4 border-b border-white/10" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3">
-          <span className="text-[#FF3B1D] font-black">ODD HOURS</span>
-          <span className="text-white/40">•</span>
-          <span className="uppercase text-white/90 font-bold tracking-wider">
-            {activeItem.title || "Portfolio Slide"}
+          <span className="px-2.5 py-1 rounded bg-[#D9FF00] text-black font-mono font-bold text-[10px] tracking-wider">
+            PAGE {String(activeItem.page || 1).padStart(2, '0')}
           </span>
-          {activeItem.page && (
-            <span className="px-2 py-0.5 rounded bg-white/10 text-[#FF3B1D] font-bold text-[10px]">
-              PAGE {String(activeItem.page).padStart(2, '0')}
-            </span>
-          )}
-          {gallery.length > 1 && currentIdx !== -1 && (
-            <span className="text-white/40 font-semibold hidden sm:inline">
-              (Slide {currentIdx + 1} of {gallery.length})
-            </span>
-          )}
+          <span className="text-white/60 font-mono text-xs uppercase tracking-wider hidden sm:inline">
+            {activeItem.section || "PORTFOLIO PLATE"}
+          </span>
+          <span className="text-white font-sans font-bold text-sm tracking-tight">
+            {activeItem.title}
+          </span>
         </div>
 
+        {/* Controls */}
         <div className="flex items-center gap-2">
-          <button 
-            onClick={() => setScale(s => Math.min(s + 0.3, 3))}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            title="Zoom In"
-          >
-            <ZoomIn className="w-4 h-4" />
-          </button>
-          <button 
-            onClick={() => setScale(s => Math.max(s - 0.3, 0.7))}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            title="Zoom Out"
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
-          <button 
-            onClick={() => { setScale(1); setPos({ x: 0, y: 0 }); }}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            title="Reset Zoom"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
+          <div className="hidden sm:flex items-center bg-white/10 rounded-full px-2 py-1 font-mono text-xs">
+            <button 
+              onClick={() => setZoomLevel(prev => Math.min(prev + 0.25, 2.5))}
+              className="p-1 hover:text-[#D9FF00] transition-colors" 
+              title="Zoom In"
+            >
+              <ZoomIn className="w-3.5 h-3.5" />
+            </button>
+            <span className="px-2 text-white/50">{Math.round(zoomLevel * 100)}%</span>
+            <button 
+              onClick={() => setZoomLevel(prev => Math.max(prev - 0.25, 0.75))}
+              className="p-1 hover:text-[#D9FF00] transition-colors" 
+              title="Zoom Out"
+            >
+              <ZoomOut className="w-3.5 h-3.5" />
+            </button>
+            <button 
+              onClick={() => setZoomLevel(1)}
+              className="p-1 hover:text-[#D9FF00] transition-colors ml-1" 
+              title="Reset"
+            >
+              <RotateCcw className="w-3 h-3" />
+            </button>
+          </div>
+
           <button 
             onClick={onClose}
-            className="p-2 rounded-full bg-white/10 hover:bg-[#FF3B1D] text-white transition-colors cursor-pointer"
+            className="p-2 rounded-full bg-white/10 hover:bg-[#D9FF00] hover:text-black text-white transition-all cursor-pointer"
             title="Close (Esc)"
           >
             <X className="w-4 h-4" />
@@ -355,32 +289,20 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
         </div>
       </div>
 
-      {/* Center Stage */}
+      {/* Main Image Viewport */}
       <div 
-        className="relative flex-1 flex items-center justify-center overflow-hidden my-4 cursor-grab active:cursor-grabbing"
-        onMouseDown={(e) => {
-          setIsPanning(true);
-          startPan.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
-        }}
-        onMouseMove={(e) => {
-          if (!isPanning) return;
-          setPos({ x: e.clientX - startPan.current.x, y: e.clientY - startPan.current.y });
-        }}
-        onMouseUp={() => setIsPanning(false)}
-        onMouseLeave={() => setIsPanning(false)}
+        ref={containerRef}
+        className="flex-grow flex items-center justify-center relative overflow-hidden py-4 cursor-default"
+        onClick={(e) => e.stopPropagation()}
       >
         <img 
-          src={imgSrc} 
-          alt={activeItem.title || "Full Resolution Portfolio Slide"}
-          style={{
-            transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
-            transition: isPanning ? 'none' : 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-          }}
-          className="max-h-[80vh] max-w-[92vw] w-auto h-auto object-contain drop-shadow-2xl select-none pointer-events-none"
+          src={imgUrl} 
+          alt={activeItem.title}
+          style={{ transform: `scale(${zoomLevel})` }}
+          className="max-h-[80vh] max-w-full object-contain rounded-lg transition-transform duration-200 select-none shadow-2xl"
           draggable="false"
         />
 
-        {/* Previous & Next Arrow Buttons */}
         {gallery.length > 1 && (
           <>
             <button 
@@ -388,8 +310,8 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
                 e.stopPropagation();
                 onNavigate(gallery[(currentIdx - 1 + gallery.length) % gallery.length]);
               }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
-              title="Previous Slide (←)"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#D9FF00] hover:text-black text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
+              title="Previous Plate (←)"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -398,8 +320,8 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
                 e.stopPropagation();
                 onNavigate(gallery[(currentIdx + 1) % gallery.length]);
               }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#FF3B1D] text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
-              title="Next Slide (→)"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#D9FF00] hover:text-black text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
+              title="Next Plate (→)"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -407,290 +329,300 @@ function ImageLightboxModal({ activeItem, gallery = [], onClose, onNavigate }) {
         )}
       </div>
 
-      {/* Bottom Filmstrip Thumbnails & Slide Description */}
-      <div className="z-10 space-y-3 max-w-4xl mx-auto w-full">
-        {/* Caption */}
-        <div className="text-center font-mono text-xs text-white/80 line-clamp-2 px-4">
-          <p>{activeItem.desc || activeItem.caption || activeItem.cmf}</p>
-        </div>
-
-        {/* Filmstrip Strip in Exact Sequence */}
-        {gallery.length > 1 && (
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar p-2 bg-white/5 rounded-2xl backdrop-blur-md border border-white/10 max-h-20">
-            {gallery.map((slide, sIdx) => {
-              const isSelected = sIdx === currentIdx;
-              return (
-                <button
-                  key={sIdx}
-                  onClick={(e) => { e.stopPropagation(); onNavigate(slide); }}
-                  className={`relative shrink-0 h-14 aspect-[16/9] rounded-lg overflow-hidden border transition-all cursor-pointer ${
-                    isSelected ? 'border-[#FF3B1D] ring-2 ring-[#FF3B1D]/40 scale-105' : 'border-white/20 opacity-50 hover:opacity-100'
-                  }`}
-                  title={`Page ${slide.page}: ${slide.title}`}
-                >
-                  <img 
-                    src={resolveImg(slide.id)} 
-                    alt={slide.title} 
-                    className="w-full h-full object-cover" 
-                  />
-                  <span className="absolute bottom-1 right-1 text-[8px] font-mono px-1 rounded bg-black/80 text-white font-bold">
-                    p.{slide.page}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        )}
+      {/* Caption & Indicator */}
+      <div className="z-10 text-center max-w-3xl mx-auto w-full pt-3 border-t border-white/10" onClick={(e) => e.stopPropagation()}>
+        <p className="font-mono text-xs text-white/80 line-clamp-2">
+          {activeItem.desc || activeItem.caption || activeItem.cmf}
+        </p>
+        <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest mt-1 block">
+          Plate {currentIdx + 1} of {gallery.length} // Use Arrow Keys ← → to Browse
+        </span>
       </div>
     </div>
   );
 }
 
-/* --- 1. FLOATING MINIMAL NAVBAR --- */
-function Navbar() {
+/* --- 1. IDEO-INSPIRED EDITORIAL NAVBAR --- */
+function IdeoNavbar() {
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-40 transition-all duration-300 pointer-events-none p-4 sm:p-6">
-      <div className="max-w-[1440px] w-full mx-auto flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-[#FBFBFA]/90 backdrop-blur-md border-b border-[#151F27]/10 transition-all">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 h-16 sm:h-20 flex items-center justify-between">
         
-        {/* Brand Capsule */}
+        {/* Brand Block */}
         <a 
           href="#hero" 
           onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}
-          className="pointer-events-auto flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/80 backdrop-blur-xl border border-white/60 shadow-lg hover:bg-white transition-all cursor-pointer group"
+          className="flex items-center gap-3 cursor-pointer group"
         >
-          <div className="w-5 h-5 rounded bg-black text-white flex items-center justify-center font-display font-black text-[10px] tracking-tighter">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded bg-[#151F27] text-white flex items-center justify-center font-display font-black text-xs sm:text-sm tracking-tight group-hover:bg-[#D9FF00] group-hover:text-black transition-colors">
             OH
           </div>
-          <span className="font-display font-black text-xs sm:text-sm tracking-tight text-black uppercase leading-none">
-            ODD HOURS
-          </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
+          <div className="flex flex-col">
+            <span className="font-display font-black text-sm sm:text-base tracking-tight text-[#151F27] uppercase leading-none">
+              ODD HOURS
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-widest text-[#151F27]/60">
+              oddhours.co.in
+            </span>
+          </div>
         </a>
 
-        {/* Sequential Project Tabs & Actions */}
-        <div className="pointer-events-auto flex items-center gap-2 font-mono text-xs">
-          <div className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/80 backdrop-blur-xl border border-white/60 shadow-xs mr-2">
-            {PORTFOLIO_PROJECTS.map((p) => (
-              <button
-                key={p.slug}
-                onClick={() => scrollTo(`project-${p.slug}`)}
-                className="px-3 py-1 rounded-full text-neutral-600 hover:text-black font-semibold text-[11px] transition-colors cursor-pointer"
-              >
-                <span className="text-[#FF3B1D] font-bold mr-1">{p.num}</span>
-                <span>{p.title}</span>
-              </button>
-            ))}
-          </div>
+        {/* Editorial Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8 font-sans text-xs font-semibold uppercase tracking-wider text-[#151F27]/80">
+          <button 
+            onClick={() => scrollTo('inquiries')}
+            className="hover:text-black transition-colors cursor-pointer py-1 border-b-2 border-transparent hover:border-[#151F27]"
+          >
+            Inquiries
+          </button>
+          <button 
+            onClick={() => scrollTo('practice')}
+            className="hover:text-black transition-colors cursor-pointer py-1 border-b-2 border-transparent hover:border-[#151F27]"
+          >
+            Capabilities
+          </button>
+          <button 
+            onClick={() => scrollTo('perspectives')}
+            className="hover:text-black transition-colors cursor-pointer py-1 border-b-2 border-transparent hover:border-[#151F27]"
+          >
+            Perspectives
+          </button>
+          <button 
+            onClick={() => scrollTo('contact')}
+            className="hover:text-black transition-colors cursor-pointer py-1 border-b-2 border-transparent hover:border-[#151F27]"
+          >
+            Contact
+          </button>
+        </nav>
 
+        {/* Action Button: The Signature IDEO "Say hello" */}
+        <div className="flex items-center gap-3">
           <a 
             href="/Jinendra_Parakh_Resume.pdf" 
             target="_blank" 
             rel="noreferrer"
-            className="px-4 py-2 rounded-full bg-white/80 backdrop-blur-xl border border-white/60 text-neutral-800 hover:text-black font-semibold shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#151F27]/20 text-[#151F27] hover:border-[#151F27] font-mono text-xs font-semibold transition-all"
             title="Download Technical Resume"
           >
-            <Download className="w-3 h-3 text-neutral-500" />
-            <span className="hidden sm:inline">Resume</span>
+            <Download className="w-3.5 h-3.5" />
+            <span>Resume</span>
           </a>
 
           <a 
             href="mailto:parakhjinendra@gmail.com"
-            className="px-4 py-2 rounded-full bg-[#1d1d1f] hover:bg-black text-white font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#151F27] text-white font-sans text-xs font-bold uppercase tracking-wider hover:bg-[#0E151A] transition-all shadow-xs"
           >
-            <span>Contact</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B1D]" />
+            <span>Say hello</span>
+            <IdeoArrow className="w-3 h-3 text-[#D9FF00] group-hover:translate-x-0.5 transition-transform" />
           </a>
         </div>
 
       </div>
-    </nav>
+    </header>
   );
 }
 
-/* --- 2. THE HERO: THE HOOK & FIDGET (SCROLL-LINKED SPATIAL ZOOM) --- */
-function TheHero() {
-  const containerRef = useRef(null);
+/* --- 2. IDEO HERO SECTION (KINETIC HEADLINE & MULTI-COLUMN STATEMENT) --- */
+function IdeoHero() {
+  const cyclingWords = [
+    "design",
+    "physical engineering",
+    "tactile rigor",
+    "breakthrough products",
+    "behavioral ergonomics",
+    "tangible futures",
+    "rapid prototyping"
+  ];
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+  const [currentWordIdx, setCurrentWordIdx] = useState(0);
 
-  const scale = useTransform(scrollYProgress, [0, 0.75], [1, 0.9]);
-  const borderRadius = useTransform(scrollYProgress, [0, 0.75], [0, 48]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6, 0.95], [1, 0.9, 0.25]);
-  const headlineY = useTransform(scrollYProgress, [0, 0.7], [0, 80]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentWordIdx((prev) => (prev + 1) % cyclingWords.length);
+    }, 2400);
+    return () => clearInterval(timer);
+  }, [cyclingWords.length]);
+
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <section 
-      id="hero" 
-      ref={containerRef} 
-      className="relative min-h-[135vh] bg-[#ffffff] flex flex-col items-center"
-    >
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden p-0 sm:p-4 md:p-6">
-        <motion.div 
-          style={{ scale, borderRadius, opacity }}
-          className="relative w-full h-full overflow-hidden bg-[#0d0d0f] shadow-2xl flex items-center justify-center will-change-transform"
-        >
-          {/* Edge-to-Edge High-Resolution Render */}
+    <section id="hero" className="bg-[#FBFBFA] pt-14 sm:pt-20 pb-16 sm:pb-24 border-b border-[#151F27]/10">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-12 space-y-12 sm:space-y-16">
+        
+        {/* Kinetic Statement Title */}
+        <div className="space-y-4 max-w-6xl">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#151F27]/70 uppercase tracking-widest bg-[#151F27]/5 px-3 py-1 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-[#D9FF00] border border-[#151F27]"></span>
+            <span>PORTFOLIO PRODUCT DESIGN 2025 // JINENDRA PARAKH</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-display tracking-tight text-[#151F27] leading-[0.98]">
+            Human-centered <br />
+            <span className="inline-block relative">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentWordIdx}
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -25 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="inline-block text-[#151F27] underline decoration-[#D9FF00] decoration-4 sm:decoration-8 decoration-wavy"
+                >
+                  {cyclingWords[currentWordIdx]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </h1>
+        </div>
+
+        {/* Multi-Column Statement Grid (IDEO Architecture) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-14 pt-8 border-t border-[#151F27]/15">
+          <div className="lg:col-span-7 space-y-4">
+            <p className="text-xl sm:text-2xl md:text-3xl font-light text-[#151F27] leading-relaxed">
+              Industrial design at the intersection of behavioral psychology and physical engineering. From rapid prototyping and CMF exploration to understanding the systemic structures of how people use everyday objects.
+            </p>
+            <p className="font-mono text-xs text-[#151F27]/60 uppercase tracking-widest pt-2">
+              Based in Bangalore & Pune • Strate School of Design '25 • oddhours.co.in
+            </p>
+          </div>
+
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-3 font-sans text-sm">
+            <div className="space-y-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#151F27]/50 block mb-2">
+                EXPLORE 4 INQUIRIES IN SEQUENCE
+              </span>
+              
+              {PORTFOLIO_PROJECTS.map((p) => (
+                <button
+                  key={p.slug}
+                  onClick={() => scrollTo(`project-${p.slug}`)}
+                  className="w-full group flex items-center justify-between py-2.5 border-b border-[#151F27]/10 hover:border-[#151F27] transition-all text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-[#FF3B1D]">{p.num}</span>
+                    <span className="font-bold text-[#151F27] group-hover:text-black">{p.title}</span>
+                    <span className="text-[#151F27]/40 text-xs hidden sm:inline">— {p.subtitle}</span>
+                  </div>
+                  <IdeoArrow className="w-3.5 h-3.5 text-[#151F27] group-hover:translate-x-1 transition-transform" />
+                </button>
+              ))}
+            </div>
+
+            <div className="pt-4 flex items-center gap-2 text-xs font-mono text-[#151F27]/70">
+              <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] animate-bounce" />
+              <span>Scroll down for continuous vertical case studies</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Plate Frame */}
+        <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151F27] border border-[#151F27]/20 shadow-2xl aspect-[16/9] max-h-[70vh]">
           <img 
             src={resolveImg("p10_2")} 
             alt="Fuel Retro-Engineering Hardware"
-            className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
-            priority="true"
+            className="w-full h-full object-cover object-center select-none"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#151F27]/90 via-transparent to-transparent pointer-events-none" />
+          
+          <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 right-6 sm:right-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-white">
+            <div className="space-y-1">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#D9FF00] font-bold">
+                FLAGSHIP HARDWARE STUDY // 2024
+              </span>
+              <h3 className="text-2xl sm:text-4xl font-black font-display uppercase tracking-tight">
+                Fuel : Thermodynamic Induction Power Bank
+              </h3>
+            </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/60 pointer-events-none" />
-
-          {/* Ultra-Minimal High-Contrast Headline */}
-          <motion.div 
-            style={{ y: headlineY }}
-            className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 text-center flex flex-col items-center space-y-4"
-          >
-            <motion.span 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-mono text-xs uppercase tracking-[0.3em] text-[#FF3B1D] font-bold"
+            <button
+              onClick={() => scrollTo('project-fuel')}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#D9FF00] text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-white transition-all shadow-md self-start sm:self-auto cursor-pointer"
             >
-              PORTFOLIO PRODUCT DESIGN 2025 // JINENDRA PARAKH
-            </motion.span>
-
-            <motion.h1 
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.25 }}
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-[104px] font-black font-display tracking-[-0.04em] leading-[0.92] uppercase text-white drop-shadow-xl"
-            >
-              Form & <br />
-              <span className="text-white/60 font-light normal-case">Physical Rigor.</span>
-            </motion.h1>
-
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="pt-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-white/60"
-            >
-              <span>Scroll to Explore 4 Inquiries</span>
-              <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] animate-bounce" />
-            </motion.div>
-          </motion.div>
-
-          <div className="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-10 font-mono text-[10px] text-white/50 uppercase tracking-widest hidden sm:block">
-            01. FUEL • 02. VANTAGE • 03. FRIDAY • 04. MISCELLANEOUS
+              <span>Explore Fuel</span>
+              <IdeoArrow className="w-3.5 h-3.5 text-black" />
+            </button>
           </div>
-        </motion.div>
+        </div>
+
       </div>
     </section>
   );
 }
 
-/* --- 3. THE "BENTO BOX" GRID (EXACT PDF SEQUENCE: 01 FUEL, 02 VANTAGE, 03 FRIDAY, 04 MISC) --- */
-function BentoGrid() {
-  const { openLightbox } = useLightbox();
-
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  // Cards strictly arranged in the PDF sequence: 01 Fuel -> 02 Vantage -> 03 Friday -> 04 Misc
-  const bentoProjects = [
+/* --- 3. IDEO CAPABILITIES / THE PRACTICE SECTION --- */
+function IdeoPractice() {
+  const capabilities = [
     {
-      ...PORTFOLIO_PROJECTS[0], // 01 Fuel
-      span: "col-span-12 lg:col-span-7",
-      aspect: "aspect-[16/10] sm:aspect-[16/9]"
+      num: "01",
+      title: "Behavioral Psychology & Field Ergonomics",
+      desc: "Observing real-world routines, physical grip architectures, and tactile muscle memory to uncover latent friction before drawing a single line."
     },
     {
-      ...PORTFOLIO_PROJECTS[1], // 02 Vantage
-      span: "col-span-12 lg:col-span-5",
-      aspect: "aspect-[4/3] lg:aspect-auto lg:h-full"
+      num: "02",
+      title: "Kinematic Architecture & Surfacing",
+      desc: "3D CAD modeling across SolidWorks and Rhino, designing multi-axis pan/tilt linkages, detent torque hinges, and internal PCB component nesting."
     },
     {
-      ...PORTFOLIO_PROJECTS[2], // 03 Friday
-      span: "col-span-12 sm:col-span-6 lg:col-span-6",
-      aspect: "aspect-[4/3] sm:aspect-[16/10]"
+      num: "03",
+      title: "Physical Prototyping & CNC Making",
+      desc: "Validating concepts through 1:1 CNC foam routing, styling clay sculpting, SLA resin test rigs, and wearable tolerance fittings at makerspace scale."
     },
     {
-      ...PORTFOLIO_PROJECTS[3], // 04 Miscellaneous
-      span: "col-span-12 sm:col-span-6 lg:col-span-6",
-      aspect: "aspect-[4/3] sm:aspect-[16/10]"
+      num: "04",
+      title: "CMF Engineering & Production Rigor",
+      desc: "Designing with tooling feasibility in mind: VDI 3400 spark erosion textures, anodized aluminum alloys, draft angles, and injection parting lines."
     }
   ];
 
   return (
-    <section id="bento" className="py-24 sm:py-32 bg-[#ffffff] text-[#1d1d1f]">
-      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10">
+    <section id="practice" className="py-20 sm:py-28 bg-[#151F27] text-white">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-12 space-y-16">
         
         {/* Section Header */}
-        <div className="flex items-center justify-between pb-8 mb-10 border-b border-black/[0.06] font-mono text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-[#FF3B1D] font-bold">CONTENTS //</span>
-            <span className="text-black font-bold uppercase tracking-widest">SELECTED WORKS IN SEQUENCE</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/10">
+          <div className="space-y-2 max-w-2xl">
+            <span className="font-mono text-xs font-bold text-[#D9FF00] uppercase tracking-widest block">
+              CAPABILITIES // THE ODD HOURS PRACTICE
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white leading-tight">
+              Making is how we think. <br />
+              <span className="text-white/60 font-light normal-case">Prototyping is how we learn.</span>
+            </h2>
           </div>
-          <span className="text-neutral-400 uppercase tracking-widest hidden sm:inline">
-            EXACT PDF ORDER (01 ➔ 04) • VERTICAL CASE STUDY FEED
-          </span>
+
+          <p className="font-sans text-sm text-white/70 max-w-md font-light">
+            Every inquiry bridges rigorous human observation with physical manufacturing constraints. We don't just render objects; we build the conditions for them to exist.
+          </p>
         </div>
 
-        {/* Asymmetrical Apple Bento Grid in PDF Sequence */}
-        <div className="grid grid-cols-12 gap-6 sm:gap-8">
-          {bentoProjects.map((item, idx) => (
-            <motion.div
-              key={item.slug}
-              id={`bento-${item.slug}`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08 }}
-              data-cursor="view"
-              onClick={() => scrollTo(`project-${item.slug}`)}
-              className={`${item.span} relative rounded-3xl overflow-hidden bg-white/70 backdrop-blur-md border border-black/[0.08] shadow-sm hover:shadow-2xl transition-all duration-500 ease-out group cursor-pointer hover:scale-[1.015] active:scale-[0.99]`}
+        {/* 4-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {capabilities.map((cap) => (
+            <div 
+              key={cap.num}
+              className="p-8 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col justify-between space-y-8 hover:bg-white/[0.07] hover:border-[#D9FF00]/40 transition-all group"
             >
-              <div className={`w-full ${item.aspect} overflow-hidden bg-neutral-100 relative`}>
-                <img 
-                  src={resolveImg(item.coverId)} 
-                  alt={item.title}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out select-none"
-                  loading="lazy"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
-
-                {/* Top Corner Index Badge */}
-                <div className="absolute top-5 left-5 z-10 flex items-center gap-2 font-mono text-xs">
-                  <span className="px-3 py-1 rounded-full bg-black/80 text-white font-black tracking-wider">
-                    {item.num} // {item.title.toUpperCase()}
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-white/90 text-neutral-800 font-bold text-[10px] hidden sm:inline">
-                    {item.pagesRange} ({item.slidesCount} PLATES)
-                  </span>
-                </div>
-
-                {/* Ultra-Minimal Micro-Copy (Name, CMF, Year) in Bottom Corner */}
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white pointer-events-none z-10">
-                  <div className="space-y-1 max-w-xl">
-                    <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-white leading-tight drop-shadow-md">
-                      {item.title}
-                    </h3>
-                    <p className="font-mono text-xs text-white/85 font-light tracking-wide drop-shadow-sm line-clamp-1">
-                      {item.cmf}
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 pl-4 shrink-0 font-mono text-xs text-white/80">
-                    <span className="font-bold tracking-widest">{item.year}</span>
-                    <ArrowDown className="w-4 h-4 text-[#FF3B1D] group-hover:translate-y-1 transition-transform" />
-                  </div>
-                </div>
+              <div className="space-y-4">
+                <span className="font-mono text-xs font-bold text-[#D9FF00] tracking-widest block">
+                  [{cap.num}]
+                </span>
+                <h4 className="text-lg font-display font-bold uppercase tracking-tight text-white group-hover:text-[#D9FF00] transition-colors">
+                  {cap.title}
+                </h4>
               </div>
-            </motion.div>
+
+              <p className="font-sans text-xs text-white/70 leading-relaxed font-light">
+                {cap.desc}
+              </p>
+            </div>
           ))}
         </div>
 
@@ -699,8 +631,8 @@ function BentoGrid() {
   );
 }
 
-/* --- 4. SEQUENTIAL PROJECT CHAPTERS (VERTICAL SCROLL THROUGH ALL SLIDES) --- */
-function SequentialProjectExhibition() {
+/* --- 4. IDEO-STYLE SEQUENTIAL CASE STUDIES (PURE VERTICAL SCROLL THROUGH ALL 53 PLATES) --- */
+function IdeoProjectsExhibition() {
   const { openLightbox } = useLightbox();
 
   const scrollTo = (id) => {
@@ -709,9 +641,26 @@ function SequentialProjectExhibition() {
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-[#fafafa] border-t border-black/[0.06] text-[#1d1d1f]">
-      <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-12 space-y-28 sm:space-y-36">
+    <section id="inquiries" className="py-20 sm:py-28 bg-[#FBFBFA] text-[#151F27]">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-12 space-y-32">
         
+        {/* Exhibition Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-[#151F27]/15">
+          <div className="space-y-1">
+            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+              WORK & CASE STUDIES //
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-[#151F27]">
+              Selected Inquiries in Sequence
+            </h2>
+          </div>
+
+          <p className="font-mono text-xs text-[#151F27]/60 uppercase tracking-widest">
+            EXACT 1-TO-1 PORTFOLIO SEQUENCE (01 ➔ 04) • VERTICAL STREAM
+          </p>
+        </div>
+
+        {/* 4 Projects in Exact Sequence */}
         {PORTFOLIO_PROJECTS.map((proj, pIdx) => {
           const nextProj = PORTFOLIO_PROJECTS[pIdx + 1];
 
@@ -719,68 +668,79 @@ function SequentialProjectExhibition() {
             <div 
               key={proj.slug} 
               id={`project-${proj.slug}`} 
-              className="scroll-mt-24 space-y-10 sm:space-y-14"
+              className="scroll-mt-24 space-y-14"
             >
               
-              {/* Sticky Chapter Sub-Navigation Header */}
-              <div className="sticky top-[64px] sm:top-[76px] z-30 py-3 sm:py-4 px-5 sm:px-8 rounded-2xl sm:rounded-full bg-white/85 backdrop-blur-xl border border-black/[0.08] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#FF3B1D] text-white font-mono font-bold text-[11px] tracking-wider">
-                    {proj.num}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-black font-display uppercase tracking-tight text-black">
+              {/* Case Study Header Banner */}
+              <div className="p-8 sm:p-12 rounded-3xl bg-[#151F27] text-white flex flex-col lg:flex-row lg:items-end justify-between gap-8 shadow-xl">
+                <div className="space-y-4 max-w-3xl">
+                  <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+                    <span className="px-3 py-1 rounded bg-[#D9FF00] text-black font-bold tracking-wider">
+                      INQUIRY {proj.num}
+                    </span>
+                    <span className="text-white/60 uppercase tracking-widest font-semibold">
+                      {proj.duration} • {proj.projectType}
+                    </span>
+                    <span className="text-white/40 hidden sm:inline">•</span>
+                    <span className="text-[#D9FF00] font-mono text-xs">
+                      {proj.pagesRange} ({proj.slidesCount} Plates)
+                    </span>
+                  </div>
+
+                  <h3 className="text-3xl sm:text-5xl md:text-6xl font-black font-display uppercase tracking-tight text-white leading-none">
                     {proj.title}
                   </h3>
-                  <span className="hidden sm:inline text-neutral-300 font-light">•</span>
-                  <p className="font-mono text-xs text-neutral-500 uppercase tracking-wider hidden sm:inline">
-                    {proj.subtitle}
+
+                  <p className="text-lg sm:text-xl font-light text-white/85 leading-snug">
+                    {proj.headline}
                   </p>
-                  <span className="px-2 py-0.5 rounded bg-black/5 text-neutral-600 font-mono text-[10px] font-bold">
-                    {proj.pagesRange} ({proj.slidesCount} Plates)
-                  </span>
+
+                  <div className="pt-2 font-mono text-xs text-white/50">
+                    <span className="uppercase text-white/70 font-bold mr-2">CMF SPEC:</span>
+                    <span>{proj.cmf}</span>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-2 sm:gap-3 self-end md:self-auto font-mono text-xs">
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
+                  <button
+                    onClick={() => openLightbox(proj.slides[0], proj.slides)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-[#D9FF00] text-black font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-sm"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5" />
+                    <span>Fullscreen Deck</span>
+                  </button>
+
                   {nextProj ? (
                     <button
                       onClick={() => scrollTo(`project-${nextProj.slug}`)}
-                      className="px-3.5 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-semibold transition-all cursor-pointer"
                     >
                       <span>Next: {nextProj.num} {nextProj.title}</span>
-                      <ArrowDown className="w-3 h-3 text-[#FF3B1D]" />
+                      <ArrowDown className="w-3 h-3 text-[#D9FF00]" />
                     </button>
                   ) : (
                     <button
                       onClick={() => scrollTo('contact')}
-                      className="px-3.5 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-semibold transition-all cursor-pointer"
                     >
-                      <span>Contact</span>
-                      <ArrowDown className="w-3 h-3 text-[#FF3B1D]" />
+                      <span>Connect</span>
+                      <ArrowDown className="w-3 h-3 text-[#D9FF00]" />
                     </button>
                   )}
-
-                  <button
-                    onClick={() => openLightbox(proj.slides[0], proj.slides)}
-                    className="apple-fluid-glass-primary inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-white font-bold uppercase tracking-wider shadow-xs cursor-pointer"
-                    title="Open Fullscreen Lightbox Inspector"
-                  >
-                    <ZoomIn className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Fullscreen</span>
-                  </button>
                 </div>
               </div>
 
-              {/* Vertical Slide Stream in EXACT 1-to-1 Sequence */}
-              <div className="flex flex-col space-y-10 sm:space-y-16 max-w-5xl mx-auto w-full">
+              {/* Pure Vertical Slide Stream in 1-to-1 Sequence */}
+              <div className="flex flex-col space-y-12 sm:space-y-16 max-w-5xl mx-auto w-full">
                 {proj.slides.map((slide, sIdx) => (
                   <div
-                    key={`${proj.slug}-slide-${slide.page}-${sIdx}`}
-                    className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-white border border-black/[0.08] shadow-xs hover:shadow-xl transition-all duration-300"
+                    key={`${proj.slug}-plate-${slide.page}-${sIdx}`}
+                    className="group relative rounded-3xl overflow-hidden bg-white border border-[#151F27]/10 shadow-sm hover:shadow-xl transition-all duration-300"
                   >
                     {/* Top Plate Metadata Bar */}
-                    <div className="px-5 py-3 sm:px-7 sm:py-4 bg-[#fbfbfd] border-b border-black/[0.05] flex items-center justify-between font-mono text-xs">
-                      <div className="flex items-center gap-2.5 sm:gap-3">
-                        <span className="px-2.5 py-0.5 rounded-full bg-black text-white font-bold text-[10px] tracking-wider">
+                    <div className="px-6 py-4 bg-[#F7F7F6] border-b border-[#151F27]/10 flex items-center justify-between font-mono text-xs">
+                      <div className="flex items-center gap-3">
+                        <span className="px-2.5 py-1 rounded bg-[#151F27] text-white font-bold text-[10px] tracking-wider">
                           PAGE {String(slide.page).padStart(2, '0')}
                         </span>
                         <span className="text-[#FF3B1D] font-bold uppercase tracking-wider text-[11px]">
@@ -789,48 +749,48 @@ function SequentialProjectExhibition() {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        <span className="text-neutral-500 font-sans font-bold text-xs uppercase tracking-tight hidden md:inline">
+                        <span className="text-[#151F27] font-sans font-bold text-xs uppercase tracking-tight hidden md:inline">
                           {slide.title}
                         </span>
                         <button
                           onClick={() => openLightbox(slide, proj.slides)}
-                          className="p-1 rounded-full text-neutral-400 hover:text-black hover:bg-black/5 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-full text-[#151F27]/60 hover:text-black hover:bg-black/5 transition-colors cursor-pointer"
                           title="View High-Res Fullscreen"
                         >
-                          <ZoomIn className="w-3.5 h-3.5" />
+                          <ZoomIn className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
 
-                    {/* High-Resolution Presentation Plate */}
+                    {/* Presentation Plate / Viewport */}
                     <div 
                       onClick={() => openLightbox(slide, proj.slides)}
-                      className="relative w-full bg-[#f4f4f6] flex items-center justify-center p-3 sm:p-6 md:p-8 cursor-pointer overflow-hidden group/plate"
+                      className="relative w-full bg-[#EFEFED] flex items-center justify-center p-4 sm:p-8 md:p-10 cursor-pointer overflow-hidden group/plate"
                       title="Click to inspect plate in full resolution"
                     >
                       <img
                         src={resolveImg(slide.id)}
                         alt={`${proj.title} - ${slide.title} (Page ${slide.page})`}
-                        className="w-full max-h-[85vh] object-contain rounded-xl sm:rounded-2xl transition-transform duration-500 group-hover/plate:scale-[1.01] shadow-2xs"
+                        className="w-full max-h-[85vh] object-contain rounded-xl transition-transform duration-500 group-hover/plate:scale-[1.01] shadow-xs"
                         loading="lazy"
                       />
 
-                      {/* Hover Glass Badge */}
-                      <div className="absolute inset-0 bg-black/10 opacity-0 group-hover/plate:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                        <div className="px-4 py-2 rounded-full bg-black/80 backdrop-blur-md text-white font-mono text-xs font-bold flex items-center gap-2 shadow-2xl">
-                          <ZoomIn className="w-3.5 h-3.5 text-[#FF3B1D]" />
-                          <span>Inspect Page {slide.page}</span>
+                      {/* Hover Pill */}
+                      <div className="absolute inset-0 bg-[#151F27]/15 opacity-0 group-hover/plate:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                        <div className="px-5 py-2.5 rounded-full bg-[#151F27] text-white font-mono text-xs font-bold flex items-center gap-2 shadow-2xl">
+                          <ZoomIn className="w-3.5 h-3.5 text-[#D9FF00]" />
+                          <span>Inspect Plate {slide.page}</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Bottom Technical Rationale & CMF Micro-Copy */}
-                    <div className="px-5 py-4 sm:px-7 sm:py-4.5 bg-white border-t border-black/[0.04] flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs">
-                      <p className="text-neutral-600 leading-relaxed max-w-3xl">
+                    {/* Bottom Technical Description */}
+                    <div className="px-6 py-5 bg-white border-t border-[#151F27]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
+                      <p className="text-[#151F27]/80 leading-relaxed max-w-3xl">
                         {slide.desc}
                       </p>
                       {slide.cmf && (
-                        <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
+                        <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#151F27]/40 font-medium">
                           {slide.cmf}
                         </span>
                       )}
@@ -840,22 +800,22 @@ function SequentialProjectExhibition() {
               </div>
 
               {/* End of Project Jump Divider */}
-              <div className="pt-8 pb-4 flex justify-center">
+              <div className="pt-6 pb-2 flex justify-center">
                 {nextProj ? (
                   <button
                     onClick={() => scrollTo(`project-${nextProj.slug}`)}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-mono text-xs font-bold uppercase tracking-wider shadow-xs hover:shadow-md transition-all cursor-pointer group"
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#151F27] hover:bg-black text-white font-mono text-xs font-bold uppercase tracking-wider shadow-sm transition-all cursor-pointer"
                   >
-                    <span>Scroll to Project {nextProj.num} // {nextProj.title}</span>
-                    <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:translate-y-0.5 transition-transform" />
+                    <span>Scroll to Inquiry {nextProj.num} // {nextProj.title}</span>
+                    <ArrowDown className="w-3.5 h-3.5 text-[#D9FF00] group-hover:translate-y-0.5 transition-transform" />
                   </button>
                 ) : (
                   <button
                     onClick={() => scrollTo('contact')}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-mono text-xs font-bold uppercase tracking-wider shadow-xs hover:shadow-md transition-all cursor-pointer group"
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#151F27] hover:bg-black text-white font-mono text-xs font-bold uppercase tracking-wider shadow-sm transition-all cursor-pointer"
                   >
                     <span>Proceed to Page 53 // Contact</span>
-                    <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:translate-y-0.5 transition-transform" />
+                    <ArrowDown className="w-3.5 h-3.5 text-[#D9FF00] group-hover:translate-y-0.5 transition-transform" />
                   </button>
                 )}
               </div>
@@ -869,72 +829,187 @@ function SequentialProjectExhibition() {
   );
 }
 
-/* --- 5. ULTRA-MINIMAL CONTACT SIGN-OFF --- */
-function ContactSection() {
+/* --- 5. IDEO PERSPECTIVES (EDITORIAL ACCORDION SYSTEM) --- */
+function IdeoPerspectives() {
+  const [openIdx, setOpenIdx] = useState(0);
+
+  const faqs = [
+    {
+      q: "What makes the Odd Hours design practice distinct?",
+      a: "Odd Hours does not separate aesthetic styling from mechanical engineering. Rather than treating design as cosmetic exterior casing, every inquiry starts from the inside out: internal kinematics, thermal dissipation pathways, ergonomic pressure points, and physical manufacturing rigor."
+    },
+    {
+      q: "How do behavioral psychology and physical engineering intersect in everyday products?",
+      a: "Humans interact with hardware through habitual rituals, acoustic feedback, and tactile detents. By understanding behavioral psychology, we design products that invite physical engagement (such as the 6-step wearing ceremony in Friday, or the audible click switch in Fuel) while meeting strict DFM (Design for Manufacturing) tolerances."
+    },
+    {
+      q: "Why is 1:1 physical prototyping in makerspaces essential to your process?",
+      a: "A 3D CAD render can easily mislead the designer regarding weight distribution and hand feel. By taking models to the CNC router and sculpting styling clay at 1:1 scale (e.g. Friday's UK 11 wearable prototype), we confront physical gravity and human ergonomics before committing to tooling."
+    },
+    {
+      q: "How is CMF (Color, Material, Finish) determined?",
+      a: "CMF is not an afterthought; it is structural. We pair tactile bead-blasted 6061 anodized aluminum with warm soft-touch VDI 3400 spark-eroded polymers to communicate interface hierarchy, temperature, and longevity."
+    }
+  ];
+
   return (
-    <footer id="contact" className="py-20 sm:py-28 bg-[#ffffff] border-t border-black/[0.06] text-[#1d1d1f]">
-      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10">
+    <section id="perspectives" className="py-20 sm:py-28 bg-[#EFEFED] border-y border-[#151F27]/10 text-[#151F27]">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-12 space-y-12">
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 pb-16 border-b border-black/[0.08]">
-          <div className="space-y-3">
-            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
-              PAGE 53 // LET'S CONNECT
+        {/* Header */}
+        <div className="space-y-2 max-w-2xl">
+          <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+            PERSPECTIVES // THE ODD HOURS MINDSET
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-[#151F27]">
+            How we approach design.
+          </h2>
+        </div>
+
+        {/* Accordion List */}
+        <div className="divide-y divide-[#151F27]/15 border-y border-[#151F27]/15">
+          {faqs.map((faq, idx) => {
+            const isOpen = openIdx === idx;
+            return (
+              <div key={idx} className="py-6 sm:py-8">
+                <button
+                  onClick={() => setOpenIdx(isOpen ? -1 : idx)}
+                  className="w-full flex items-center justify-between text-left gap-6 group cursor-pointer"
+                >
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-[#151F27] group-hover:text-[#FF3B1D] transition-colors">
+                    {faq.q}
+                  </h3>
+                  <div className={`w-8 h-8 rounded-full border border-[#151F27]/20 flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#151F27] text-white' : 'bg-transparent text-[#151F27]'}`}>
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </button>
+
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="pt-4 font-sans text-base sm:text-lg text-[#151F27]/80 max-w-4xl leading-relaxed font-light">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+/* --- 6. IDEO-INSPIRED FOOTER (PAGE 53 / CONTACT SIGN-OFF) --- */
+function IdeoContact() {
+  return (
+    <footer id="contact" className="py-20 sm:py-32 bg-[#151F27] text-white">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-12 space-y-16">
+        
+        {/* Top Big Callout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+          <div className="lg:col-span-8 space-y-4">
+            <span className="font-mono text-xs font-bold text-[#D9FF00] uppercase tracking-widest block">
+              PAGE 53 // SAY HELLO
             </span>
-            <h2 className="text-4xl sm:text-6xl font-black font-display uppercase tracking-tight text-black leading-none">
-              oddhours.co.in
+            <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-display uppercase tracking-tight text-white leading-tight">
+              Want to design <br />
+              <span className="text-[#D9FF00]">what's next?</span>
             </h2>
-            <p className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
-              Jinendra Parakh • Industrial Design • Strate School of Design '25
+            <p className="text-lg sm:text-xl font-light text-white/70 max-w-xl">
+              Currently open for full-time industrial design roles, hardware engineering collaborations, and consulting inquiries worldwide.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+          <div className="lg:col-span-4 flex flex-col justify-end space-y-4">
             <a 
               href="mailto:parakhjinendra@gmail.com"
-              className="px-5 py-3 rounded-full bg-[#1d1d1f] hover:bg-black text-white font-bold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-[#D9FF00] hover:text-black transition-all border border-white/10"
             >
-              <Mail className="w-3.5 h-3.5 text-[#FF3B1D]" />
-              <span>parakhjinendra@gmail.com</span>
+              <div>
+                <span className="font-mono text-[10px] uppercase text-white/50 group-hover:text-black/60 block">DIRECT INQUIRY</span>
+                <span className="font-mono text-sm font-bold text-white group-hover:text-black">parakhjinendra@gmail.com</span>
+              </div>
+              <IdeoArrow className="w-4 h-4 text-[#D9FF00] group-hover:text-black group-hover:translate-x-1 transition-all" />
             </a>
 
             <a 
               href="tel:+919850889899"
-              className="px-5 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-semibold transition-all shadow-xs flex items-center gap-2 cursor-pointer"
+              className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/10"
             >
-              <Phone className="w-3.5 h-3.5 text-neutral-500" />
-              <span>+91 9850889899</span>
-            </a>
-
-            <a 
-              href="https://www.linkedin.com/in/jinendra-parakh-7b643a228"
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-semibold transition-all shadow-xs flex items-center gap-2 cursor-pointer"
-            >
-              <Globe className="w-3.5 h-3.5 text-neutral-500" />
-              <span>LinkedIn</span>
-            </a>
-
-            <a 
-              href="/Jinendra_Parakh_Portfolio.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-semibold transition-all shadow-xs flex items-center gap-2 cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5 text-neutral-500" />
-              <span>53p PDF Deck</span>
+              <div>
+                <span className="font-mono text-[10px] uppercase text-white/50 block">PHONE / WHATSAPP</span>
+                <span className="font-mono text-sm font-bold text-white">+91 9850889899</span>
+              </div>
+              <Phone className="w-4 h-4 text-white/40 group-hover:text-white" />
             </a>
           </div>
         </div>
 
-        {/* Legal Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-neutral-400 text-[11px] font-mono">
+        {/* Resources & PDF Downloads */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
+          <a 
+            href="/Jinendra_Parakh_Portfolio.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#D9FF00] transition-all flex items-center justify-between group"
+          >
+            <div>
+              <span className="text-[#D9FF00] font-bold block">53P PORTFOLIO DECK</span>
+              <span className="text-white/50 text-[10px]">High-Res PDF Download</span>
+            </div>
+            <Download className="w-4 h-4 text-white/50 group-hover:text-[#D9FF00]" />
+          </a>
+
+          <a 
+            href="/Jinendra_Parakh_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#D9FF00] transition-all flex items-center justify-between group"
+          >
+            <div>
+              <span className="text-[#D9FF00] font-bold block">TECHNICAL RESUME</span>
+              <span className="text-white/50 text-[10px]">Curriculum Vitae</span>
+            </div>
+            <Download className="w-4 h-4 text-white/50 group-hover:text-[#D9FF00]" />
+          </a>
+
+          <a 
+            href="https://www.linkedin.com/in/jinendra-parakh-7b643a228"
+            target="_blank"
+            rel="noreferrer"
+            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#D9FF00] transition-all flex items-center justify-between group"
+          >
+            <div>
+              <span className="text-white font-bold block">LINKEDIN</span>
+              <span className="text-white/50 text-[10px]">Professional Network</span>
+            </div>
+            <ExternalLink className="w-4 h-4 text-white/50 group-hover:text-white" />
+          </a>
+
+          <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col justify-between">
+            <span className="text-white font-bold block">LOCATION & TIMEZONE</span>
+            <span className="text-white/50 text-[10px]">Bangalore / Pune, India (IST +5:30)</span>
+          </div>
+        </div>
+
+        {/* Colophon Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-[11px] text-white/40">
           <div>
             © {new Date().getFullYear()} JINENDRA PARAKH // ODD HOURS STUDIO. ALL RIGHTS RESERVED.
           </div>
-          <div className="flex items-center gap-4 uppercase tracking-wider text-[10px]">
-            <span>BANGALORE / PUNE / MAHARASHTRA</span>
-            <span className="text-[#FF3B1D] font-bold">ODDHOURS.CO.IN</span>
+          <div className="flex items-center gap-3 uppercase tracking-wider">
+            <span>PIONEERING HUMAN-CENTERED PHYSICAL ENGINEERING</span>
+            <span className="text-[#D9FF00] font-bold">ODDHOURS.CO.IN</span>
           </div>
         </div>
 
@@ -943,7 +1018,7 @@ function ContactSection() {
   );
 }
 
-/* --- 6. MAIN ROOT APP --- */
+/* --- 7. MAIN ROOT APP --- */
 export default function App() {
   const [lightboxState, setLightboxState] = useState({
     activeItem: null,
@@ -951,7 +1026,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    document.title = "Jinendra Parakh | Product Design Portfolio 2025 (oddhours.co.in)";
+    document.title = "ODD HOURS — Jinendra Parakh | Human-Centered Industrial Design (oddhours.co.in)";
   }, []);
 
   const openLightbox = (imgData, galleryList = []) => {
@@ -972,31 +1047,35 @@ export default function App() {
   return (
     <LightboxContext.Provider value={{ openLightbox, closeLightbox }}>
       <Router>
-        <div className="min-h-screen bg-[#ffffff] text-[#1d1d1f] font-sans selection:bg-[#FF3B1D] selection:text-white flex flex-col overflow-x-hidden">
-          <CustomCursor />
-          <Navbar />
+        <div className="min-h-screen bg-[#FBFBFA] text-[#151F27] font-sans selection:bg-[#D9FF00] selection:text-black flex flex-col overflow-x-hidden">
+          
+          {/* IDEO Signature Top Header */}
+          <IdeoNavbar />
           
           <main className="flex-grow">
             <Routes>
               <Route path="*" element={
                 <>
-                  {/* Hero: Visual Edge-to-Edge with Scroll-Linked Fidget Scale */}
-                  <TheHero />
+                  {/* Hero: Kinetic Word Cycling Headline & Multi-Column Statement */}
+                  <IdeoHero />
 
-                  {/* The Bento Box in Exact PDF Sequence: 01 Fuel -> 02 Vantage -> 03 Friday -> 04 Misc */}
-                  <BentoGrid />
+                  {/* Capabilities: The 4-Pillar Practice (IDEO Design Services Style) */}
+                  <IdeoPractice />
 
-                  {/* Sequential Project Exhibition: All 53 Slides in Exact Chronological Sequence */}
-                  <SequentialProjectExhibition />
+                  {/* Selected Inquiries: 01 Fuel -> 02 Vantage -> 03 Friday -> 04 Misc (100% Vertical Slide Stream) */}
+                  <IdeoProjectsExhibition />
 
-                  {/* Ultra-Minimal Contact (Page 53) */}
-                  <ContactSection />
+                  {/* Perspectives: Interactive Editorial Accordion */}
+                  <IdeoPerspectives />
+
+                  {/* Sign-Off / Contact: Page 53 */}
+                  <IdeoContact />
                 </>
               } />
             </Routes>
           </main>
 
-          {/* Full Resolution Slide Inspector */}
+          {/* Retina Plate Inspector Modal */}
           <ImageLightboxModal 
             activeItem={lightboxState.activeItem}
             gallery={lightboxState.gallery}

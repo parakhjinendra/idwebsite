@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,28 +6,29 @@
 
 @layer base {
   html {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+    font-family: 'Manrope', 'Plus Jakarta Sans', -apple-system, sans-serif;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-color: #ffffff;
-    color: #1d1d1f;
+    background-color: #FBFBFA;
+    color: #151F27;
   }
 
   body {
     overflow-x: hidden;
-    background-color: #ffffff;
-    color: #1d1d1f;
+    background-color: #FBFBFA;
+    color: #151F27;
+    font-family: 'Manrope', 'Plus Jakarta Sans', -apple-system, sans-serif;
   }
 
-  h1, h2, h3, .font-display {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
-    letter-spacing: -0.03em;
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.035em;
   }
 
   code, pre, .font-mono {
-    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
