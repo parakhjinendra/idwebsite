@@ -595,6 +595,11 @@ function TheHero() {
 function BentoGrid() {
   const { openLightbox } = useLightbox();
 
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   // Cards strictly arranged in the PDF sequence: 01 Fuel -> 02 Vantage -> 03 Friday -> 04 Misc
   const bentoProjects = [
     {
@@ -630,7 +635,7 @@ function BentoGrid() {
             <span className="text-black font-bold uppercase tracking-widest">SELECTED WORKS IN SEQUENCE</span>
           </div>
           <span className="text-neutral-400 uppercase tracking-widest hidden sm:inline">
-            EXACT PDF ORDER (01 ➔ 04) • CLICK TO INSPECT SLIDES
+            EXACT PDF ORDER (01 ➔ 04) • VERTICAL CASE STUDY FEED
           </span>
         </div>
 
@@ -639,13 +644,13 @@ function BentoGrid() {
           {bentoProjects.map((item, idx) => (
             <motion.div
               key={item.slug}
-              id={`project-${item.slug}`}
+              id={`bento-${item.slug}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
               data-cursor="view"
-              onClick={() => openLightbox(item.slides[0], item.slides)}
+              onClick={() => scrollTo(`project-${item.slug}`)}
               className={`${item.span} relative rounded-3xl overflow-hidden bg-white/70 backdrop-blur-md border border-black/[0.08] shadow-sm hover:shadow-2xl transition-all duration-500 ease-out group cursor-pointer hover:scale-[1.015] active:scale-[0.99]`}
             >
               <div className={`w-full ${item.aspect} overflow-hidden bg-neutral-100 relative`}>
@@ -664,7 +669,7 @@ function BentoGrid() {
                     {item.num} // {item.title.toUpperCase()}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-white/90 text-neutral-800 font-bold text-[10px] hidden sm:inline">
-                    {item.pagesRange} ({item.slidesCount} SLIDES)
+                    {item.pagesRange} ({item.slidesCount} PLATES)
                   </span>
                 </div>
 
@@ -681,7 +686,7 @@ function BentoGrid() {
                   
                   <div className="flex items-center gap-2 pl-4 shrink-0 font-mono text-xs text-white/80">
                     <span className="font-bold tracking-widest">{item.year}</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#FF3B1D]" />
+                    <ArrowDown className="w-4 h-4 text-[#FF3B1D] group-hover:translate-y-1 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -694,72 +699,170 @@ function BentoGrid() {
   );
 }
 
-/* --- 4. SEQUENTIAL PROJECT CHAPTERS (ALL SLIDES IN EXACT CHRONOLOGICAL ORDER) --- */
+/* --- 4. SEQUENTIAL PROJECT CHAPTERS (VERTICAL SCROLL THROUGH ALL SLIDES) --- */
 function SequentialProjectExhibition() {
   const { openLightbox } = useLightbox();
 
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section className="py-20 bg-[#fafafa] border-t border-black/[0.06] text-[#1d1d1f]">
-      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 space-y-24">
+    <section className="py-16 sm:py-24 bg-[#fafafa] border-t border-black/[0.06] text-[#1d1d1f]">
+      <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-12 space-y-28 sm:space-y-36">
         
-        {PORTFOLIO_PROJECTS.map((proj) => (
-          <div key={proj.slug} className="space-y-8">
-            
-            {/* Chapter Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-black/[0.08]">
-              <div>
-                <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
-                  PROJECT {proj.num} // {proj.duration.toUpperCase()} • {proj.projectType.toUpperCase()}
-                </span>
-                <h3 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-black mt-1">
-                  {proj.title}
-                </h3>
-                <p className="font-mono text-xs text-neutral-500 uppercase tracking-wider mt-1">
-                  {proj.subtitle} • {proj.pagesRange}
-                </p>
+        {PORTFOLIO_PROJECTS.map((proj, pIdx) => {
+          const nextProj = PORTFOLIO_PROJECTS[pIdx + 1];
+
+          return (
+            <div 
+              key={proj.slug} 
+              id={`project-${proj.slug}`} 
+              className="scroll-mt-24 space-y-10 sm:space-y-14"
+            >
+              
+              {/* Sticky Chapter Sub-Navigation Header */}
+              <div className="sticky top-[64px] sm:top-[76px] z-30 py-3 sm:py-4 px-5 sm:px-8 rounded-2xl sm:rounded-full bg-white/85 backdrop-blur-xl border border-black/[0.08] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#FF3B1D] text-white font-mono font-bold text-[11px] tracking-wider">
+                    {proj.num}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-black font-display uppercase tracking-tight text-black">
+                    {proj.title}
+                  </h3>
+                  <span className="hidden sm:inline text-neutral-300 font-light">•</span>
+                  <p className="font-mono text-xs text-neutral-500 uppercase tracking-wider hidden sm:inline">
+                    {proj.subtitle}
+                  </p>
+                  <span className="px-2 py-0.5 rounded bg-black/5 text-neutral-600 font-mono text-[10px] font-bold">
+                    {proj.pagesRange} ({proj.slidesCount} Plates)
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 sm:gap-3 self-end md:self-auto font-mono text-xs">
+                  {nextProj ? (
+                    <button
+                      onClick={() => scrollTo(`project-${nextProj.slug}`)}
+                      className="px-3.5 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span>Next: {nextProj.num} {nextProj.title}</span>
+                      <ArrowDown className="w-3 h-3 text-[#FF3B1D]" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => scrollTo('contact')}
+                      className="px-3.5 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span>Contact</span>
+                      <ArrowDown className="w-3 h-3 text-[#FF3B1D]" />
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => openLightbox(proj.slides[0], proj.slides)}
+                    className="apple-fluid-glass-primary inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-white font-bold uppercase tracking-wider shadow-xs cursor-pointer"
+                    title="Open Fullscreen Lightbox Inspector"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Fullscreen</span>
+                  </button>
+                </div>
               </div>
 
-              <button
-                onClick={() => openLightbox(proj.slides[0], proj.slides)}
-                className="apple-fluid-glass-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-mono text-xs font-bold uppercase tracking-wider shadow-sm cursor-pointer self-start sm:self-end"
-              >
-                <span>Inspect All {proj.slidesCount} Slides</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Horizontal Filmstrip Scrubber in EXACT Sequence */}
-            <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-4 pt-1">
-              {proj.slides.map((slide, sIdx) => (
-                <div
-                  key={sIdx}
-                  onClick={() => openLightbox(slide, proj.slides)}
-                  className="shrink-0 w-[280px] sm:w-[320px] aspect-[16/9] rounded-2xl overflow-hidden bg-white border border-black/[0.08] shadow-xs hover:shadow-xl transition-all cursor-pointer group relative"
-                >
-                  <img
-                    src={resolveImg(slide.id)}
-                    alt={slide.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white">
-                    <div className="flex items-center justify-between font-mono text-[10px]">
-                      <span className="text-[#FF3B1D] font-bold">PAGE {slide.page}</span>
-                      <span className="uppercase text-white/70">{slide.section}</span>
+              {/* Vertical Slide Stream in EXACT 1-to-1 Sequence */}
+              <div className="flex flex-col space-y-10 sm:space-y-16 max-w-5xl mx-auto w-full">
+                {proj.slides.map((slide, sIdx) => (
+                  <div
+                    key={`${proj.slug}-slide-${slide.page}-${sIdx}`}
+                    className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-white border border-black/[0.08] shadow-xs hover:shadow-xl transition-all duration-300"
+                  >
+                    {/* Top Plate Metadata Bar */}
+                    <div className="px-5 py-3 sm:px-7 sm:py-4 bg-[#fbfbfd] border-b border-black/[0.05] flex items-center justify-between font-mono text-xs">
+                      <div className="flex items-center gap-2.5 sm:gap-3">
+                        <span className="px-2.5 py-0.5 rounded-full bg-black text-white font-bold text-[10px] tracking-wider">
+                          PAGE {String(slide.page).padStart(2, '0')}
+                        </span>
+                        <span className="text-[#FF3B1D] font-bold uppercase tracking-wider text-[11px]">
+                          {slide.section}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <span className="text-neutral-500 font-sans font-bold text-xs uppercase tracking-tight hidden md:inline">
+                          {slide.title}
+                        </span>
+                        <button
+                          onClick={() => openLightbox(slide, proj.slides)}
+                          className="p-1 rounded-full text-neutral-400 hover:text-black hover:bg-black/5 transition-colors cursor-pointer"
+                          title="View High-Res Fullscreen"
+                        >
+                          <ZoomIn className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
-                    <h5 className="font-display font-bold text-xs uppercase line-clamp-1 mt-0.5">
-                      {slide.title}
-                    </h5>
-                  </div>
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/70 text-white font-mono text-[9px] font-bold group-hover:opacity-0 transition-opacity">
-                    p.{slide.page}
-                  </div>
-                </div>
-              ))}
-            </div>
 
-          </div>
-        ))}
+                    {/* High-Resolution Presentation Plate */}
+                    <div 
+                      onClick={() => openLightbox(slide, proj.slides)}
+                      className="relative w-full bg-[#f4f4f6] flex items-center justify-center p-3 sm:p-6 md:p-8 cursor-pointer overflow-hidden group/plate"
+                      title="Click to inspect plate in full resolution"
+                    >
+                      <img
+                        src={resolveImg(slide.id)}
+                        alt={`${proj.title} - ${slide.title} (Page ${slide.page})`}
+                        className="w-full max-h-[85vh] object-contain rounded-xl sm:rounded-2xl transition-transform duration-500 group-hover/plate:scale-[1.01] shadow-2xs"
+                        loading="lazy"
+                      />
+
+                      {/* Hover Glass Badge */}
+                      <div className="absolute inset-0 bg-black/10 opacity-0 group-hover/plate:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                        <div className="px-4 py-2 rounded-full bg-black/80 backdrop-blur-md text-white font-mono text-xs font-bold flex items-center gap-2 shadow-2xl">
+                          <ZoomIn className="w-3.5 h-3.5 text-[#FF3B1D]" />
+                          <span>Inspect Page {slide.page}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom Technical Rationale & CMF Micro-Copy */}
+                    <div className="px-5 py-4 sm:px-7 sm:py-4.5 bg-white border-t border-black/[0.04] flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs">
+                      <p className="text-neutral-600 leading-relaxed max-w-3xl">
+                        {slide.desc}
+                      </p>
+                      {slide.cmf && (
+                        <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
+                          {slide.cmf}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* End of Project Jump Divider */}
+              <div className="pt-8 pb-4 flex justify-center">
+                {nextProj ? (
+                  <button
+                    onClick={() => scrollTo(`project-${nextProj.slug}`)}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-mono text-xs font-bold uppercase tracking-wider shadow-xs hover:shadow-md transition-all cursor-pointer group"
+                  >
+                    <span>Scroll to Project {nextProj.num} // {nextProj.title}</span>
+                    <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:translate-y-0.5 transition-transform" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => scrollTo('contact')}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border border-black/10 text-neutral-800 font-mono text-xs font-bold uppercase tracking-wider shadow-xs hover:shadow-md transition-all cursor-pointer group"
+                  >
+                    <span>Proceed to Page 53 // Contact</span>
+                    <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:translate-y-0.5 transition-transform" />
+                  </button>
+                )}
+              </div>
+
+            </div>
+          );
+        })}
 
       </div>
     </section>
