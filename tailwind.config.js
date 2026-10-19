@@ -15,15 +15,18 @@ export default {
         ideo: {
           dark: '#151F27',
           darkest: '#0E151A',
-          lime: '#D9FF00',
-          yellow: '#FFDE00',
-          alchemy: '#E9C46A',
+          orange: '#FF5500',
+          accent: '#FF5500',
           paper: '#FBFBFA',
           stone: '#EFEFED',
-          vermilion: '#FF3B1D',
+          vermilion: '#FF5500',
           muted: '#7B92A5'
         },
-        vermilion: '#FF3B1D',
+        accent: {
+          DEFAULT: '#FF5500',
+          hover: '#E04B00',
+        },
+        vermilion: '#FF5500',
         concrete: '#EAEAE7',
       },
     },

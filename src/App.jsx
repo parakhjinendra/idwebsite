@@ -246,7 +246,7 @@ function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
       {/* Top Header Bar */}
       <div className="flex items-center justify-between text-white z-10 w-full max-w-7xl mx-auto pb-4 border-b border-white/10" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3">
-          <span className="px-2.5 py-1 rounded bg-[#D9FF00] text-black font-mono font-bold text-[10px] tracking-wider">
+          <span className="px-2.5 py-1 rounded bg-[#FF5500] text-white font-mono font-bold text-[10px] tracking-wider">
             PAGE {String(activeItem.page || 1).padStart(2, '0')}
           </span>
           <span className="text-white/60 font-mono text-xs uppercase tracking-wider hidden sm:inline">
@@ -262,7 +262,7 @@ function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
           <div className="hidden sm:flex items-center bg-white/10 rounded-full px-2 py-1 font-mono text-xs">
             <button 
               onClick={() => setZoomLevel(prev => Math.min(prev + 0.25, 2.5))}
-              className="p-1 hover:text-[#D9FF00] transition-colors" 
+              className="p-1 hover:text-[#FF5500] transition-colors" 
               title="Zoom In"
             >
               <ZoomIn className="w-3.5 h-3.5" />
@@ -270,14 +270,14 @@ function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
             <span className="px-2 text-white/50">{Math.round(zoomLevel * 100)}%</span>
             <button 
               onClick={() => setZoomLevel(prev => Math.max(prev - 0.25, 0.75))}
-              className="p-1 hover:text-[#D9FF00] transition-colors" 
+              className="p-1 hover:text-[#FF5500] transition-colors" 
               title="Zoom Out"
             >
               <ZoomOut className="w-3.5 h-3.5" />
             </button>
             <button 
               onClick={() => setZoomLevel(1)}
-              className="p-1 hover:text-[#D9FF00] transition-colors ml-1" 
+              className="p-1 hover:text-[#FF5500] transition-colors ml-1" 
               title="Reset"
             >
               <RotateCcw className="w-3 h-3" />
@@ -286,7 +286,7 @@ function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
 
           <button 
             onClick={onClose}
-            className="p-2 rounded-full bg-white/10 hover:bg-[#D9FF00] hover:text-black text-white transition-all cursor-pointer"
+            className="p-2 rounded-full bg-white/10 hover:bg-[#FF5500] hover:text-white text-white transition-all cursor-pointer"
             title="Close (Esc)"
           >
             <X className="w-4 h-4" />
@@ -315,7 +315,7 @@ function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
                 e.stopPropagation();
                 onNavigate(gallery[(currentIdx - 1 + gallery.length) % gallery.length]);
               }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#D9FF00] hover:text-black text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#FF5500] hover:text-white text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
               title="Previous Plate (←)"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -325,7 +325,7 @@ function ImageLightboxModal({ activeItem, gallery, onClose, onNavigate }) {
                 e.stopPropagation();
                 onNavigate(gallery[(currentIdx + 1) % gallery.length]);
               }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#D9FF00] hover:text-black text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#FF5500] hover:text-white text-white transition-colors cursor-pointer shadow-xl backdrop-blur-md"
               title="Next Plate (→)"
             >
               <ChevronRight className="w-5 h-5" />
@@ -373,7 +373,7 @@ function IdeoNavbar({ activeProject, onBackToGrid }) {
             onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded bg-[#151F27] text-white flex items-center justify-center font-display font-black text-xs sm:text-sm tracking-tight group-hover:bg-[#D9FF00] group-hover:text-black transition-colors">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded bg-[#151F27] text-white flex items-center justify-center font-display font-black text-xs sm:text-sm tracking-tight group-hover:bg-[#FF5500] group-hover:text-white transition-colors">
               OH
             </div>
             <div className="flex flex-col">
@@ -443,7 +443,7 @@ function IdeoNavbar({ activeProject, onBackToGrid }) {
             className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#151F27] text-white font-sans text-xs font-bold uppercase tracking-wider hover:bg-[#0E151A] transition-all shadow-xs"
           >
             <span>Say hello</span>
-            <IdeoArrow className="w-3 h-3 text-[#D9FF00] group-hover:translate-x-0.5 transition-transform" />
+            <IdeoArrow className="w-3 h-3 text-[#FF5500] group-hover:translate-x-0.5 transition-transform" />
           </a>
         </div>
 
@@ -480,7 +480,7 @@ function IdeoHero({ onSelectProject }) {
         {/* Kinetic Statement Title */}
         <div className="space-y-4 max-w-6xl">
           <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#151F27]/70 uppercase tracking-widest bg-[#151F27]/5 px-3 py-1 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-[#D9FF00] border border-[#151F27]"></span>
+            <span className="w-2 h-2 rounded-full bg-[#FF5500] border border-[#151F27]"></span>
             <span>PORTFOLIO PRODUCT DESIGN 2025 // JINENDRA PARAKH</span>
           </div>
 
@@ -494,7 +494,7 @@ function IdeoHero({ onSelectProject }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -25 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="inline-block text-[#151F27] underline decoration-[#D9FF00] decoration-4 sm:decoration-8 decoration-wavy"
+                  className="inline-block text-[#151F27] underline decoration-[#FF5500] decoration-4 sm:decoration-8 decoration-wavy"
                 >
                   {cyclingWords[currentWordIdx]}
                 </motion.span>
@@ -527,8 +527,8 @@ function IdeoHero({ onSelectProject }) {
                   className="w-full group flex items-center justify-between py-2.5 border-b border-[#151F27]/10 hover:border-[#151F27] transition-all text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-[#FF3B1D]">{p.num}</span>
-                    <span className="font-bold text-[#151F27] group-hover:text-black">{p.title}</span>
+                    <span className="font-mono text-xs font-bold text-[#FF5500]">{p.num}</span>
+                    <span className="font-bold text-[#151F27] group-hover:text-white">{p.title}</span>
                     <span className="text-[#151F27]/40 text-xs hidden sm:inline">— {p.subtitle}</span>
                   </div>
                   <IdeoArrow className="w-3.5 h-3.5 text-[#151F27] group-hover:translate-x-1 transition-transform" />
@@ -537,7 +537,7 @@ function IdeoHero({ onSelectProject }) {
             </div>
 
             <div className="pt-4 flex items-center gap-2 text-xs font-mono text-[#151F27]/70">
-              <ArrowDown className="w-3.5 h-3.5 text-[#FF3B1D] animate-bounce" />
+              <ArrowDown className="w-3.5 h-3.5 text-[#FF5500] animate-bounce" />
               <span>Scroll down to explore the 4 inquiry thumbnails</span>
             </div>
           </div>
@@ -557,7 +557,7 @@ function IdeoInquiriesGrid({ onSelectProject }) {
         {/* Exhibition Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-[#151F27]/15">
           <div className="space-y-1">
-            <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+            <span className="font-mono text-xs font-bold text-[#FF5500] uppercase tracking-widest block">
               SELECTED WORK // 4 MASTER INQUIRIES
             </span>
             <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-[#151F27]">
@@ -585,7 +585,7 @@ function IdeoInquiriesGrid({ onSelectProject }) {
                     <span className="px-2.5 py-0.5 rounded bg-[#151F27] text-white font-bold text-[11px]">
                       {proj.num}
                     </span>
-                    <span className="text-[#FF3B1D] font-bold uppercase tracking-wider text-[11px]">
+                    <span className="text-[#FF5500] font-bold uppercase tracking-wider text-[11px]">
                       {proj.categoryTag}
                     </span>
                   </div>
@@ -603,7 +603,7 @@ function IdeoInquiriesGrid({ onSelectProject }) {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#151F27]/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#D9FF00] text-black font-mono text-xs font-bold uppercase tracking-wider shadow-lg">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF5500] text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg">
                       <span>Open Whole Project</span>
                       <IdeoArrow className="w-3.5 h-3.5 text-black" />
                     </span>
@@ -612,7 +612,7 @@ function IdeoInquiriesGrid({ onSelectProject }) {
 
                 {/* Typography */}
                 <div className="space-y-2 pt-2">
-                  <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-[#151F27] group-hover:text-black">
+                  <h3 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight text-[#151F27] group-hover:text-white">
                     {proj.title} : {proj.subtitle}
                   </h3>
                   <p className="text-sm font-light text-[#151F27]/80 line-clamp-2 leading-relaxed">
@@ -627,9 +627,9 @@ function IdeoInquiriesGrid({ onSelectProject }) {
                   {proj.cmf}
                 </span>
 
-                <span className="inline-flex items-center gap-1.5 font-bold text-[#151F27] group-hover:text-black shrink-0">
+                <span className="inline-flex items-center gap-1.5 font-bold text-[#151F27] group-hover:text-white shrink-0">
                   <span>View Project</span>
-                  <IdeoArrow className="w-3.5 h-3.5 text-[#FF3B1D] group-hover:translate-x-1 transition-transform" />
+                  <IdeoArrow className="w-3.5 h-3.5 text-[#FF5500] group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
@@ -683,7 +683,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
           </button>
 
           <div className="hidden sm:flex items-center gap-3">
-            <span className="px-2.5 py-0.5 rounded bg-[#D9FF00] text-black font-bold text-[10px]">
+            <span className="px-2.5 py-0.5 rounded bg-[#FF5500] text-white font-bold text-[10px]">
               INQUIRY {project.num}
             </span>
             <span className="font-bold text-[#151F27] uppercase tracking-wide">
@@ -711,7 +711,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
             >
               <span className="hidden sm:inline">Next:</span>
               <span>{nextProject.num} {nextProject.title}</span>
-              <IdeoArrow className="w-3 h-3 text-[#FF3B1D]" />
+              <IdeoArrow className="w-3 h-3 text-[#FF5500]" />
             </button>
           </div>
 
@@ -723,14 +723,14 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
         {/* Project Header Hero */}
         <div className="p-8 sm:p-14 rounded-3xl bg-[#151F27] text-white shadow-2xl space-y-8">
           <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
-            <span className="px-3 py-1 rounded bg-[#D9FF00] text-black font-bold tracking-wider">
+            <span className="px-3 py-1 rounded bg-[#FF5500] text-white font-bold tracking-wider">
               INQUIRY {project.num} // {project.categoryTag}
             </span>
             <span className="text-white/60 uppercase tracking-widest font-semibold">
               {project.duration} • {project.projectType}
             </span>
             <span className="text-white/40 hidden sm:inline">•</span>
-            <span className="text-[#D9FF00] font-mono text-xs">
+            <span className="text-[#FF5500] font-mono text-xs">
               {project.pagesRange} ({project.slidesCount} Plates)
             </span>
           </div>
@@ -756,7 +756,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
             </div>
             <div>
               <span className="text-white/40 block text-[10px] uppercase mb-1">PAGES / PLATES</span>
-              <span className="text-[#D9FF00] font-semibold">{project.pagesRange} ({project.slidesCount} Plates)</span>
+              <span className="text-[#FF5500] font-semibold">{project.pagesRange} ({project.slidesCount} Plates)</span>
             </div>
             <div>
               <span className="text-white/40 block text-[10px] uppercase mb-1">CMF SPECIFICATION</span>
@@ -768,7 +768,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
         {/* Scroll Instruction Bar */}
         <div className="flex items-center justify-between pb-4 border-b border-[#151F27]/15 font-mono text-xs">
           <div className="flex items-center gap-2 text-[#151F27]">
-            <ArrowDown className="w-4 h-4 text-[#FF3B1D] animate-bounce" />
+            <ArrowDown className="w-4 h-4 text-[#FF5500] animate-bounce" />
             <span className="font-bold uppercase tracking-wider">
               CONTINUOUS VERTICAL CASE STUDY FEED ({project.slidesCount} PLATES IN 1-TO-1 SEQUENCE)
             </span>
@@ -791,7 +791,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
                   <span className="px-2.5 py-1 rounded bg-[#151F27] text-white font-bold text-[10px] tracking-wider">
                     PAGE {String(slide.page).padStart(2, '0')}
                   </span>
-                  <span className="text-[#FF3B1D] font-bold uppercase tracking-wider text-[11px]">
+                  <span className="text-[#FF5500] font-bold uppercase tracking-wider text-[11px]">
                     {slide.section}
                   </span>
                 </div>
@@ -826,7 +826,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
                 {/* Hover Pill */}
                 <div className="absolute inset-0 bg-[#151F27]/15 opacity-0 group-hover/plate:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                   <div className="px-5 py-2.5 rounded-full bg-[#151F27] text-white font-mono text-xs font-bold flex items-center gap-2 shadow-2xl">
-                    <ZoomIn className="w-3.5 h-3.5 text-[#D9FF00]" />
+                    <ZoomIn className="w-3.5 h-3.5 text-[#FF5500]" />
                     <span>Inspect Plate {slide.page}</span>
                   </div>
                 </div>
@@ -862,7 +862,7 @@ function IdeoProjectCaseStudyView({ project, onBackToGrid, onSelectNext }) {
             className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#151F27] hover:bg-black text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg transition-all cursor-pointer"
           >
             <span>Proceed to Next Inquiry: {nextProject.num} // {nextProject.title}</span>
-            <IdeoArrow className="w-4 h-4 text-[#D9FF00] group-hover:translate-x-1 transition-transform" />
+            <IdeoArrow className="w-4 h-4 text-[#FF5500] group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
@@ -903,7 +903,7 @@ function IdeoPractice() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/10">
           <div className="space-y-2 max-w-2xl">
-            <span className="font-mono text-xs font-bold text-[#D9FF00] uppercase tracking-widest block">
+            <span className="font-mono text-xs font-bold text-[#FF5500] uppercase tracking-widest block">
               CAPABILITIES // THE ODD HOURS PRACTICE
             </span>
             <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white leading-tight">
@@ -922,13 +922,13 @@ function IdeoPractice() {
           {capabilities.map((cap) => (
             <div 
               key={cap.num}
-              className="p-8 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col justify-between space-y-8 hover:bg-white/[0.07] hover:border-[#D9FF00]/40 transition-all group"
+              className="p-8 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col justify-between space-y-8 hover:bg-white/[0.07] hover:border-[#FF5500]/40 transition-all group"
             >
               <div className="space-y-4">
-                <span className="font-mono text-xs font-bold text-[#D9FF00] tracking-widest block">
+                <span className="font-mono text-xs font-bold text-[#FF5500] tracking-widest block">
                   [{cap.num}]
                 </span>
-                <h4 className="text-lg font-display font-bold uppercase tracking-tight text-white group-hover:text-[#D9FF00] transition-colors">
+                <h4 className="text-lg font-display font-bold uppercase tracking-tight text-white group-hover:text-[#FF5500] transition-colors">
                   {cap.title}
                 </h4>
               </div>
@@ -974,7 +974,7 @@ function IdeoPerspectives() {
         
         {/* Header */}
         <div className="space-y-2 max-w-2xl">
-          <span className="font-mono text-xs font-bold text-[#FF3B1D] uppercase tracking-widest block">
+          <span className="font-mono text-xs font-bold text-[#FF5500] uppercase tracking-widest block">
             PERSPECTIVES // THE ODD HOURS MINDSET
           </span>
           <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-[#151F27]">
@@ -992,7 +992,7 @@ function IdeoPerspectives() {
                   onClick={() => setOpenIdx(isOpen ? -1 : idx)}
                   className="w-full flex items-center justify-between text-left gap-6 group cursor-pointer"
                 >
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-[#151F27] group-hover:text-[#FF3B1D] transition-colors">
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-[#151F27] group-hover:text-[#FF5500] transition-colors">
                     {faq.q}
                   </h3>
                   <div className={`w-8 h-8 rounded-full border border-[#151F27]/20 flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#151F27] text-white' : 'bg-transparent text-[#151F27]'}`}>
@@ -1034,12 +1034,12 @@ function IdeoContact({ onSelectProject }) {
         {/* Top Big Callout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
           <div className="lg:col-span-8 space-y-4">
-            <span className="font-mono text-xs font-bold text-[#D9FF00] uppercase tracking-widest block">
+            <span className="font-mono text-xs font-bold text-[#FF5500] uppercase tracking-widest block">
               PAGE 53 // SAY HELLO
             </span>
             <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-display uppercase tracking-tight text-white leading-tight">
               Want to design <br />
-              <span className="text-[#D9FF00]">what's next?</span>
+              <span className="text-[#FF5500]">what's next?</span>
             </h2>
             <p className="text-lg sm:text-xl font-light text-white/70 max-w-xl">
               Currently open for full-time industrial design roles, hardware engineering collaborations, and consulting inquiries worldwide.
@@ -1049,13 +1049,13 @@ function IdeoContact({ onSelectProject }) {
           <div className="lg:col-span-4 flex flex-col justify-end space-y-4">
             <a 
               href="mailto:parakhjinendra@gmail.com"
-              className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-[#D9FF00] hover:text-black transition-all border border-white/10"
+              className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-[#FF5500] hover:text-white transition-all border border-white/10"
             >
               <div>
-                <span className="font-mono text-[10px] uppercase text-white/50 group-hover:text-black/60 block">DIRECT INQUIRY</span>
-                <span className="font-mono text-sm font-bold text-white group-hover:text-black">parakhjinendra@gmail.com</span>
+                <span className="font-mono text-[10px] uppercase text-white/50 group-hover:text-white/80 block">DIRECT INQUIRY</span>
+                <span className="font-mono text-sm font-bold text-white group-hover:text-white">parakhjinendra@gmail.com</span>
               </div>
-              <IdeoArrow className="w-4 h-4 text-[#D9FF00] group-hover:text-black group-hover:translate-x-1 transition-all" />
+              <IdeoArrow className="w-4 h-4 text-[#FF5500] group-hover:text-white group-hover:translate-x-1 transition-all" />
             </a>
 
             <a 
@@ -1077,33 +1077,33 @@ function IdeoContact({ onSelectProject }) {
             href="/Jinendra_Parakh_Portfolio.pdf"
             target="_blank"
             rel="noreferrer"
-            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#D9FF00] transition-all flex items-center justify-between group"
+            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#FF5500] transition-all flex items-center justify-between group"
           >
             <div>
-              <span className="text-[#D9FF00] font-bold block">53P PORTFOLIO DECK</span>
+              <span className="text-[#FF5500] font-bold block">53P PORTFOLIO DECK</span>
               <span className="text-white/50 text-[10px]">High-Res PDF Download</span>
             </div>
-            <Download className="w-4 h-4 text-white/50 group-hover:text-[#D9FF00]" />
+            <Download className="w-4 h-4 text-white/50 group-hover:text-[#FF5500]" />
           </a>
 
           <a 
             href="/Jinendra_Parakh_Resume.pdf"
             target="_blank"
             rel="noreferrer"
-            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#D9FF00] transition-all flex items-center justify-between group"
+            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#FF5500] transition-all flex items-center justify-between group"
           >
             <div>
-              <span className="text-[#D9FF00] font-bold block">TECHNICAL RESUME</span>
+              <span className="text-[#FF5500] font-bold block">TECHNICAL RESUME</span>
               <span className="text-white/50 text-[10px]">Curriculum Vitae</span>
             </div>
-            <Download className="w-4 h-4 text-white/50 group-hover:text-[#D9FF00]" />
+            <Download className="w-4 h-4 text-white/50 group-hover:text-[#FF5500]" />
           </a>
 
           <a 
             href="https://www.linkedin.com/in/jinendra-parakh-7b643a228"
             target="_blank"
             rel="noreferrer"
-            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#D9FF00] transition-all flex items-center justify-between group"
+            className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#FF5500] transition-all flex items-center justify-between group"
           >
             <div>
               <span className="text-white font-bold block">LINKEDIN</span>
@@ -1125,7 +1125,7 @@ function IdeoContact({ onSelectProject }) {
           </div>
           <div className="flex items-center gap-3 uppercase tracking-wider">
             <span>PIONEERING HUMAN-CENTERED PHYSICAL ENGINEERING</span>
-            <span className="text-[#D9FF00] font-bold">ODDHOURS.CO.IN</span>
+            <span className="text-[#FF5500] font-bold">ODDHOURS.CO.IN</span>
           </div>
         </div>
 
@@ -1198,7 +1198,7 @@ export default function App() {
   return (
     <LightboxContext.Provider value={{ openLightbox, closeLightbox }}>
       <Router>
-        <div className="min-h-screen bg-[#FBFBFA] text-[#151F27] font-sans selection:bg-[#D9FF00] selection:text-black flex flex-col overflow-x-hidden">
+        <div className="min-h-screen bg-[#FBFBFA] text-[#151F27] font-sans selection:bg-[#FF5500] selection:text-white flex flex-col overflow-x-hidden">
           
           {/* IDEO Signature Top Header */}
           <IdeoNavbar 
